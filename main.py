@@ -151,15 +151,19 @@ async def ask_ai(req: Request):
 
 if __name__ == "__main__":
     import uvicorn, webbrowser
-    url = "http://127.0.0.1:8000"
 
-    try:
-        chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
-        webbrowser.get(chrome_path).open(url)
-    except:
+    port = int(os.environ.get("PORT", 8000))  # ברירת מחדל מקומית 8000
+    host = "0.0.0.0" if os.environ.get("PORT") else "127.0.0.1"
+
+    if not os.environ.get("PORT"):  # רק מקומית לפתוח דפדפן
+        url = f"http://{host}:{port}"
         try:
-            webbrowser.get("chrome").open(url)
+            chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
+            webbrowser.get(chrome_path).open(url)
         except:
-            webbrowser.open(url)
+            try:
+                webbrowser.get("chrome").open(url)
+            except:
+                webbrowser.open(url)
 
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("main:app", host=host, port=port, reload=not os.environ.get("PORT"))
