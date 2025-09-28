@@ -1,0 +1,196 @@
+{
+  "id": 1,
+  "title": "מבוא לפייתון והדפסת טקסט",
+  "theoryHTML": "<h2>ברוכים הבאים לפייתון!</h2><p>פייתון היא שפת תכנות פשוטה וידידותית. בעזרתה אנחנו יכולים לדבר עם המחשב ולגרום לו להציג לנו מידע. הפעולה הבסיסית ביותר היא הדפסה למסך בעזרת הפונקציה <code>print()</code>.</p><h3>מה זה פלט?</h3><p>פלט הוא מה שהתוכנית מציגה לנו על המסך אחרי שרצה. לדוגמה, אם נרצה להציג את המילה שלום, נכתוב <code>print(\"שלום\")</code> והמחשב ידפיס אותה על המסך.</p><h3>הדפסת טקסט</h3><p>כדי להדפיס מילים או משפטים, כותבים אותם בתוך גרשיים. זה כמו להגיד למחשב: 'תראה את הטקסט הזה בדיוק'.</p><h3>הדפסת מספרים</h3><p>מספרים לא חייבים גרשיים. אם נכתוב <code>print(7)</code>, המחשב ידפיס את המספר 7. אם נכתוב <code>print(3 + 4)</code>, המחשב יחשב וידפיס את התוצאה 7.</p><h3>הדפסת כמה ערכים</h3><p>אפשר להדפיס כמה ערכים ביחד אם מפרידים אותם בפסיקים. למשל: <code>print(\"אני\", \"אוהב\", \"פיצה\")</code> ידפיס: אני אוהב פיצה.</p><h3>שורה חדשה</h3><p>ברירת המחדל היא שכל פקודת <code>print()</code> מתחילה שורה חדשה, כאילו המחשב לוחץ אנטר. אם רוצים להישאר באותה שורה, אפשר להשתמש בפרמטר <code>end</code>.</p><h3>סימנים מיוחדים</h3><p>בתוך טקסטים אפשר לשלב סימנים מיוחדים: <code>\\n</code> לירידת שורה, <code>\\t</code> לטאב (רווח גדול), ו-<code>\\\"</code> כדי להוסיף גרשיים בתוך טקסט.</p><h3>משתנים ראשונים</h3><p>משתנה הוא קופסה עם שם ששומרת מידע. לדוגמה: <code>name = \"דנה\"</code>. עכשיו אפשר להדפיס את המשתנה עם <code>print(name)</code>.</p><h3>f-strings</h3><p>שיטה נוחה לשלב טקסטים ומשתנים יחד. למשל: <code>print(f\"שלום {name}\")</code> יציג את המילה שלום עם שם המשתנה.</p>",
+  "examples": [
+    "### הדפסת טקסט",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 1 – טקסט פשוט\nprint(\"שלום עולם\")\n# פלט: שלום עולם</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 2 – משפט בעברית\nprint(\"אני לומד פייתון\")\n# פלט: אני לומד פייתון</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 3 – טקסט באנגלית\nprint(\"Python is fun!\")\n# פלט: Python is fun!</code></pre>",
+
+    "### הדפסת מספרים",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 4 – מספר פשוט\nprint(7)\n# פלט: 7</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 5 – חיבור מספרים\nprint(3 + 4)\n# פלט: 7</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 6 – חיסור וכפל\nprint(10 - 2)\nprint(5 * 3)\n# פלט:\n# 8\n# 15</code></pre>",
+
+    "### הדפסת כמה ערכים",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 7 – כמה מילים יחד\nprint(\"אני\", \"אוהב\", \"פיצה\")\n# פלט: אני אוהב פיצה</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 8 – טקסט ומספר\nage = 14\nprint(\"אני בן\", age)\n# פלט: אני בן 14</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 9 – שלושה מספרים\nprint(5, 10, 15)\n# פלט: 5 10 15</code></pre>",
+
+    "### שורה חדשה וסימנים מיוחדים",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 10 – שורה חדשה\nprint(\"שורה ראשונה\")\nprint(\"שורה שנייה\")\n# פלט:\n# שורה ראשונה\n# שורה שנייה</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 11 – שימוש ב-\\n ו-\\t\nprint(\"שלום\\nעולם\")\nprint(\"שלום\\tעולם\")\n# פלט:\n# שלום\n# עולם\n# שלום    עולם</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 12 – end לשורה אחת\nprint(\"שלום\", end=\" \")\nprint(\"עולם\")\n# פלט: שלום עולם</code></pre>",
+
+    "### משתנים ו-f-string",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 13 – משתנה פשוט\nname = \"דנה\"\nprint(name)\n# פלט: דנה</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 14 – שימוש במשתנה במשפט\nname = \"יואב\"\nprint(\"שלום\", name)\n# פלט: שלום יואב</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 15 – f-string\nage = 15\nprint(f\"בעוד שנה אהיה בן {age + 1}\")\n# פלט: בעוד שנה אהיה בן 16</code></pre>"
+  ],
+  "exercises": [
+  {
+    "question": "תרגיל 1 – הדפס את שמך המלא.",
+    "solution": "print(\"אסף אהרון\")"
+  },
+  {
+    "question": "תרגיל 2 – הדפס את הגיל שלך.",
+    "solution": "print(25)"
+  },
+  {
+    "question": "תרגיל 3 – הדפס את המשפט 'אני לומד פייתון'.",
+    "solution": "print(\"אני לומד פייתון\")"
+  },
+  {
+    "question": "תרגיל 4 – הדפס את התוצאה של 5 + 8.",
+    "solution": "print(5 + 8)"
+  },
+  {
+    "question": "תרגיל 5 – הדפס שלושה מספרים שונים באותה פקודה.",
+    "solution": "print(1, 2, 3)"
+  },
+  {
+    "question": "תרגיל 6 – הדפס שתי שורות נפרדות: 'שלום' ו-'עולם'.",
+    "solution": "print(\"שלום\")\nprint(\"עולם\")"
+  },
+  {
+    "question": "תרגיל 7 – הדפס את שמך בתוך משפט בעזרת משתנה.",
+    "solution": "name = \"אסף\"\nprint(\"שלום, שמי\", name)"
+  },
+  {
+    "question": "תרגיל 8 – הדפס משפט עם f-string שמציג את גילך ועוד 5 שנים.",
+    "solution": "age = 25\nprint(f\"בעוד 5 שנים אהיה בן {age + 5}\")"
+  },
+  {
+    "question": "תרגיל 9 – הדפס טקסט שמכיל ירידת שורה וטאב.",
+    "solution": "print(\"שורה ראשונה\\nשורה שנייה\\tעם טאב\")"
+  },
+  {
+    "question": "תרגיל 10 – הדפס משפט שמשלב טקסט, מספר ומשתנה.",
+    "solution": "num = 7\nprint(\"המספר הוא\", num, \"וזה מגניב!\")"
+  }
+]
+,
+  "quizzes": [
+    {
+      "title": "שאלון 1 – יסודות הדפסה",
+      "questions": [
+        {
+          "question": "מה עושה הפקודה print()?",
+          "options": ["מדפיסה למסך", "מקבלת קלט", "מבצעת חישוב", "סוגרת תוכנית"],
+          "answer": 0
+        },
+        {
+          "question": "מה יודפס: print(2+3)?",
+          "options": ["23", "5", "2+3", "שגיאה"],
+          "answer": 1
+        },
+        {
+          "question": "כיצד כותבים הערה בפייתון?",
+          "options": ["// הערה", "# הערה", "-- הערה", "/* הערה */"],
+          "answer": 1
+        },
+        {
+          "question": "מה יודפס: print('A','B')?",
+          "options": ["AB", "A B", "['A','B']", "שגיאה"],
+          "answer": 1
+        },
+        {
+          "question": "מה הפלט של print('5'+'7')?",
+          "options": ["12", "57", "שגיאה", "5+7"],
+          "answer": 1
+        },
+        {
+          "question": "מה יקרה אם נכתוב Print('hi') עם P גדולה?",
+          "options": ["יודפס hi", "שגיאה", "יודפס Hi", "לא יקרה כלום"],
+          "answer": 1
+        },
+        {
+          "question": "מה תפקידה של input()?",
+          "options": ["הדפסה למסך", "קבלת קלט מהמשתמש", "חישוב", "שמירת קובץ"],
+          "answer": 1
+        },
+        {
+          "question": "מה יקרה אם נשכח לסגור סוגריים ב־print?",
+          "options": ["שום דבר", "שגיאת תחביר", "יודפס null", "פלט חלקי"],
+          "answer": 1
+        },
+        {
+          "question": "כיצד להדפיס שורה ריקה?",
+          "options": ["print()", "print('')", "שתי האפשרויות נכונות", "אין דרך כזו"],
+          "answer": 2
+        },
+        {
+          "question": "מה הפלט של len('Python')?",
+          "options": ["6", "7", "5", "שגיאה"],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "title": "שאלון 2 – מתקדמים יותר",
+      "questions": [
+        {
+          "question": "מה הפלט של print(5*'a')?",
+          "options": ["aaaaa", "a5", "שגיאה", "aa"],
+          "answer": 0
+        },
+        {
+          "question": "כיצד מוסיפים שורת רווח בהדפסה?",
+          "options": ["print()", "print(' ')", "print('')", "כל התשובות נכונות"],
+          "answer": 3
+        },
+        {
+          "question": "כיצד מדפיסים טקסט עם גרש בודד בתוכו?",
+          "options": [
+            "print('It's fine')",
+            "print(\"It's fine\")",
+            "print('It\\'s fine')",
+            "האופציה השנייה והשלישית נכונות"
+          ],
+          "answer": 3
+        },
+        {
+          "question": "מה יקרה אם נכתוב print(True)?",
+          "options": ["יודפס True", "יודפס 1", "שגיאה", "יודפס 'True'"],
+          "answer": 0
+        },
+        {
+          "question": "מה יודפס: print('Hello'*2)?",
+          "options": ["HelloHello", "Hello2", "Hello*2", "שגיאה"],
+          "answer": 0
+        },
+        {
+          "question": "מה המשמעות של len()?",
+          "options": ["אורך של אובייקט", "פונקציית הדפסה", "סוג נתון חדש", "מספר השורות בקוד"],
+          "answer": 0
+        },
+        {
+          "question": "כיצד מדפיסים מספר 10?",
+          "options": ["print(10)", "print('10')", "שתיהן נכונות", "אין אפשרות"],
+          "answer": 2
+        },
+        {
+          "question": "מה יודפס: print(\"שלום\", \"עולם\")?",
+          "options": ["שלום עולם", "שלום, עולם", "['שלום','עולם']", "שגיאה"],
+          "answer": 0
+        },
+        {
+          "question": "מה יקרה אם נכתוב print('Hello)?",
+          "options": ["שגיאת תחביר", "יודפס Hello", "יודפס Hello'", "יודפס \"Hello\""],
+          "answer": 0
+        },
+        {
+          "question": "מה עושה f-string?",
+          "options": [
+            "משלב משתנים בתוך טקסט",
+            "מדפיס פונקציה",
+            "מגדיר משתנה חדש",
+            "יוצר שורת קוד ריקה"
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}

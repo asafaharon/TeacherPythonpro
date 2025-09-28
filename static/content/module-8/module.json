@@ -1,0 +1,182 @@
+{
+  "id": 8,
+  "title": "רשימות (Lists) ופעולות עליהן",
+  "theoryHTML": "<h2>מהן רשימות?</h2><p>רשימה (list) היא אוסף של ערכים שמסודרים לפי סדר מסוים. הערכים יכולים להיות מספרים, מילים או אפילו רשימות אחרות. רשימות נכתבות בתוך סוגריים מרובעים.</p><pre style='direction:ltr; text-align:left;'><code>numbers = [1, 2, 3, 4]\nfruits = [\"תפוח\", \"בננה\", \"תפוז\"]</code></pre><h3>גישה לאיברים</h3><p>אפשר לגשת לכל איבר ברשימה לפי האינדקס שלו (המספור מתחיל מ־0).</p><pre style='direction:ltr; text-align:left;'><code>fruits = [\"תפוח\", \"בננה\", \"תפוז\"]\nprint(fruits[0])  # פלט: תפוח</code></pre><h3>שינוי איברים</h3><p>ניתן לשנות ערכים ברשימה בקלות.</p><pre style='direction:ltr; text-align:left;'><code>fruits[1] = \"ענב\"\nprint(fruits)  # פלט: ['תפוח', 'ענב', 'תפוז']</code></pre><h3>אורך הרשימה</h3><p>פונקציית <code>len()</code> מחזירה את מספר האיברים ברשימה.</p><pre style='direction:ltr; text-align:left;'><code>print(len(fruits))</code></pre><h3>הוספה ומחיקה</h3><p>יש מתודות מובנות להוספה ומחיקה:</p><ul><li><code>append()</code> – מוסיפה איבר לסוף הרשימה.</li><li><code>insert()</code> – מוסיפה איבר במקום מסוים.</li><li><code>remove()</code> – מוחקת איבר לפי ערך.</li><li><code>pop()</code> – מוחקת איבר לפי מיקום.</li></ul><pre style='direction:ltr; text-align:left;'><code>fruits.append(\"אגס\")\nfruits.remove(\"תפוז\")</code></pre><h3>לולאות עם רשימות</h3><p>אפשר לעבור על כל האיברים בלולאה:</p><pre style='direction:ltr; text-align:left;'><code>for fruit in fruits:\n    print(fruit)</code></pre><h3>רשימות בתוך רשימות</h3><p>ניתן לשמור רשימות בתוך רשימות – זה נקרא רשימות מקוננות.</p><pre style='direction:ltr; text-align:left;'><code>matrix = [[1,2],[3,4]]\nprint(matrix[0][1])  # פלט: 2</code></pre><h3>סיכום</h3><p>במודול זה למדנו מהן רשימות, איך ניגשים לאיברים, משנים אותם, מוסיפים ומוחקים ערכים, ואיך להשתמש בלולאות כדי לעבור על כל איבר.</p>",
+  "examples": [
+    "### יצירת רשימות וגישה לאיברים",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 1\nfruits = [\"תפוח\", \"בננה\", \"תפוז\"]\nprint(fruits[0])\n# פלט: תפוח</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 2\nnumbers = [10, 20, 30]\nprint(numbers[2])\n# פלט: 30</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 3\nmixed = [1, \"שלום\", 3.14]\nprint(mixed)\n# פלט: [1, 'שלום', 3.14]</code></pre>",
+
+    "### שינוי והוספה",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 4\nfruits = [\"תפוח\", \"בננה\", \"תפוז\"]\nfruits[1] = \"אגס\"\nprint(fruits)\n# פלט: ['תפוח', 'אגס', 'תפוז']</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 5\nfruits.append(\"אפרסק\")\nprint(fruits)\n# פלט: ['תפוח', 'אגס', 'תפוז', 'אפרסק']</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 6\nfruits.insert(1, \"מלון\")\nprint(fruits)\n# פלט: ['תפוח', 'מלון', 'אגס', 'תפוז', 'אפרסק']</code></pre>",
+
+    "### מחיקה ובדיקה",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 7\nfruits.remove(\"אגס\")\nprint(fruits)\n# פלט: ['תפוח', 'מלון', 'תפוז', 'אפרסק']</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 8\nlast = fruits.pop()\nprint(last)\n# פלט: אפרסק</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 9\nprint(\"בננה\" in fruits)\n# פלט: False</code></pre>",
+
+    "### לולאות ורשימות מקוננות",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 10\nfor fruit in fruits:\n    print(\"אני אוהב\", fruit)\n# פלט: משפט עבור כל פרי</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 11\nmatrix = [[1,2],[3,4]]\nprint(matrix[0][1])\n# פלט: 2</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 12\nnums = [1,2,3]\nfor n in nums:\n    print(n*10)\n# פלט: 10 20 30</code></pre>"
+  ],
+  "exercises": [
+  {
+    "question": "תרגיל 1 – צור רשימה של 5 פירות והדפס את כולה.",
+    "solution": "fruits = [\"תפוח\", \"בננה\", \"ענב\", \"אגס\", \"מנגו\"]\nprint(fruits)"
+  },
+  {
+    "question": "תרגיל 2 – הדפס את הפרי הראשון והאחרון ברשימה.",
+    "solution": "fruits = [\"תפוח\", \"בננה\", \"ענב\", \"אגס\", \"מנגו\"]\nprint(fruits[0])\nprint(fruits[-1])"
+  },
+  {
+    "question": "תרגיל 3 – בקש מהמשתמש להזין 3 מספרים ושמור אותם ברשימה.",
+    "solution": "nums = []\nfor i in range(3):\n    num = int(input(\"הכנס מספר: \"))\n    nums.append(num)\nprint(nums)"
+  },
+  {
+    "question": "תרגיל 4 – שנה את הפריט השני ברשימה למשהו אחר.",
+    "solution": "fruits = [\"תפוח\", \"בננה\", \"ענב\"]\nfruits[1] = \"קיווי\"\nprint(fruits)"
+  },
+  {
+    "question": "תרגיל 5 – הוסף איבר חדש לסוף הרשימה והדפס אותה.",
+    "solution": "fruits = [\"תפוח\", \"בננה\"]\nfruits.append(\"תות\")\nprint(fruits)"
+  },
+  {
+    "question": "תרגיל 6 – מחק איבר מהרשימה בעזרת remove.",
+    "solution": "fruits = [\"תפוח\", \"בננה\", \"ענב\"]\nfruits.remove(\"בננה\")\nprint(fruits)"
+  },
+  {
+    "question": "תרגיל 7 – בדוק אם פריט מסוים נמצא ברשימה בעזרת in.",
+    "solution": "fruits = [\"תפוח\", \"בננה\", \"ענב\"]\nprint(\"תפוח\" in fruits)"
+  },
+  {
+    "question": "תרגיל 8 – עבור על רשימה של שמות והדפס ברכה לכל שם.",
+    "solution": "names = [\"דנה\", \"יוסי\", \"נועה\"]\nfor name in names:\n    print(\"שלום\", name)"
+  },
+  {
+    "question": "תרגיל 9 – בקש מהמשתמש להזין משפט ופצל אותו למילים בעזרת split.",
+    "solution": "sentence = input(\"הכנס משפט: \")\nwords = sentence.split()\nprint(words)"
+  },
+  {
+    "question": "תרגיל 10 – צור רשימה של רשימות (2D) והדפס ערך מתוך הרשימה הפנימית.",
+    "solution": "matrix = [[1,2,3],[4,5,6],[7,8,9]]\nprint(matrix[1][2])"
+  }
+]
+,
+  "quizzes": [
+  {
+    "title": "שאלון 1 – יסודות רשימות",
+    "questions": [
+      {
+        "question": "כיצד יוצרים רשימה בפייתון?",
+        "options": ["בסוגריים עגולים", "בסוגריים מסולסלים", "בסוגריים מרובעים", "עם גרשיים"],
+        "answer": 2
+      },
+      {
+        "question": "מה יודפס: fruits=[\"תפוח\",\"בננה\",\"תפוז\"]; print(fruits[0])?",
+        "options": ["בננה", "תפוז", "תפוח", "שגיאה"],
+        "answer": 2
+      },
+      {
+        "question": "כיצד ניגשים לאיבר האחרון ברשימה?",
+        "options": ["list[-1]", "list[end]", "list.last()", "list[len]"],
+        "answer": 0
+      },
+      {
+        "question": "מה עושה fruits[1]=\"אגס\"?",
+        "options": ["מוחק איבר מהרשימה", "מחליף את האיבר השני ל\"אגס\"", "מדפיס אגס", "יוצר רשימה חדשה"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של len([10,20,30])?",
+        "options": ["2", "3", "30", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "כיצד מוסיפים איבר לסוף הרשימה?",
+        "options": ["append()", "insert()", "add()", "push()"],
+        "answer": 0
+      },
+      {
+        "question": "כיצד מוחקים איבר לפי ערך?",
+        "options": ["pop()", "remove()", "delete()", "cut()"],
+        "answer": 1
+      },
+      {
+        "question": "כיצד מוחקים איבר לפי מיקום?",
+        "options": ["remove()", "cut()", "pop()", "clear()"],
+        "answer": 2
+      },
+      {
+        "question": "מה תחזיר הפקודה print(\"בננה\" in [\"תפוח\",\"אגס\"])?",
+        "options": ["True", "False", "שגיאה", "None"],
+        "answer": 1
+      },
+      {
+        "question": "כיצד עוברים על כל איברי הרשימה?",
+        "options": ["for item in list", "loop(list)", "while list", "list.forEach()"],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "title": "שאלון 2 – רשימות מקוננות ושימושים מתקדמים",
+    "questions": [
+      {
+        "question": "מה הפלט של: matrix=[[1,2],[3,4]]; print(matrix[0][1])?",
+        "options": ["1", "2", "3", "4"],
+        "answer": 1
+      },
+      {
+        "question": "כיצד מוסיפים איבר במקום מסוים?",
+        "options": ["append()", "insert()", "add()", "extend()"],
+        "answer": 1
+      },
+      {
+        "question": "מה מחזירה הפקודה fruits.pop()?",
+        "options": ["האיבר הראשון", "האיבר האחרון", "מספר האיברים", "שום דבר"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של: nums=[1,2,3]; for n in nums: print(n*10)?",
+        "options": ["10 20 30", "1 2 3", "שגיאה", "n*10"],
+        "answer": 0
+      },
+      {
+        "question": "כיצד משנים ערך ברשימה?",
+        "options": ["list.change()", "להציב ערך חדש לפי אינדקס", "list.replace()", "אי אפשר לשנות"],
+        "answer": 1
+      },
+      {
+        "question": "מה קורה אם קוראים לאינדקס שלא קיים ברשימה?",
+        "options": ["שגיאת IndexError", "שגיאת SyntaxError", "פלט None", "הרשימה מתרוקנת"],
+        "answer": 0
+      },
+      {
+        "question": "מה יודפס: fruits=[\"תפוח\",\"בננה\",\"אגס\"]; fruits.remove(\"בננה\"); print(fruits)?",
+        "options": ["['תפוח','אגס']", "['בננה','אגס']", "['תפוח','בננה']", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה עושה fruits.insert(1, \"מלון\")?",
+        "options": ["מכניס מלון בסוף הרשימה", "מכניס מלון במקום השני", "מוחק את הפרי הראשון", "לא עושה כלום"],
+        "answer": 1
+      },
+      {
+        "question": "כיצד מחשבים את מספר האיברים ברשימה?",
+        "options": ["count()", "size()", "len()", "length()"],
+        "answer": 2
+      },
+      {
+        "question": "מה היתרון של רשימות מקוננות?",
+        "options": ["אפשר לשמור מבנים מורכבים בתוך רשימה", "הרשימה רצה מהר יותר", "אי אפשר לשמור בהן טקסט", "זה יוצר מילון"],
+        "answer": 0
+      }
+    ]
+  }
+]
+
+}

@@ -1,0 +1,237 @@
+{
+  "id": 3,
+  "title": "קלט מהמשתמש ופלט",
+  "theoryHTML": "<h2>קלט ופלט בתכנות</h2><p>כשאנחנו רוצים שהמחשב יראה לנו משהו על המסך – זה נקרא פלט (output). כשאנחנו רוצים למסור מידע למחשב – זה נקרא קלט (input). בפייתון אנחנו משתמשים ב־<code>print()</code> כדי להציג פלט, וב־<code>input()</code> כדי לקבל קלט מהמשתמש.</p><h3>הפונקציה input()</h3><p>הפונקציה <code>input()</code> מציגה הודעה על המסך ומחכה שנקליד תשובה. מה שהמשתמש מקליד נשמר בתוך משתנה.</p><pre style='direction:ltr; text-align:left;'><code>name = input(\"מה השם שלך? \")\nprint(\"שלום\", name)</code></pre><p>בקטע זה המחשב ישאל לשם, ואז יציג ברכה אישית.</p><h3>כל קלט הוא טקסט</h3><p>לא משנה אם הקלדנו מספר או מילה – <code>input()</code> תמיד מחזירה מחרוזת (string).</p><pre style='direction:ltr; text-align:left;'><code>age = input(\"מה הגיל שלך? \")\nprint(age, type(age))</code></pre><p>גם אם הקלדנו 15, התוצאה היא טקסט מסוג str.</p><h3>המרת קלט</h3><p>כדי להשתמש במספרים בחישובים עלינו להמיר את הקלט בעזרת <code>int()</code> או <code>float()</code>.</p><pre style='direction:ltr; text-align:left;'><code>age = int(input(\"מה הגיל שלך? \"))\nprint(\"בעוד שנה תהיה\", age + 1)</code></pre><h3>שילוב קלט בפלט</h3><p>אפשר לשלב קלט בהודעות בעזרת f-string:</p><pre style='direction:ltr; text-align:left;'><code>name = input(\"מה השם שלך? \")\nage = int(input(\"בן כמה אתה? \"))\nprint(f\"שלום {name}, בעוד 5 שנים תהיה בן {age + 5}!\")</code></pre><h3>סיכום</h3><p>במודול זה למדנו להשתמש בקלט ובפלט: איך לשאול את המשתמש שאלות, איך להבין שקלט הוא תמיד טקסט, איך להמיר למספרים ואיך לשלב קלט בתוך הודעות ידידותיות.</p>",
+  "examples": [
+    "### קלט בסיסי",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 1\nname = input(\"מה השם שלך? \")\nprint(\"שלום\", name)\n# פלט: אם הוזן יואב, יודפס שלום יואב</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 2\ncity = input(\"מהי עיר מגוריך? \")\nprint(\"אני גר ב\", city)\n# פלט: אם הוזן תל אביב, יודפס אני גר בתל אביב</code></pre>",
+    "### המרת קלט",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 3\nage = int(input(\"בן כמה אתה? \"))\nprint(\"בעוד שנה תהיה\", age + 1)\n# פלט: אם הוזן 15, יודפס בעוד שנה תהיה 16</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 4\nheight = float(input(\"מה גובהך במטרים? \"))\nprint(\"הגובה שלך:\", height)\n# פלט: אם הוזן 1.7, יודפס הגובה שלך: 1.7</code></pre>",
+    "### חישובים עם קלט",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 5\nx = int(input(\"מספר ראשון: \"))\ny = int(input(\"מספר שני: \"))\nprint(\"הסכום הוא\", x + y)\n# פלט: אם הוזן 2 ו-3, יודפס הסכום הוא 5</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 6\nnum = int(input(\"הכנס מספר: \"))\nprint(\"המספר בריבוע:\", num**2)\n# פלט: אם הוזן 4, יודפס המספר בריבוע: 16</code></pre>",
+    "### חיבור מילים",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 7\nword1 = input(\"הקלד מילה ראשונה: \")\nword2 = input(\"הקלד מילה שנייה: \")\nprint(\"יחד זה:\", word1 + word2)\n# פלט: אם הוזן שלום ו עולם, יודפס יחד זה: שלוםעולם</code></pre>",
+    "### שילוב f-string",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 8\nname = input(\"שם: \")\nprint(f\"נעים להכיר, {name}!\")\n# פלט: אם הוזן דנה, יודפס נעים להכיר, דנה!</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 9\nname = input(\"שם: \")\nage = int(input(\"גיל: \"))\nprint(f\"{name} יהיה בן {age+10} בעוד עשר שנים\")</code></pre>"
+  ],"exercises": [
+  {
+    "question": "תרגיל 1 – בקש מהמשתמש את שמו והדפס הודעת שלום.",
+    "solution": "name = input(\"מה שמך? \")\nprint(\"שלום\", name)"
+  },
+  {
+    "question": "תרגיל 2 – בקש מהמשתמש את גילו והדפס מה יהיה בעוד שנתיים.",
+    "solution": "age = int(input(\"מה גילך? \"))\nprint(\"בעוד שנתיים תהיה בן\", age + 2)"
+  },
+  {
+    "question": "תרגיל 3 – בקש שני מספרים והדפס את סכומם.",
+    "solution": "a = int(input(\"מספר ראשון: \"))\nb = int(input(\"מספר שני: \"))\nprint(\"הסכום הוא\", a + b)"
+  },
+  {
+    "question": "תרגיל 4 – בקש מהמשתמש מילה והדפס אותה שלוש פעמים.",
+    "solution": "word = input(\"הכנס מילה: \")\nprint(word * 3)"
+  },
+  {
+    "question": "תרגיל 5 – בקש מהמשתמש את שם עיר מגוריו והדפס משפט מלא.",
+    "solution": "city = input(\"באיזו עיר אתה גר? \")\nprint(f\"אני גר בעיר {city}\")"
+  },
+  {
+    "question": "תרגיל 6 – בקש מהמשתמש מספר שלם והדפס את ריבועו.",
+    "solution": "num = int(input(\"הכנס מספר שלם: \"))\nprint(\"הריבוע הוא\", num ** 2)"
+  },
+  {
+    "question": "תרגיל 7 – בקש מהמשתמש מספר float והדפס את חצי ממנו.",
+    "solution": "num = float(input(\"הכנס מספר עשרוני: \"))\nprint(\"חצי מהמספר הוא\", num / 2)"
+  },
+  {
+    "question": "תרגיל 8 – בקש מהמשתמש שני מספרים והדפס את הממוצע שלהם.",
+    "solution": "a = float(input(\"מספר ראשון: \"))\nb = float(input(\"מספר שני: \"))\nprint(\"הממוצע הוא\", (a + b) / 2)"
+  },
+  {
+    "question": "תרגיל 9 – בקש שם ותחביב והדפס משפט שמשלב את שניהם.",
+    "solution": "name = input(\"מה שמך? \")\nhobby = input(\"מה התחביב שלך? \")\nprint(f\"שמי {name} והתחביב שלי הוא {hobby}.\")"
+  },
+  {
+    "question": "תרגיל 10 – בקש שלושה מספרים והדפס את הממוצע שלהם.",
+    "solution": "a = float(input(\"מספר ראשון: \"))\nb = float(input(\"מספר שני: \"))\nc = float(input(\"מספר שלישי: \"))\nprint(\"הממוצע הוא\", (a + b + c) / 3)"
+  }
+]
+,
+"quizzes": [
+  {
+    "title": "שאלון 1 – יסודות קלט ופלט",
+    "questions": [
+      {
+        "question": "איזו פונקציה בפייתון משמשת להצגת פלט?",
+        "options": [
+          "<span dir='ltr'>show()</span>",
+          "<span dir='ltr'>output()</span>",
+          "<span dir='ltr'>print()</span>",
+          "<span dir='ltr'>display()</span>"
+        ],
+        "answer": 2
+      },
+      {
+        "question": "איזו פונקציה משמשת לקבלת קלט מהמשתמש?",
+        "options": [
+          "<span dir='ltr'>scan()</span>",
+          "<span dir='ltr'>get()</span>",
+          "<span dir='ltr'>input()</span>",
+          "<span dir='ltr'>read()</span>"
+        ],
+        "answer": 2
+      },
+      {
+        "question": "מה תמיד מחזירה הפונקציה <span dir='ltr'>input()</span>?",
+        "options": ["int", "str", "float", "bool"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של הקוד הבא אם נקליד את השם 'נועה'?\n<span dir='ltr'>name = input(\"שם:\")\nprint(\"שלום\", name)</span>",
+        "options": [
+          "שלום נועה",
+          "שם: נועה",
+          "שגיאה",
+          "נועה"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של הקוד הבא אם המשתמש מקליד 15?\n<span dir='ltr'>age = input(\"גיל:\")\nprint(type(age))</span>",
+        "options": [
+          "<span dir='ltr'>&lt;class 'int'&gt;</span>",
+          "<span dir='ltr'>&lt;class 'str'&gt;</span>",
+          "<span dir='ltr'>&lt;class 'float'&gt;</span>",
+          "15"
+        ],
+        "answer": 1
+      },
+      {
+        "question": "איך ממירים קלט מספרי למספר שלם?",
+        "options": [
+          "<span dir='ltr'>int()</span>",
+          "<span dir='ltr'>str()</span>",
+          "<span dir='ltr'>float()</span>",
+          "<span dir='ltr'>bool()</span>"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של הקוד הבא אם המשתמש מקליד 10?\n<span dir='ltr'>x = int(input())\nprint(x * 2)</span>",
+        "options": [
+          "20",
+          "10",
+          "שגיאה",
+          "x*2"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של הקוד הבא:\n<span dir='ltr'>print(\"שלום\", \"עולם\")</span>",
+        "options": [
+          "שלוםעולם",
+          "שלום עולם",
+          "['שלום','עולם']",
+          "שגיאה"
+        ],
+        "answer": 1
+      },
+      {
+        "question": "כיצד משלבים קלט בתוך משפט?",
+        "options": [
+          "באמצעות f-string",
+          "<span dir='ltr'>input()</span>",
+          "<span dir='ltr'>bool()</span>",
+          "אי אפשר לשלב"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של הקוד הבא אם המשתמש מקליד 3 ואז 4?\n<span dir='ltr'>x = int(input())\ny = int(input())\nprint(x + y)</span>",
+        "options": [
+          "34",
+          "7",
+          "שגיאה",
+          "x+y"
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "title": "שאלון 2 – קלט מתקדם ושילובים",
+    "questions": [
+      {
+        "question": "מה הפלט של הקוד הבא?\n<span dir='ltr'>word1 = \"שלום\"\nword2 = \"עולם\"\nprint(word1 + word2)</span>",
+        "options": ["שלום עולם", "שלוםעולם", "['שלום','עולם']", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של הקוד הבא?\n<span dir='ltr'>print(int(\"7\") + 3)</span>",
+        "options": ["10", "73", "שגיאה", "7+3"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של הקוד הבא?\n<span dir='ltr'>print(float(\"2.5\") * 2)</span>",
+        "options": ["5.0", "2.5", "שגיאה", "22.5"],
+        "answer": 0
+      },
+      {
+        "question": "מה מחזירה הפונקציה <span dir='ltr'>input()</span> אם המשתמש מקליד True?",
+        "options": ["True (boolean)", "True (string)", "שגיאה", "0/1"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של הקוד הבא אם המשתמש מקליד 5?\n<span dir='ltr'>num = int(input())\nprint(num ** 2)</span>",
+        "options": ["25", "10", "שגיאה", "num^2"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של הקוד הבא?\n<span dir='ltr'>age = 15\nprint(f\"בעוד שנה: {age + 1}\")</span>",
+        "options": [
+          "בעוד שנה: 16",
+          "בעוד שנה: 15+1",
+          "שגיאה",
+          "בעוד שנה: age+1"
+        ],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של הקוד הבא?\n<span dir='ltr'>print(\"a\", \"b\", \"c\")</span>",
+        "options": ["abc", "a b c", "['a','b','c']", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה קורה אם לא ממירים קלט מספרי ומנסים לחבר אותו למספר?",
+        "options": ["פלט נכון", "שגיאה", "מחזיר 0", "מדפיס None"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של הקוד הבא אם המשתמש מקליד 100?\n<span dir='ltr'>print(type(input(\"?\")))</span>",
+        "options": [
+          "<span dir='ltr'>&lt;class 'int'&gt;</span>",
+          "<span dir='ltr'>&lt;class 'str'&gt;</span>",
+          "<span dir='ltr'>&lt;class 'float'&gt;</span>",
+          "<span dir='ltr'>&lt;class 'bool'&gt;</span>"
+        ],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של הקוד הבא?\n<span dir='ltr'>name = \"דנה\"\nage = 12\nprint(f\"{name} תהיה בת {age + 5}\")</span>",
+        "options": [
+          "דנה תהיה בת 17",
+          "דנה תהיה בת 12+5",
+          "שגיאה",
+          "דנה תהיה בת age+5"
+        ],
+        "answer": 0
+      }
+    ]
+  }
+]
+
+
+}

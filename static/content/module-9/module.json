@@ -1,0 +1,183 @@
+{
+  "id": 9,
+  "title": "טאפלים (Tuples) וסטים (Sets)",
+  "theoryHTML": "<h2>מהם טאפלים?</h2><p>טאפלים דומים לרשימות – גם הם אוסף של ערכים. ההבדל הגדול הוא שטאפלים הם <b>בלתי ניתנים לשינוי</b> (immutable). אחרי שיצרנו אותם אי אפשר להוסיף, למחוק או לשנות ערכים. טאפלים נכתבים בסוגריים עגולים.</p><pre style='direction:ltr; text-align:left;'><code>numbers = (1, 2, 3)\nprint(numbers[0])  # פלט: 1</code></pre><h3>למה להשתמש בטאפלים?</h3><p>טאפלים טובים כשאנחנו רוצים נתונים קבועים שלא ישתנו, למשל קואורדינטות או ערכים של RGB בצבעים.</p><h2>מהם סטים?</h2><p>סט הוא אוסף של ערכים <b>ייחודיים</b>. כלומר, אין כפילויות. סטים נכתבים בסוגריים מסולסלים.</p><pre style='direction:ltr; text-align:left;'><code>fruits = {\"תפוח\", \"בננה\", \"תפוח\"}\nprint(fruits)  # פלט: {'תפוח', 'בננה'}</code></pre><h3>תכונות של סטים</h3><ul><li>סטים לא שומרים על סדר.</li><li>אי אפשר לגשת לפי אינדקס, אלא לעבור עליהם בלולאה.</li><li>מתאימים למצבים שבהם חשוב שיהיו רק ערכים ייחודיים.</li></ul><h3>פעולות על סטים</h3><p>יש פעולות מתמטיות שמזכירות חיתוך ואיחוד:</p><pre style='direction:ltr; text-align:left;'><code>a = {1, 2, 3}\nb = {3, 4, 5}\nprint(a | b)  # איחוד => {1,2,3,4,5}\nprint(a & b)  # חיתוך => {3}\nprint(a - b)  # הפרש => {1,2}</code></pre><h3>סיכום</h3><p>במודול זה למדנו על טאפלים – רשימות שאי אפשר לשנות, ועל סטים – אוספים של ערכים ייחודיים. אלו מבנים שימושיים מאוד בפייתון למצבים שבהם הנתונים צריכים להיות קבועים או ייחודיים.</p>",
+  "examples": [
+    "### טאפלים – יצירה ושימוש",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 1\npoint = (10, 20)\nprint(point[0])\n# פלט: 10</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 2\ncolors = (\"אדום\", \"ירוק\", \"כחול\")\nfor c in colors:\n    print(c)\n# פלט: אדום ירוק כחול</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 3\nt = (1, 2, 3)\nprint(len(t))\n# פלט: 3</code></pre>",
+
+    "### סטים – יצירה וייחודיות",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 4\nnums = {1, 2, 2, 3}\nprint(nums)\n# פלט: {1, 2, 3}</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 5\nletters = {\"a\", \"b\", \"c\"}\nfor l in letters:\n    print(l)\n# פלט: הסדר לא מובטח</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 6\ns = set([1,2,3,3])\nprint(s)\n# פלט: {1,2,3}</code></pre>",
+
+    "### פעולות על סטים",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 7\na = {1,2,3}\nb = {3,4,5}\nprint(a | b)\n# פלט: {1,2,3,4,5}</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 8\nprint(a & b)\n# פלט: {3}</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 9\nprint(a - b)\n# פלט: {1,2}</code></pre>",
+
+    "### שימושים משולבים",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 10\ncoords = (100, 200)\nprint(\"X:\", coords[0])\n# פלט: X: 100</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 11\nunique_names = {\"דנה\", \"יואב\", \"דנה\"}\nprint(unique_names)\n# פלט: {'דנה','יואב'}</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 12\nnums = {1,2,3}\nnums.add(4)\nprint(nums)\n# פלט: {1,2,3,4}</code></pre>"
+  ],
+  "exercises": [
+  {
+    "question": "תרגיל 1 – צור טאפלים של קואורדינטות (x,y) והדפס את הערכים.",
+    "solution": "point = (3, 5)\nprint(\"x:\", point[0])\nprint(\"y:\", point[1])"
+  },
+  {
+    "question": "תרגיל 2 – צור טאפלים עם שלושה צבעים והדפס את כולם בלולאת for.",
+    "solution": "colors = (\"אדום\", \"כחול\", \"ירוק\")\nfor color in colors:\n    print(color)"
+  },
+  {
+    "question": "תרגיל 3 – הדפס את האורך של טאפלים נתון.",
+    "solution": "nums = (10, 20, 30, 40)\nprint(len(nums))"
+  },
+  {
+    "question": "תרגיל 4 – צור סט של מספרים עם כפילויות ובדוק שהתוצאה ייחודית.",
+    "solution": "numbers = {1, 2, 2, 3, 4, 4, 5}\nprint(numbers)"
+  },
+  {
+    "question": "תרגיל 5 – עבור על סט של מילים והדפס כל מילה.",
+    "solution": "words = {\"שלום\", \"עולם\", \"פייתון\"}\nfor word in words:\n    print(word)"
+  },
+  {
+    "question": "תרגיל 6 – בדוק אם ערך מסוים קיים בסט בעזרת in.",
+    "solution": "fruits = {\"תפוח\", \"בננה\", \"ענב\"}\nprint(\"בננה\" in fruits)"
+  },
+  {
+    "question": "תרגיל 7 – צור שני סטים והדפס את האיחוד שלהם.",
+    "solution": "a = {1, 2, 3}\nb = {3, 4, 5}\nprint(a | b)  # או a.union(b)"
+  },
+  {
+    "question": "תרגיל 8 – הדפס את החיתוך בין שני סטים.",
+    "solution": "a = {1, 2, 3}\nb = {2, 3, 4}\nprint(a & b)  # או a.intersection(b)"
+  },
+  {
+    "question": "תרגיל 9 – הוסף איבר חדש לסט והדפס אותו.",
+    "solution": "s = {1, 2, 3}\ns.add(4)\nprint(s)"
+  },
+  {
+    "question": "תרגיל 10 – הסבר בקוד קצר למה כדאי להשתמש בטאפלים או בסטים במקום ברשימות.",
+    "solution": "# טאפלים – טובים לנתונים קבועים שלא משתנים\ncoords = (10, 20)\n# סטים – שימושיים כדי לשמור ערכים ייחודיים בלבד\nnums = [1, 2, 2, 3]\nunique_nums = set(nums)\nprint(unique_nums)"
+  }
+]
+
+  ,
+"quizzes": [
+  {
+    "title": "שאלון 1 – טאפלים (Tuples)",
+    "questions": [
+      {
+        "question": "מהו ההבדל העיקרי בין טאפלים לרשימות?",
+        "options": ["טאפלים ניתנים לשינוי, רשימות לא", "רשימות ניתנות לשינוי, טאפלים לא", "טאפלים תמיד מספריים", "רשימות חייבות להיות עם מספרים בלבד"],
+        "answer": 1
+      },
+      {
+        "question": "כיצד יוצרים טאפלים?",
+        "options": ["בסוגריים עגולים ()", "בסוגריים מסולסלים {}", "בסוגריים מרובעים []", "בגרשיים"],
+        "answer": 0
+      },
+      {
+        "question": "מה יודפס: numbers=(1,2,3); print(numbers[0])?",
+        "options": ["1", "2", "שגיאה", "(1,2,3)"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של len((10,20,30))?",
+        "options": ["3", "2", "30", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה היתרון של שימוש בטאפלים?",
+        "options": ["הנתונים בו קבועים ולא ישתנו", "הוא מהיר יותר לריצה", "אפשר להוסיף ערכים בקלות", "הוא תמיד ממויין"],
+        "answer": 0
+      },
+      {
+        "question": "מה יודפס: colors=(\"אדום\",\"ירוק\",\"כחול\"); for c in colors: print(c)?",
+        "options": ["אדום ירוק כחול", "['אדום','ירוק','כחול']", "שגיאה", "כחול ירוק אדום"],
+        "answer": 0
+      },
+      {
+        "question": "כיצד ניגשים לערך הראשון בטאפלים?",
+        "options": ["tuple{0}", "tuple(0)", "tuple[0]", "tuple.first()"],
+        "answer": 2
+      },
+      {
+        "question": "מה קורה אם מנסים לשנות ערך בטאפלים?",
+        "options": ["הערך משתנה", "שגיאה – אי אפשר לשנות טאפלים", "הערך נמחק", "נוצר טאפלים חדש"],
+        "answer": 1
+      },
+      {
+        "question": "מתי כדאי להשתמש בטאפלים?",
+        "options": ["כשצריך נתונים קבועים כמו קואורדינטות", "כשצריך למחוק איברים", "כשצריך להוסיף איברים", "כשרוצים רשימה ריקה"],
+        "answer": 0
+      },
+      {
+        "question": "מה יודפס: t=(5,6); print(\"X:\",t[0])?",
+        "options": ["X: 5", "X: 6", "שגיאה", "(5,6)"],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "title": "שאלון 2 – סטים (Sets)",
+    "questions": [
+      {
+        "question": "מה מאפיין סט בפייתון?",
+        "options": ["שומר על סדר", "יכול להכיל כפילויות", "מכיל ערכים ייחודיים בלבד", "חייב להיות מספרי"],
+        "answer": 2
+      },
+      {
+        "question": "כיצד יוצרים סט?",
+        "options": ["בסוגריים []", "בסוגריים ()", "בסוגריים {}", "בגרשיים"],
+        "answer": 2
+      },
+      {
+        "question": "מה יודפס: fruits={\"תפוח\",\"בננה\",\"תפוח\"}; print(fruits)?",
+        "options": ["{'תפוח','בננה','תפוח'}", "{'תפוח','בננה'}", "['תפוח','בננה']", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "כיצד עוברים על כל איברי הסט?",
+        "options": ["for item in set", "while set", "set.loop()", "אי אפשר לעבור על סט"],
+        "answer": 0
+      },
+      {
+        "question": "מה יודפס: a={1,2,3}; b={3,4}; print(a|b)?",
+        "options": ["{1,2,3,4}", "{3}", "{1,2}", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: a={1,2,3}; b={3,4}; print(a&b)?",
+        "options": ["{3}", "{1,2,3,4}", "{1,2}", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: a={1,2,3}; b={3,4}; print(a-b)?",
+        "options": ["{1,2}", "{3}", "{4}", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה קורה אם מוסיפים ערך שכבר קיים בסט?",
+        "options": ["הערך נוסף שוב", "שגיאה", "לא קורה כלום – הערך לא מוכפל", "הסט נמחק"],
+        "answer": 2
+      },
+      {
+        "question": "כיצד מוסיפים ערך חדש לסט?",
+        "options": ["set.add()", "set.append()", "set.push()", "set.insert()"],
+        "answer": 0
+      },
+      {
+        "question": "מתי כדאי להשתמש בסט?",
+        "options": ["כאשר חשוב למנוע כפילויות", "כאשר חשוב לשמור על סדר", "כאשר רוצים לגשת לפי אינדקס", "כאשר חייבים טקסטים בלבד"],
+        "answer": 0
+      }
+    ]
+  }
+]
+
+}

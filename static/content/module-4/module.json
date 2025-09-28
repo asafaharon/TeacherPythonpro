@@ -1,0 +1,183 @@
+{
+  "id": 4,
+  "title": "פעולות חשבון ואופרטורים לוגיים",
+  "theoryHTML": "<h2>פעולות חשבון</h2><p>בפייתון אפשר לבצע פעולות חשבון פשוטות כמו חיבור, חיסור, כפל וחילוק – ממש כמו במחשבון.</p><pre style='direction:ltr; text-align:left;'><code>print(3 + 2)  # חיבור\nprint(7 - 4)  # חיסור\nprint(5 * 6)  # כפל\nprint(8 / 2)  # חילוק</code></pre><p>בנוסף יש פעולות מתקדמות:</p><ul><li><code>//</code> – חילוק שלם (תוצאה בלי שארית).</li><li><code>%</code> – שארית בחילוק.</li><li><code>**</code> – חזקה (כמו 2 בחזקת 3).</li></ul><pre style='direction:ltr; text-align:left;'><code>print(7 // 3)  # תוצאה: 2\nprint(7 % 3)   # תוצאה: 1\nprint(2 ** 3)  # תוצאה: 8</code></pre><h2>אופרטורי השוואה</h2><p>לעיתים אנחנו רוצים לבדוק אם שני דברים שווים, או מי גדול יותר. לשם כך יש סימנים מיוחדים:</p><ul><li><code>==</code> – שווה ל־</li><li><code>!=</code> – שונה מ־</li><li><code>&gt;</code> – גדול מ־</li><li><code>&lt;</code> – קטן מ־</li><li><code>&gt;=</code> – גדול או שווה ל־</li><li><code>&lt;=</code> – קטן או שווה ל־</li></ul><pre style='direction:ltr; text-align:left;'><code>x = 5\ny = 7\nprint(x == y)  # False\nprint(x < y)   # True</code></pre><h2>אופרטורים לוגיים</h2><p>האופרטורים הלוגיים מאפשרים לנו לחבר תנאים:</p><ul><li><code>and</code> – וגם: מחזיר True רק אם שני התנאים נכונים.</li><li><code>or</code> – או: מחזיר True אם לפחות אחד נכון.</li><li><code>not</code> – לא: הופך את הערך הלוגי.</li></ul><pre style='direction:ltr; text-align:left;'><code>a = 5\nprint(a > 0 and a < 10)  # True\nprint(a > 10 or a == 5)  # True\nprint(not(a == 5))       # False</code></pre><h3>סיכום</h3><p>למדנו איך לבצע פעולות חשבון רגילות, איך לבדוק יחסים בין מספרים, ואיך לשלב תנאים בעזרת and, or, not.</p>",
+  "examples": [
+    "### פעולות חשבון בסיסיות",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 1\nprint(3 + 4)\n# פלט: 7</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 2\nprint(10 - 6)\n# פלט: 4</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 3\nprint(5 * 2)\n# פלט: 10</code></pre>",
+
+    "### חילוק, שארית וחזקה",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 4\nprint(9 / 2)\n# פלט: 4.5</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 5\nprint(9 // 2)\n# פלט: 4</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 6\nprint(9 % 2)\n# פלט: 1</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 7\nprint(2 ** 4)\n# פלט: 16</code></pre>",
+
+    "### השוואות",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 8\nprint(5 == 5)\n# פלט: True</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 9\nprint(3 != 7)\n# פלט: True</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 10\nprint(8 > 6)\n# פלט: True</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 11\nprint(4 <= 4)\n# פלט: True</code></pre>",
+
+    "### לוגיקה",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 12\nprint(5 > 0 and 5 < 10)\n# פלט: True</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 13\nprint(7 < 3 or 7 == 7)\n# פלט: True</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 14\nprint(not(2 == 2))\n# פלט: False</code></pre>"
+  ],"exercises": [
+  {
+    "question": "תרגיל 1 – חשב את התוצאה של 12 + 8 והדפס אותה.",
+    "solution": "print(12 + 8)"
+  },
+  {
+    "question": "תרגיל 2 – בקש מהמשתמש שני מספרים והדפס את מכפלתם.",
+    "solution": "a = int(input(\"מספר ראשון: \"))\nb = int(input(\"מספר שני: \"))\nprint(\"המכפלה היא\", a * b)"
+  },
+  {
+    "question": "תרגיל 3 – בדוק אם המספר 15 גדול מ־10.",
+    "solution": "print(15 > 10)"
+  },
+  {
+    "question": "תרגיל 4 – בדוק אם שני מספרים שהוזנו שווים.",
+    "solution": "a = int(input(\"מספר ראשון: \"))\nb = int(input(\"מספר שני: \"))\nprint(a == b)"
+  },
+  {
+    "question": "תרגיל 5 – בקש מהמשתמש מספר והדפס אם הוא זוגי או אי־זוגי (בעזרת %).",
+    "solution": "num = int(input(\"הכנס מספר: \"))\nif num % 2 == 0:\n    print(\"זוגי\")\nelse:\n    print(\"אי-זוגי\")"
+  },
+  {
+    "question": "תרגיל 6 – בקש מהמשתמש מספר והדפס את התוצאה של המספר בחזקת 3.",
+    "solution": "num = int(input(\"הכנס מספר: \"))\nprint(num ** 3)"
+  },
+  {
+    "question": "תרגיל 7 – בקש מהמשתמש שני מספרים והדפס מי מהם הגדול יותר.",
+    "solution": "a = int(input(\"מספר ראשון: \"))\nb = int(input(\"מספר שני: \"))\nif a > b:\n    print(\"הגדול יותר הוא\", a)\nelif b > a:\n    print(\"הגדול יותר הוא\", b)\nelse:\n    print(\"המספרים שווים\")"
+  },
+  {
+    "question": "תרגיל 8 – בדוק אם מספר נמצא בין 0 ל־100 בעזרת and.",
+    "solution": "num = int(input(\"הכנס מספר: \"))\nprint(num >= 0 and num <= 100)"
+  },
+  {
+    "question": "תרגיל 9 – בדוק אם מספר הוא שלילי או גדול מ־10 בעזרת or.",
+    "solution": "num = int(input(\"הכנס מספר: \"))\nprint(num < 0 or num > 10)"
+  },
+  {
+    "question": "תרגיל 10 – בדוק אם המשתמש אינו בן 18 בעזרת not.",
+    "solution": "age = int(input(\"מה גילך? \"))\nprint(not age == 18)"
+  }
+]
+,
+  "quizzes": [
+  {
+    "title": "שאלון 1 – פעולות חשבון",
+    "questions": [
+      {
+        "question": "מה הפלט של 3 + 2?",
+        "options": ["6", "5", "32", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של 7 - 4?",
+        "options": ["3", "11", "4", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של 5 * 6?",
+        "options": ["56", "11", "30", "שגיאה"],
+        "answer": 2
+      },
+      {
+        "question": "מה הפלט של 8 / 2?",
+        "options": ["4.0", "2", "8", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של 7 // 3?",
+        "options": ["2", "2.3", "3", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של 7 % 3?",
+        "options": ["3", "1", "2", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של 2 ** 3?",
+        "options": ["6", "8", "9", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של 9 // 2?",
+        "options": ["4.5", "5", "4", "שגיאה"],
+        "answer": 2
+      },
+      {
+        "question": "מה הפלט של 9 % 2?",
+        "options": ["2", "1", "0", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של 2 ** 4?",
+        "options": ["16", "8", "24", "שגיאה"],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "title": "שאלון 2 – אופרטורים לוגיים והשוואה",
+    "questions": [
+      {
+        "question": "מה הפלט של (5 == 5)?",
+        "options": ["False", "True", "שגיאה", "5"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של (3 != 7)?",
+        "options": ["True", "False", "שגיאה", "3"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של (8 > 6)?",
+        "options": ["True", "False", "שגיאה", "6"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של (4 <= 4)?",
+        "options": ["False", "True", "שגיאה", "0"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של (5 > 0 and 5 < 10)?",
+        "options": ["True", "False", "שגיאה", "5"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של (7 < 3 or 7 == 7)?",
+        "options": ["True", "False", "שגיאה", "7"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של not(2 == 2)?",
+        "options": ["True", "False", "שגיאה", "2"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של (10 >= 5)?",
+        "options": ["True", "False", "שגיאה", "10"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של (2 < 1 or 3 < 2)?",
+        "options": ["True", "False", "שגיאה", "2"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של (not(5 < 2))?",
+        "options": ["True", "False", "שגיאה", "5"],
+        "answer": 0
+      }
+    ]
+  }
+]
+
+}

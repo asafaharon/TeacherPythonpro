@@ -1,0 +1,173 @@
+{
+  "id": 16,
+  "title": "חישוביות וזמן ריצה",
+  "theoryHTML": "<h2>מה זה זמן ריצה?</h2><p>כשאנחנו מריצים תוכנית, היא מבצעת הוראות אחת אחרי השנייה. זמן הריצה מתאר כמה זמן לוקח לתוכנית לסיים את העבודה שלה. ככל שהבעיה גדולה יותר (למשל: רשימה עם יותר איברים), זמן הריצה משתנה.</p><h3>למה זה חשוב?</h3><p>אם נכתוב קוד לא יעיל, הוא יעבוד אולי על 10 נתונים, אבל על מיליון נתונים – ייקח שעות. לכן חשוב להבין את <b>סיבוכיות זמן הריצה</b>.</p><h3>סדרי גודל נפוצים</h3><ul><li><b>O(1)</b> – זמן ריצה קבוע. דוגמה: גישה לאיבר ברשימה לפי אינדקס.</li><li><b>O(log n)</b> – זמן ריצה לוגריתמי. דוגמה: חיפוש בינארי.</li><li><b>O(n)</b> – זמן ריצה ליניארי. דוגמה: מעבר על כל איברי רשימה.</li><li><b>O(n log n)</b> – דוגמה: מיון יעיל כמו Merge Sort.</li><li><b>O(n^2)</b> – זמן ריצה ריבועי. דוגמה: לולאה בתוך לולאה.</li><li><b>O(2^n)</b> – אקספוננציאלי. גדל מהר מאוד – לא פרקטי לנתונים גדולים.</li></ul><h3>איך יודעים מה זמן הריצה?</h3><p>אנחנו לא מודדים עם שעון אלא סופרים כמה צעדים נדרשים. אם לולאה רצה n פעמים – הזמן הוא O(n). אם יש לולאה בתוך לולאה – הזמן הוא O(n^2).</p><h3>סיכום</h3><p>זמן ריצה חשוב כדי להבין אם האלגוריתם שלנו מתאים לבעיה אמיתית. נלמד לראות את ההבדלים בין אלגוריתמים מהירים לאיטיים.</p>",
+  "examples": [
+    "### זמן ריצה קבוע O(1)",
+    "<pre style='direction:ltr; text-align:left;'><code># גישה לאיבר ברשימה לפי אינדקס\nnums = [10, 20, 30, 40]\nprint(nums[2])\n# תמיד פעולה אחת – זמן ריצה קבוע</code></pre>",
+
+    "### זמן ריצה ליניארי O(n)",
+    "<pre style='direction:ltr; text-align:left;'><code># מעבר על כל איברי רשימה\nnums = [1,2,3,4,5]\nfor x in nums:\n    print(x)\n# אם הרשימה גדלה פי 10, גם מספר הפעולות גדל פי 10</code></pre>",
+
+    "### זמן ריצה ריבועי O(n^2)",
+    "<pre style='direction:ltr; text-align:left;'><code># לולאה בתוך לולאה\nnums = [1,2,3]\nfor i in nums:\n    for j in nums:\n        print(i,j)\n# אם הרשימה באורך n, נקבל בערך n^2 צעדים</code></pre>",
+
+    "### זמן ריצה לוגריתמי O(log n)",
+    "<pre style='direction:ltr; text-align:left;'><code># חיפוש בינארי\n# עובד על רשימה ממוינת\nnums = [1,2,3,4,5,6,7,8]\nlow, high = 0, len(nums)-1\nwhile low <= high:\n    mid = (low+high)//2\n    if nums[mid] == 6:\n        print(\"נמצא!\")\n        break\n    elif nums[mid] < 6:\n        low = mid+1\n    else:\n        high = mid-1\n# מספר הצעדים קטן משמעותית בהשוואה ל-O(n)</code></pre>"
+  ],"exercises": [
+  {
+    "question": "תרגיל 1 – כתוב פונקציה שמחזירה את האיבר הראשון ברשימה. מה זמן הריצה?",
+    "solution": "def first_element(lst):\n    return lst[0]\n\nprint(first_element([10, 20, 30]))\n# זמן ריצה: O(1)"
+  },
+  {
+    "question": "תרגיל 2 – כתוב לולאה שעוברת על רשימה ומדפיסה את כל האיברים. מה זמן הריצה?",
+    "solution": "def print_list(lst):\n    for item in lst:\n        print(item)\n\nprint_list([1, 2, 3, 4])\n# זמן ריצה: O(n)"
+  },
+  {
+    "question": "תרגיל 3 – כתוב לולאה כפולה שמדפיסה את כל זוגות האיברים ברשימה. מה זמן הריצה?",
+    "solution": "def print_pairs(lst):\n    for i in lst:\n        for j in lst:\n            print(i, j)\n\nprint_pairs([1, 2, 3])\n# זמן ריצה: O(n^2)"
+  },
+  {
+    "question": "תרגיל 4 – נסה למדוד זמן ריצה בפועל עם מודול time של פייתון לרשימה קטנה וגדולה.",
+    "solution": "import time\n\nlst_small = list(range(1000))\nlst_large = list(range(1000000))\n\nstart = time.time()\nsum(lst_small)\nend = time.time()\nprint(\"רשימה קטנה:\", end - start)\n\nstart = time.time()\nsum(lst_large)\nend = time.time()\nprint(\"רשימה גדולה:\", end - start)"
+  },
+  {
+    "question": "תרגיל 5 – כתוב פונקציה שמחשבת סכום איברי רשימה. מה זמן הריצה?",
+    "solution": "def sum_list(lst):\n    total = 0\n    for num in lst:\n        total += num\n    return total\n\nprint(sum_list([1, 2, 3, 4]))\n# זמן ריצה: O(n)"
+  },
+  {
+    "question": "תרגיל 6 – כתוב פונקציה שמבצעת חיפוש ברשימה ממוינת בעזרת חיפוש בינארי.",
+    "solution": "def binary_search(lst, target):\n    left, right = 0, len(lst) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if lst[mid] == target:\n            return mid\n        elif lst[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\nprint(binary_search([1, 3, 5, 7, 9], 7))\n# זמן ריצה: O(log n)"
+  },
+  {
+    "question": "תרגיל 7 – השווה בין זמן הריצה של חיפוש רגיל לחיפוש בינארי.",
+    "solution": "def linear_search(lst, target):\n    for i, num in enumerate(lst):\n        if num == target:\n            return i\n    return -1\n\nlst = list(range(1000000))\n\n# חיפוש רגיל – O(n)\nprint(linear_search(lst, 999999))\n\n# חיפוש בינארי – O(log n)\nprint(binary_search(lst, 999999))"
+  },
+  {
+    "question": "תרגיל 8 – כתוב פונקציה שמבצעת לולאה בתוך לולאה. הסבר את סיבוכיות הזמן.",
+    "solution": "def nested_loop(n):\n    for i in range(n):\n        for j in range(n):\n            print(i, j)\n\nnested_loop(3)\n# סיבוכיות: O(n^2) בגלל שתי לולאות תלויות"
+  },
+  {
+    "question": "תרגיל 9 – כתוב פונקציה שמחשבת n! בעזרת לולאה והשווה לרקורסיה מבחינת צעדים.",
+    "solution": "def fact_iter(n):\n    result = 1\n    for i in range(1, n+1):\n        result *= i\n    return result\n\nprint(fact_iter(5))\n\n# רקורסיה\n\ndef fact_rec(n):\n    if n == 0:\n        return 1\n    return n * fact_rec(n-1)\n\nprint(fact_rec(5))\n\n# לשתי השיטות סיבוכיות O(n), אבל רקורסיה מוסיפה עומק מחסנית"
+  },
+  {
+    "question": "תרגיל 10 – עבור n=100000, מה יעבוד מהר יותר: מעבר על הרשימה פעם אחת או חיפוש בינארי?",
+    "solution": "# מעבר על כל הרשימה – O(n)\n# חיפוש בינארי – O(log n)\n# לכן חיפוש בינארי מהיר יותר בחיפוש איבר יחיד.\n\nlst = list(range(100000))\nprint(binary_search(lst, 54321))"
+  }
+]
+,
+  "quizzes": [
+  {
+    "title": "שאלון 1 – יסודות זמן ריצה",
+    "questions": [
+      {
+        "question": "מה מתאר זמן הריצה של תוכנית?",
+        "options": ["כמה זמן לוקח למחשב להידלק", "כמה זמן לוקח לתוכנית לבצע את כל ההוראות", "כמה שורות קוד יש", "מה גודל המסך"],
+        "answer": 1
+      },
+      {
+        "question": "מה קורה לזמן הריצה אם הרשימה גדלה פי 10 באלגוריתם O(n)?",
+        "options": ["נשאר אותו דבר", "גדל פי 10", "גדל פי 100", "קטן"],
+        "answer": 1
+      },
+      {
+        "question": "איזה סדר גודל הוא זמן ריצה קבוע?",
+        "options": ["O(1)", "O(n)", "O(n^2)", "O(log n)"],
+        "answer": 0
+      },
+      {
+        "question": "מה הדוגמה שניתנה במודול לזמן ריצה O(1)?",
+        "options": ["לולאה בתוך לולאה", "גישה לאיבר ברשימה לפי אינדקס", "חיפוש בינארי", "מיון Merge Sort"],
+        "answer": 1
+      },
+      {
+        "question": "מהו זמן ריצה ליניארי O(n)?",
+        "options": ["זמן קבוע", "גדל עם מספר האיברים", "תמיד ריבועי", "מתאים רק לחיפוש בינארי"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של הקוד: nums=[1,2,3]; for i in nums: for j in nums: print(i,j)?",
+        "options": ["O(n)", "O(1)", "O(n^2)", "O(log n)"],
+        "answer": 2
+      },
+      {
+        "question": "מהי המשמעות של O(log n)?",
+        "options": ["גדל מאוד מהר", "גדל לאט יחסית – כמו חיפוש בינארי", "תמיד קבוע", "שווה ל־O(n)"],
+        "answer": 1
+      },
+      {
+        "question": "איזה מהבאים דוגמה ל־O(n log n)?",
+        "options": ["מיון Merge Sort", "גישה לאיבר ראשון", "לולאה בתוך לולאה", "פקטוריאל"],
+        "answer": 0
+      },
+      {
+        "question": "איזו סיבוכיות נחשבת לא פרקטית לנתונים גדולים?",
+        "options": ["O(1)", "O(n)", "O(2^n)", "O(log n)"],
+        "answer": 2
+      },
+      {
+        "question": "כיצד מחשבים זמן ריצה לפי המודול?",
+        "options": ["מודד עם שעון", "סופרים צעדים", "בודקים כמה שורות קוד", "בודקים את צבע המסך"],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "title": "שאלון 2 – יישומים והשוואות",
+    "questions": [
+      {
+        "question": "מה זמן הריצה של חיפוש בינארי?",
+        "options": ["O(n)", "O(n^2)", "O(log n)", "O(1)"],
+        "answer": 2
+      },
+      {
+        "question": "מה זמן הריצה של מעבר על כל איברי רשימה?",
+        "options": ["O(1)", "O(log n)", "O(n)", "O(n^2)"],
+        "answer": 2
+      },
+      {
+        "question": "מה זמן הריצה של לולאה כפולה (לולאה בתוך לולאה)?",
+        "options": ["O(1)", "O(n)", "O(n^2)", "O(log n)"],
+        "answer": 2
+      },
+      {
+        "question": "איזה אלגוריתם יעבוד מהר יותר על רשימה של מיליון איברים?",
+        "options": ["חיפוש רגיל O(n)", "חיפוש בינארי O(log n)", "שניהם אותו דבר", "לא ניתן לדעת"],
+        "answer": 1
+      },
+      {
+        "question": "מה קורה לאלגוריתם O(n log n) כשכפולים את n פי 2?",
+        "options": ["הזמן גדל בערך פי 2 ומשהו", "הזמן נשאר קבוע", "הזמן גדל פי 4", "הזמן גדל פי 10"],
+        "answer": 0
+      },
+      {
+        "question": "מהי סיבוכיות הזמן של גישה לאיבר ראשון ברשימה?",
+        "options": ["O(n)", "O(n^2)", "O(1)", "O(log n)"],
+        "answer": 2
+      },
+      {
+        "question": "איזה מהבאים מתאים ל־O(2^n)?",
+        "options": ["בעיות אקספוננציאליות כמו פתרון כל קומבינציות אפשריות", "חיפוש בינארי", "לולאה רגילה", "גישה לאינדקס ברשימה"],
+        "answer": 0
+      },
+      {
+        "question": "מהי סיבוכיות הזמן של סכימת איברי רשימה בלולאה אחת?",
+        "options": ["O(1)", "O(n)", "O(n^2)", "O(log n)"],
+        "answer": 1
+      },
+      {
+        "question": "מהו ההבדל בין O(n) ל־O(n^2)?",
+        "options": ["O(n) ריבועי ו־O(n^2) ליניארי", "O(n) גדל הרבה יותר מהר", "O(n) ליניארי ואילו O(n^2) לולאה בתוך לולאה", "אין הבדל"],
+        "answer": 2
+      },
+      {
+        "question": "מה חשוב להבין כשכותבים קוד לא יעיל?",
+        "options": ["שהוא תמיד יפעל מהר", "שעל נתונים גדולים הוא עלול להיות איטי מאוד", "שהוא עובד רק על 10 איברים", "שלא ניתן להריץ אותו"],
+        "answer": 1
+      }
+    ]
+  }
+]
+
+}

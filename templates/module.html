@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TeacherPython • מודול</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <!-- Ace Editor (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.9/ace.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.9/ext-language_tools.min.js"></script>
+</head>
+<body>
+  <header class="tp-header">
+    <div class="tp-header__left">
+      <a class="tp-back" href="/">← חזרה למודולים</a>
+    </div>
+    <div class="tp-header__center">
+      <h1 id="module-title" class="tp-title">טוען מודול…</h1>
+    </div>
+    <div class="tp-header__right">
+      <span class="tp-badge" id="module-id">#</span>
+    </div>
+  </header>
+
+  <!-- ניווט בין מודולים (רק למעלה) -->
+  <div class="tp-nav">
+    <button id="go-home" class="tp-btn">🏠 חזור למסך הבית</button>
+    <button id="go-prev" class="tp-btn">⏪ מודול קודם</button>
+    <button id="go-next" class="tp-btn tp-btn--primary">➡ עבור למודול הבא</button>
+  </div>
+
+  <main class="tp-container">
+    <nav class="tp-tabs" role="tablist" aria-label="ניווט בין חלקי המודול">
+      <button class="tp-tab is-active" data-tab="theory" role="tab" aria-selected="true">📖 הסבר תיאורטי</button>
+      <button class="tp-tab" data-tab="examples" role="tab" aria-selected="false">💻 דוגמאות קוד</button>
+      <button class="tp-tab" data-tab="exercises" role="tab" aria-selected="false">🎯 תרגילים</button>
+      <button class="tp-tab" data-tab="quiz" role="tab" aria-selected="false">📝 שאלון</button>
+     <button class="tp-tab" data-tab="ai" role="tab" aria-selected="false">🤖 שאל את ה-AI</button>
+
+    </nav>
+
+    <!-- תוכן דינמי -->
+    <section id="tab-content" class="tp-card tp-content" aria-live="polite">
+      <!-- נטען ב־module.js -->
+    </section>
+
+    <!-- כאן יוזרק העורך רק כשנמצאים בטאב "תרגילים" -->
+    <section id="playground-container"></section>
+  </main>
+
+  <div id="toast" class="tp-toast" role="status" aria-live="polite"></div>
+
+  <script src="/static/js/module.js"></script>
+</body>
+</html>

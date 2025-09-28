@@ -1,0 +1,182 @@
+{
+  "id": 5,
+  "title": "תנאים (if / else / elif)",
+  "theoryHTML": "<h2>מהם תנאים?</h2><p>תנאים מאפשרים לנו לגרום לתוכנית לקבל החלטות. אנחנו שואלים שאלה, ואם התשובה היא כן (True) – מבצעים פעולה מסוימת, ואם לא – אפשר לבצע פעולה אחרת.</p><h3>הפקודה if</h3><p>הפקודה <code>if</code> בודקת תנאי. אם התנאי נכון – הקוד שבפנים ירוץ.</p><pre style='direction:ltr; text-align:left;'><code>x = 5\nif x > 3:\n    print(\"x גדול מ-3\")</code></pre><p>כאן ההדפסה תקרה כי 5 גדול מ־3.</p><h3>הפקודה else</h3><p>אם התנאי לא נכון, אפשר להשתמש ב־<code>else</code> כדי לבצע פעולה אחרת.</p><pre style='direction:ltr; text-align:left;'><code>x = 2\nif x > 3:\n    print(\"x גדול מ-3\")\nelse:\n    print(\"x לא גדול מ-3\")</code></pre><p>כאן יודפס: x לא גדול מ־3.</p><h3>הפקודה elif</h3><p>אפשר לבדוק כמה תנאים בעזרת <code>elif</code>.</p><pre style='direction:ltr; text-align:left;'><code>grade = 85\nif grade >= 90:\n    print(\"מעולה!\")\nelif grade >= 60:\n    print(\"עברת\")\nelse:\n    print(\"נכשלת\")</code></pre><p>כאן ההדפסה תהיה: עברת.</p><h3>שילוב תנאים עם לוגיקה</h3><p>אפשר לשלב תנאים בעזרת and, or, not.</p><pre style='direction:ltr; text-align:left;'><code>age = 16\nif age >= 13 and age <= 18:\n    print(\"אתה בחטיבה או תיכון\")</code></pre><h3>חשיבות ההזחה</h3><p>בפייתון חשוב להקפיד על רווחים (indentation). הקוד שמתבצע כתוצאה מתנאי חייב להיות מוזח פנימה כדי שפייתון תבין שהוא שייך ל־if או else.</p><h3>סיכום</h3><p>מודול זה לימד אותנו איך לכתוב תנאים עם if, else ו־elif, איך לשלב לוגיקה, ואיך להשתמש בהזחה נכונה כדי שהתוכנית תרוץ כמו שצריך.</p>",
+  "examples": [
+    "### if בסיסי",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 1\nx = 7\nif x > 5:\n    print(\"x גדול מ-5\")\n# פלט: x גדול מ-5</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 2\ny = 2\nif y < 10:\n    print(\"y קטן מ-10\")\n# פלט: y קטן מ-10</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 3\nz = 0\nif z == 0:\n    print(\"z הוא אפס\")\n# פלט: z הוא אפס</code></pre>",
+
+    "### if / else",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 4\nnum = 3\nif num % 2 == 0:\n    print(\"זוגי\")\nelse:\n    print(\"אי זוגי\")\n# פלט: אי זוגי</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 5\nage = 20\nif age >= 18:\n    print(\"בוגר\")\nelse:\n    print(\"קטין\")\n# פלט: בוגר</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 6\na = 5\nif a != 5:\n    print(\"a שונה מ-5\")\nelse:\n    print(\"a שווה ל-5\")\n# פלט: a שווה ל-5</code></pre>",
+
+    "### if / elif / else",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 7\ngrade = 95\nif grade >= 90:\n    print(\"מצוין\")\nelif grade >= 60:\n    print(\"עברת\")\nelse:\n    print(\"נכשלת\")\n# פלט: מצוין</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 8\ntemp = 15\nif temp > 30:\n    print(\"חם מאוד\")\nelif temp > 20:\n    print(\"נעים\")\nelse:\n    print(\"קריר\")\n# פלט: קריר</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 9\nscore = 40\nif score >= 90:\n    print(\"מצוין\")\nelif score >= 60:\n    print(\"עברת\")\nelse:\n    print(\"נכשלת\")\n# פלט: נכשלת</code></pre>",
+
+    "### תנאים עם לוגיקה",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 10\nage = 16\nif age >= 13 and age <= 18:\n    print(\"גיל נוער\")\n# פלט: גיל נוער</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 11\nnum = 7\nif num < 0 or num > 5:\n    print(\"מחוץ לטווח 0-5\")\n# פלט: מחוץ לטווח 0-5</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 12\nx = 3\nif not(x == 5):\n    print(\"x אינו 5\")\n# פלט: x אינו 5</code></pre>"
+  ],"exercises": [
+  {
+    "question": "תרגיל 1 – בקש מהמשתמש מספר והדפס אם הוא חיובי או שלילי.",
+    "solution": "num = int(input(\"הכנס מספר: \"))\nif num > 0:\n    print(\"חיובי\")\nelse:\n    print(\"שלילי\")"
+  },
+  {
+    "question": "תרגיל 2 – בקש מהמשתמש מספר והדפס אם הוא זוגי או אי זוגי.",
+    "solution": "num = int(input(\"הכנס מספר: \"))\nif num % 2 == 0:\n    print(\"זוגי\")\nelse:\n    print(\"אי-זוגי\")"
+  },
+  {
+    "question": "תרגיל 3 – בקש מהמשתמש את גילו והדפס אם הוא קטין או בוגר.",
+    "solution": "age = int(input(\"מה גילך? \"))\nif age < 18:\n    print(\"קטין\")\nelse:\n    print(\"בוגר\")"
+  },
+  {
+    "question": "תרגיל 4 – בקש ציון מהמשתמש והדפס אם נכשל או עבר (סף 60).",
+    "solution": "grade = int(input(\"הכנס ציון: \"))\nif grade >= 60:\n    print(\"עבר\")\nelse:\n    print(\"נכשל\")"
+  },
+  {
+    "question": "תרגיל 5 – בקש ציון והדפס אם מצוין (90+), עבר (60+) או נכשל.",
+    "solution": "grade = int(input(\"הכנס ציון: \"))\nif grade >= 90:\n    print(\"מצוין\")\nelif grade >= 60:\n    print(\"עבר\")\nelse:\n    print(\"נכשל\")"
+  },
+  {
+    "question": "תרגיל 6 – בקש טמפרטורה והדפס אם חם, נעים או קר.",
+    "solution": "temp = float(input(\"הכנס טמפרטורה: \"))\nif temp >= 30:\n    print(\"חם\")\nelif temp >= 15:\n    print(\"נעים\")\nelse:\n    print(\"קר\")"
+  },
+  {
+    "question": "תרגיל 7 – בדוק אם מספר נמצא בין 1 ל-10 בעזרת and.",
+    "solution": "num = int(input(\"הכנס מספר: \"))\nprint(num >= 1 and num <= 10)"
+  },
+  {
+    "question": "תרגיל 8 – בדוק אם מספר קטן מ-0 או גדול מ-100 בעזרת or.",
+    "solution": "num = int(input(\"הכנס מספר: \"))\nprint(num < 0 or num > 100)"
+  },
+  {
+    "question": "תרגיל 9 – בקש מספר והדפס אם הוא שווה ל-5, אחרת הדפס הודעה אחרת.",
+    "solution": "num = int(input(\"הכנס מספר: \"))\nif num == 5:\n    print(\"המספר הוא 5\")\nelse:\n    print(\"המספר אינו 5\")"
+  },
+  {
+    "question": "תרגיל 10 – בקש שם משתמש והדפס אם הוא שווה ל-'admin', אחרת הדפס 'משתמש רגיל'.",
+    "solution": "username = input(\"הכנס שם משתמש: \")\nif username == \"admin\":\n    print(\"ברוך הבא אדמין!\")\nelse:\n    print(\"משתמש רגיל\")"
+  }
+]
+,
+"quizzes": [
+  {
+    "title": "שאלון 1 – יסודות תנאים",
+    "questions": [
+      {
+        "question": "מה תפקידה של הפקודה if בפייתון?",
+        "options": ["להדפיס למסך", "לבצע פעולה אם תנאי מתקיים", "ליצור משתנה", "לחזור על קוד"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של הקוד: x=5; if x>3: print(\"גדול\")?",
+        "options": ["שגיאה", "גדול", "כלום", "x>3"],
+        "answer": 1
+      },
+      {
+        "question": "מה תפקידה של הפקודה else?",
+        "options": ["לקבל קלט", "להפעיל קוד אם התנאי לא התקיים", "לסיים את התוכנית", "להגדיר משתנה"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של: x=2; if x>3: print(\"גדול\"); else: print(\"קטן\")?",
+        "options": ["גדול", "שגיאה", "קטן", "x"],
+        "answer": 2
+      },
+      {
+        "question": "מה עושה הפקודה elif?",
+        "options": ["בודקת תנאי נוסף", "סוגרת תנאי", "משמשת כלולאה", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: grade=85; if grade>=90: print(\"מצוין\"); elif grade>=60: print(\"עבר\"); else: print(\"נכשל\")?",
+        "options": ["עבר", "נכשל", "מצוין", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה חשיבות ההזחה (indentation) בפייתון?",
+        "options": ["לא חשובה", "קובעת אילו שורות שייכות לתנאי", "רק ליופי", "משפיעה על מהירות התוכנית"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של: a=5; if a!=5: print(\"לא 5\"); else: print(\"זה 5\")?",
+        "options": ["שגיאה", "לא 5", "זה 5", "a!=5"],
+        "answer": 2
+      },
+      {
+        "question": "מה יקרה אם נכתוב if בלי תנאי?",
+        "options": ["שגיאת תחביר", "תתבצע ברירת מחדל", "פייתון תתעלם", "יודפס 0"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: num=3; if num%2==0: print(\"זוגי\"); else: print(\"אי זוגי\")?",
+        "options": ["אי זוגי", "זוגי", "שגיאה", "3"],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "title": "שאלון 2 – תנאים מתקדמים ולוגיקה",
+    "questions": [
+      {
+        "question": "מה הפלט של: age=16; if age>=13 and age<=18: print(\"נוער\")?",
+        "options": ["שגיאה", "נוער", "כלום", "age"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של: num=7; if num<0 or num>5: print(\"מחוץ לטווח\")?",
+        "options": ["מחוץ לטווח", "שגיאה", "כלום", "7"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: x=3; if not(x==5): print(\"לא 5\")?",
+        "options": ["לא 5", "שגיאה", "כלום", "True"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: grade=95; if grade>=90: print(\"מצוין\"); elif grade>=60: print(\"עבר\"); else: print(\"נכשל\")?",
+        "options": ["עבר", "מצוין", "נכשל", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה קורה אם כל התנאים ב־if/elif לא מתקיימים ויש else?",
+        "options": ["הקוד ב־else ירוץ", "התוכנית נעצרת", "שגיאה", "שום דבר לא קורה"],
+        "answer": 0
+      },
+      {
+        "question": "מה יקרה אם נכתוב elif בלי if לפניו?",
+        "options": ["שום דבר", "שגיאת תחביר", "זה עובד כ־if רגיל", "יודפס None"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של: temp=15; if temp>30: print(\"חם\"); elif temp>20: print(\"נעים\"); else: print(\"קריר\")?",
+        "options": ["נעים", "קריר", "חם", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של: score=40; if score>=90: print(\"מצוין\"); elif score>=60: print(\"עבר\"); else: print(\"נכשל\")?",
+        "options": ["נכשל", "עבר", "מצוין", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "באיזה מקרים משתמשים ב־and?",
+        "options": ["כאשר מספיק שתנאי אחד יתקיים", "כאשר שני התנאים חייבים להתקיים", "כאשר רוצים לשלול תנאי", "כאשר אין else"],
+        "answer": 1
+      },
+      {
+        "question": "באיזה מקרים משתמשים ב־or?",
+        "options": ["כאשר מספיק שתנאי אחד יתקיים", "כאשר שני התנאים חייבים להתקיים", "כאשר רוצים לשלול תנאי", "כאשר אין else"],
+        "answer": 0
+      }
+    ]
+  }
+]
+
+}
+

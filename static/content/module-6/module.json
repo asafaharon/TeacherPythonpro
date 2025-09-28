@@ -1,0 +1,181 @@
+{
+  "id": 6,
+  "title": "לולאות (while, for)",
+  "theoryHTML": "<h2>מהן לולאות?</h2><p>לולאות מאפשרות לנו לחזור על פעולה שוב ושוב. במקום לכתוב את אותה שורה עשר פעמים, אנחנו כותבים לולאה אחת שתעשה זאת בשבילנו.</p><h3>לולאת while</h3><p>לולאת <code>while</code> רצה כל עוד תנאי מסוים מתקיים.</p><pre style='direction:ltr; text-align:left;'><code>count = 1\nwhile count <= 5:\n    print(\"ספירה:\", count)\n    count = count + 1</code></pre><p>כאן יודפסו המספרים 1 עד 5.</p><h3>לולאת for</h3><p>לולאת <code>for</code> עוברת על סדרה של ערכים – למשל מספרים או רשימה.</p><pre style='direction:ltr; text-align:left;'><code>for i in range(5):\n    print(\"i הוא\", i)</code></pre><p>כאן יודפסו המספרים 0 עד 4.</p><h3>range()</h3><p>הפונקציה <code>range()</code> מייצרת רצף מספרים. לדוגמה <code>range(3)</code> נותנת 0,1,2.</p><h3>לולאות עם רשימות</h3><p>אפשר להשתמש ב־for כדי לעבור על כל פריט ברשימה:</p><pre style='direction:ltr; text-align:left;'><code>fruits = [\"תפוח\", \"בננה\", \"תפוז\"]\nfor fruit in fruits:\n    print(\"אני אוהב\", fruit)</code></pre><h3>שבירת לולאה</h3><p>אפשר לעצור לולאה בעזרת <code>break</code> או לדלג על חזרה בעזרת <code>continue</code>.</p><pre style='direction:ltr; text-align:left;'><code>for i in range(1, 6):\n    if i == 3:\n        continue  # דילוג על 3\n    if i == 5:\n        break     # עצירה בלולאה\n    print(i)</code></pre><h3>סיכום</h3><p>במודול זה למדנו איך להשתמש בלולאות while ו־for, איך להשתמש ב־range, איך לעבור על רשימות, ואיך לשלוט בלולאה עם break ו־continue.</p>",
+  "examples": [
+    "### לולאת while",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 1\ncount = 1\nwhile count <= 3:\n    print(count)\n    count += 1\n# פלט: 1 2 3</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 2\nx = 5\nwhile x > 0:\n    print(\"נשאר:\", x)\n    x -= 1\n# פלט: 5 4 3 2 1</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 3\nnum = 1\nwhile num < 10:\n    print(num)\n    num *= 2\n# פלט: 1 2 4 8</code></pre>",
+
+    "### לולאת for עם range",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 4\nfor i in range(5):\n    print(i)\n# פלט: 0 1 2 3 4</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 5\nfor i in range(2, 6):\n    print(i)\n# פלט: 2 3 4 5</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 6\nfor i in range(1, 10, 2):\n    print(i)\n# פלט: 1 3 5 7 9</code></pre>",
+
+    "### לולאות עם רשימות",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 7\ncolors = [\"אדום\", \"ירוק\", \"כחול\"]\nfor color in colors:\n    print(color)\n# פלט: אדום ירוק כחול</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 8\nnames = [\"דנה\", \"יואב\", \"מיה\"]\nfor n in names:\n    print(\"שלום\", n)\n# פלט: שלום דנה, שלום יואב, שלום מיה</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 9\nnumbers = [10, 20, 30]\nfor num in numbers:\n    print(num * 2)\n# פלט: 20 40 60</code></pre>",
+
+    "### break ו-continue",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 10\nfor i in range(1, 6):\n    if i == 3:\n        break\n    print(i)\n# פלט: 1 2</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 11\nfor i in range(1, 6):\n    if i == 3:\n        continue\n    print(i)\n# פלט: 1 2 4 5</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 12\nx = 0\nwhile True:\n    x += 1\n    if x == 4:\n        break\n    print(x)\n# פלט: 1 2 3</code></pre>"
+  ],"exercises": [
+  {
+    "question": "תרגיל 1 – כתוב לולאת while שמדפיסה את המספרים מ־1 עד 10.",
+    "solution": "i = 1\nwhile i <= 10:\n    print(i)\n    i += 1"
+  },
+  {
+    "question": "תרגיל 2 – כתוב לולאת for שמדפיסה את כל המספרים מ־0 עד 20 בקפיצות של 2.",
+    "solution": "for i in range(0, 21, 2):\n    print(i)"
+  },
+  {
+    "question": "תרגיל 3 – בקש מהמשתמש מספר והדפס את כל המספרים מ־1 עד אותו מספר.",
+    "solution": "n = int(input(\"הכנס מספר: \"))\nfor i in range(1, n+1):\n    print(i)"
+  },
+  {
+    "question": "תרגיל 4 – כתוב לולאת while שמדפיסה ספירה לאחור מ־10 עד 1.",
+    "solution": "i = 10\nwhile i >= 1:\n    print(i)\n    i -= 1"
+  },
+  {
+    "question": "תרגיל 5 – כתוב לולאת for שעוברת על רשימת שמות ומדפיסה לכל אחד 'שלום <שם>'.",
+    "solution": "names = [\"דנה\", \"יוסי\", \"נועם\"]\nfor name in names:\n    print(\"שלום\", name)"
+  },
+  {
+    "question": "תרגיל 6 – כתוב לולאה שמדפיסה את כל האיברים הזוגיים ברשימה נתונה.",
+    "solution": "nums = [1, 2, 3, 4, 5, 6, 7, 8]\nfor num in nums:\n    if num % 2 == 0:\n        print(num)"
+  },
+  {
+    "question": "תרגיל 7 – כתוב לולאה עם break שתעצור כשתגיע למספר 7.",
+    "solution": "for i in range(1, 11):\n    if i == 7:\n        break\n    print(i)"
+  },
+  {
+    "question": "תרגיל 8 – כתוב לולאה עם continue שידלג על המספר 5.",
+    "solution": "for i in range(1, 11):\n    if i == 5:\n        continue\n    print(i)"
+  },
+  {
+    "question": "תרגיל 9 – כתוב תוכנית שמבקשת 5 ציונים מהמשתמש ומחשבת ממוצע.",
+    "solution": "grades = []\nfor i in range(5):\n    grade = int(input(\"הכנס ציון: \"))\n    grades.append(grade)\nprint(\"הממוצע הוא\", sum(grades)/len(grades))"
+  },
+  {
+    "question": "תרגיל 10 – כתוב לולאה שמבקשת מהמשתמש מספרים עד שהוא מקליד 0.",
+    "solution": "while True:\n    num = int(input(\"הכנס מספר (0 לסיום): \"))\n    if num == 0:\n        break\n    print(\"הזנת:\", num)"
+  }
+]
+,
+  "quizzes": [
+  {
+    "title": "שאלון 1 – לולאת while ולולאת for",
+    "questions": [
+      {
+        "question": "מה תפקידה של לולאת while?",
+        "options": ["לחזור כל עוד תנאי מתקיים", "לעבור על איברי רשימה", "להדפיס טקסט", "ליצור משתנים"],
+        "answer": 0
+      },
+      {
+        "question": "מה יודפס מהקוד: count=1; while count<=3: print(count); count+=1?",
+        "options": ["1 2 3", "1 2", "שגיאה", "אין פלט"],
+        "answer": 0
+      },
+      {
+        "question": "מה תפקידה של לולאת for?",
+        "options": ["לחזור על פעולה מספר קבוע של פעמים או על אוסף", "להריץ פונקציות", "לקבל קלט", "להפסיק קוד"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של for i in range(3): print(i)?",
+        "options": ["1 2 3", "0 1 2", "0 1 2 3", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה עושה range(5)?",
+        "options": ["יוצר את המספרים 1–5", "יוצר את המספרים 0–4", "יוצר רשימת אותיות", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה יודפס: for i in range(2,6): print(i)?",
+        "options": ["2 3 4 5", "2 3 4 5 6", "1 2 3 4", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה יודפס: for i in range(1,10,2): print(i)?",
+        "options": ["1 2 3 4 5 6 7 8 9", "1 3 5 7 9", "2 4 6 8", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "כיצד ניתן לעבור על רשימה של פירות?",
+        "options": ["for fruit in fruits", "while fruits", "loop fruits()", "print(fruits)"],
+        "answer": 0
+      },
+      {
+        "question": "מה עושה break בתוך לולאה?",
+        "options": ["מדלג על איטרציה", "עוצר את הלולאה", "מדפיס ערך", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה עושה continue בתוך לולאה?",
+        "options": ["מפסיק את התוכנית", "מדלג לאיטרציה הבאה", "עוצר את הלולאה", "מדפיס continue"],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "title": "שאלון 2 – שימושים מתקדמים בלולאות",
+    "questions": [
+      {
+        "question": "מה הפלט של: for i in [10,20,30]: print(i*2)?",
+        "options": ["20 40 60", "10 20 30", "2 4 6", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: x=5; while x>0: print(x); x-=2?",
+        "options": ["5 4 3 2 1", "5 3 1", "5 2", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של: for c in [\"א\", \"ב\", \"ג\"]: print(c)?",
+        "options": ["א ב ג", "[\"א\",\"ב\",\"ג\"]", "abc", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה עושה while True?",
+        "options": ["לולאה אינסופית", "שגיאה", "לולאה שרצה פעם אחת", "לולאה שרצה עד break"],
+        "answer": 3
+      },
+      {
+        "question": "מה הפלט של: for i in range(1,6): if i==3: break; print(i)?",
+        "options": ["1 2", "1 2 3 4 5", "שגיאה", "3"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: for i in range(1,6): if i==3: continue; print(i)?",
+        "options": ["1 2 4 5", "1 2 3 4 5", "שגיאה", "2 3 4"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: x=0; while True: x+=1; if x==4: break; print(x)?",
+        "options": ["1 2 3", "1 2 3 4", "4", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה קורה אם אין תנאי יציאה בלולאת while?",
+        "options": ["התוכנית נעצרת", "לולאה אינסופית", "שגיאה", "רק איטרציה אחת"],
+        "answer": 1
+      },
+      {
+        "question": "כיצד ניתן לעבור על רשימת שמות ולהדפיס \"שלום <שם>\"?",
+        "options": ["for n in names: print(\"שלום\", n)", "for names in n: print(n)", "while names: print(n)", "print(names)"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: for i in range(1,5): print(i*10)?",
+        "options": ["10 20 30 40", "1 2 3 4", "10 20 30", "שגיאה"],
+        "answer": 0
+      }
+    ]
+  }
+]
+
+}

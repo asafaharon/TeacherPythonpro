@@ -1,0 +1,172 @@
+{
+  "id": 14,
+  "title": "תכנות מונחה עצמים – נושאים מתקדמים (ירושה והעמסה)",
+  "theoryHTML": "<h2>מבוא ל-OOP מתקדם</h2><p>במודול הקודם הכרנו את הבסיס של מחלקות ואובייקטים. עכשיו נתקדם לרעיונות עוצמתיים יותר: <b>ירושה</b> ו<b>העמסה</b>. הם מאפשרים לכתוב קוד חכם יותר, קצר יותר וקל לתחזוקה.</p><h3>מהי ירושה (Inheritance)?</h3><p>ירושה היא דרך ליצור מחלקה חדשה שמבוססת על מחלקה קיימת. המחלקה החדשה יורשת את המאפיינים והמתודות של המחלקה המקורית, ואפשר גם להוסיף או לשנות דברים.</p><pre style='direction:ltr; text-align:left;'><code>class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def make_sound(self):\n        print(\"בעל חיים משמיע קול\")\n\nclass Dog(Animal):\n    def make_sound(self):\n        print(f\"{self.name} נובח: וואף!\")\n\nmy_dog = Dog(\"רקסי\")\nmy_dog.make_sound()</code></pre><p>כאן Dog ירשה את Animal, אבל שינתה את המתודה make_sound כך שתתאים לכלב.</p><h3>super()</h3><p>אפשר לקרוא לקוד של המחלקה האב בעזרת <code>super()</code>:</p><pre style='direction:ltr; text-align:left;'><code>class Student:\n    def __init__(self, name):\n        self.name = name\n\nclass HighSchoolStudent(Student):\n    def __init__(self, name, grade):\n        super().__init__(name)\n        self.grade = grade</code></pre><h3>מהי העמסה (Overloading)?</h3><p>בפייתון אין העמסה של פונקציות בדיוק כמו בשפות אחרות, אבל כן יש <b>העמסת אופרטורים</b> – כלומר שינוי המשמעות של סימנים כמו + או * עבור מחלקות שיצרנו.</p><pre style='direction:ltr; text-align:left;'><code>class Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __add__(self, other):\n        return Point(self.x + other.x, self.y + other.y)\n\np1 = Point(1,2)\np2 = Point(3,4)\np3 = p1 + p2\nprint(p3.x, p3.y)</code></pre><p>כאן חיברנו שתי נקודות בעזרת +, בזכות המתודה <code>__add__</code> שהגדרנו.</p><h3>סיכום</h3><p>במודול זה למדנו איך ירושה מאפשרת ליצור מחלקות חדשות מבוססות על קיימות, ואיך העמסה מאפשרת לנו לשנות את המשמעות של פעולות על אובייקטים. אלה הם שלבים חשובים בהבנת OOP ברמה גבוהה.</p><h3>הצצה קדימה 👀</h3><p>במודול הבא (15) נלמד על נושאים מתקדמים נוספים – כמו רקורסיה, שימוש במודולים ומבני נתונים מורכבים. נמשיך להעמיק!</p>",
+  "examples": [
+    "### ירושה בסיסית",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 1\nclass Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def sound(self):\n        print(\"קול כללי\")\n\nclass Dog(Animal):\n    def sound(self):\n        print(f\"{self.name} נובח!\")\n\nmy_dog = Dog(\"בובי\")\nmy_dog.sound()\n# פלט: בובי נובח!</code></pre>",
+
+    "### שימוש ב-super",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 2\nclass Student:\n    def __init__(self, name):\n        self.name = name\n\nclass HighSchoolStudent(Student):\n    def __init__(self, name, grade):\n        super().__init__(name)\n        self.grade = grade\n\ns = HighSchoolStudent(\"דנה\", 11)\nprint(s.name, s.grade)\n# פלט: דנה 11</code></pre>",
+
+    "### העמסה (Overloading)",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 3\nclass Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __add__(self, other):\n        return Point(self.x + other.x, self.y + other.y)\n\np1 = Point(1,2)\np2 = Point(3,4)\np3 = p1 + p2\nprint(p3.x, p3.y)\n# פלט: 4 6</code></pre>"
+  ],
+"exercises": [
+  {
+    "question": "תרגיל 1 – צור מחלקת Animal עם מתודה sound, וצור מחלקת Cat שיורשת ממנה.",
+    "solution": "class Animal:\n    def sound(self):\n        print(\"קול כללי של חיה\")\n\nclass Cat(Animal):\n    def sound(self):\n        print(\"מיאו\")\n\nc = Cat()\nc.sound()"
+  },
+  {
+    "question": "תרגיל 2 – צור מחלקת Vehicle עם מאפיין brand, וצור מחלקת Car שיורשת ממנה ומוסיפה year.",
+    "solution": "class Vehicle:\n    def __init__(self, brand):\n        self.brand = brand\n\nclass Car(Vehicle):\n    def __init__(self, brand, year):\n        super().__init__(brand)\n        self.year = year\n\ncar = Car(\"Toyota\", 2020)\nprint(car.brand, car.year)"
+  },
+  {
+    "question": "תרגיל 3 – השתמש ב-super כדי לקרוא ל-init של מחלקת האב.",
+    "solution": "class Parent:\n    def __init__(self, name):\n        self.name = name\n\nclass Child(Parent):\n    def __init__(self, name, age):\n        super().__init__(name)\n        self.age = age\n\nc = Child(\"דנה\", 12)\nprint(c.name, c.age)"
+  },
+  {
+    "question": "תרגיל 4 – צור מחלקה Person עם name, וצור מחלקה Student שיורשת ממנה עם grade.",
+    "solution": "class Person:\n    def __init__(self, name):\n        self.name = name\n\nclass Student(Person):\n    def __init__(self, name, grade):\n        super().__init__(name)\n        self.grade = grade\n\ns = Student(\"יוסי\", 90)\nprint(s.name, s.grade)"
+  },
+  {
+    "question": "תרגיל 5 – צור מחלקת Point והעמס את האופרטור + כדי לחבר שתי נקודות.",
+    "solution": "class Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __add__(self, other):\n        return Point(self.x + other.x, self.y + other.y)\n\np1 = Point(1, 2)\np2 = Point(3, 4)\np3 = p1 + p2\nprint(p3.x, p3.y)"
+  },
+  {
+    "question": "תרגיל 6 – הוסף למחלקת Point העמסה של __str__ כדי להדפיס נקודות בצורה יפה.",
+    "solution": "class Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __str__(self):\n        return f\"({self.x}, {self.y})\"\n\np = Point(5, 7)\nprint(p)"
+  },
+  {
+    "question": "תרגיל 7 – צור מחלקה Fraction (שבר) והעמס עליה את האופרטור +.",
+    "solution": "class Fraction:\n    def __init__(self, numerator, denominator):\n        self.numerator = numerator\n        self.denominator = denominator\n\n    def __add__(self, other):\n        return Fraction(\n            self.numerator * other.denominator + other.numerator * self.denominator,\n            self.denominator * other.denominator\n        )\n\n    def __str__(self):\n        return f\"{self.numerator}/{self.denominator}\"\n\nf1 = Fraction(1, 2)\nf2 = Fraction(1, 3)\nprint(f1 + f2)"
+  },
+  {
+    "question": "תרגיל 8 – צור מחלקה Counter עם ערך התחלתי, והעמס עליה את האופרטור + כדי להוסיף מספר.",
+    "solution": "class Counter:\n    def __init__(self, value=0):\n        self.value = value\n\n    def __add__(self, num):\n        return Counter(self.value + num)\n\n    def __str__(self):\n        return str(self.value)\n\nc = Counter(5)\nprint(c + 10)"
+  },
+  {
+    "question": "תרגיל 9 – תכנן מערכת קטנה של מחלקות: Animal → Dog ו-Cat, וכל אחת משמיעה קול שונה.",
+    "solution": "class Animal:\n    def sound(self):\n        pass\n\nclass Dog(Animal):\n    def sound(self):\n        print(\"הב-הב\")\n\nclass Cat(Animal):\n    def sound(self):\n        print(\"מיאו\")\n\nd = Dog()\nc = Cat()\nd.sound()\nc.sound()"
+  },
+  {
+    "question": "תרגיל 10 – כתוב תוכנית שמדגימה גם ירושה וגם העמסה על אובייקטים.",
+    "solution": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def __str__(self):\n        return f\"חיה: {self.name}\"\n\nclass Dog(Animal):\n    def sound(self):\n        return \"הב-הב\"\n\nd = Dog(\"רקס\")\nprint(d)\nprint(d.sound())"
+  }
+]
+
+  ,
+  "quizzes": [
+  {
+    "title": "שאלון 1 – ירושה (Inheritance)",
+    "questions": [
+      {
+        "question": "מהי ירושה (Inheritance) בפייתון?",
+        "options": ["שיטה לשכפל משתנים", "יכולת של מחלקה לרשת מאפיינים ומתודות ממחלקה אחרת", "מחיקה של מחלקה קיימת", "הרצה של פונקציה בתוך לולאה"],
+        "answer": 1
+      },
+      {
+        "question": "כיצד מגדירים מחלקה Child שיורשת מ־Parent?",
+        "options": ["class Child: Parent", "class Child(Parent):", "class Child=Parent()", "inherit Child Parent"],
+        "answer": 1
+      },
+      {
+        "question": "מה היתרון בשימוש בירושה?",
+        "options": ["מאפשר קוד קצר וחוזר על עצמו פחות", "מאיץ תמיד את התוכנית", "מוחק שגיאות בזמן ריצה", "יוצר משתנים גלובליים"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של הקוד: class Animal: def sound(self): print(\"קול\"); class Dog(Animal): pass; Dog().sound()?",
+        "options": ["Dog", "קול", "שגיאה", "None"],
+        "answer": 1
+      },
+      {
+        "question": "מה עושה super() בתוך מחלקה יורשת?",
+        "options": ["יוצר מופע חדש", "קורא למתודות/בנאי של מחלקת האב", "מוחק מתודות ישנות", "מחזיר None"],
+        "answer": 1
+      },
+      {
+        "question": "מה יודפס: class Student: def __init__(self,name): self.name=name; class HighSchoolStudent(Student): def __init__(self,name,grade): super().__init__(name); self.grade=grade; s=HighSchoolStudent(\"דנה\",11); print(s.name,s.grade)?",
+        "options": ["דנה 11", "name grade", "שגיאה", "None"],
+        "answer": 0
+      },
+      {
+        "question": "מה קורה אם מחלקה יורשת לא מגדירה מתודה שקיימת במחלקת האב?",
+        "options": ["שגיאה", "היא משתמשת במתודה מהאב", "היא מתעלמת מהאב", "התוכנית נעצרת"],
+        "answer": 1
+      },
+      {
+        "question": "מהי מתודה שנכתבת מחדש במחלקה היורשת?",
+        "options": ["overloading", "overriding", "super method", "delete method"],
+        "answer": 1
+      },
+      {
+        "question": "באיזה מצב כדאי להשתמש ב־super()?",
+        "options": ["כשצריך לגשת למשתנים גלובליים", "כשמחלקת הבת צריכה גם את פעולת הבנאי של האב", "כשלא רוצים להגדיר מתודות", "כשרוצים למחוק את האב"],
+        "answer": 1
+      },
+      {
+        "question": "מה היתרון העיקרי של ירושה?",
+        "options": ["שימוש חוזר בקוד ותחזוקה קלה יותר", "התוכנית רצה תמיד מהר יותר", "לא צריך להגדיר פונקציות", "אין יתרון"],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "title": "שאלון 2 – העמסה (Overloading)",
+    "questions": [
+      {
+        "question": "מהי העמסה של אופרטורים בפייתון?",
+        "options": ["כתיבה של פונקציה פעמיים באותו שם", "שינוי המשמעות של אופרטור (+, -, *) במחלקות שיצרנו", "מחיקה של מתודות ישנות", "הרצה אוטומטית של פונקציות"],
+        "answer": 1
+      },
+      {
+        "question": "באיזו מתודה משתמשים כדי להעמיס את האופרטור +?",
+        "options": ["__plus__", "__add__", "__sum__", "__op__"],
+        "answer": 1
+      },
+      {
+        "question": "מה יודפס: class Point: def __init__(self,x,y): self.x=x; self.y=y; def __add__(self,other): return Point(self.x+other.x,self.y+other.y); p1=Point(1,2); p2=Point(3,4); p3=p1+p2; print(p3.x,p3.y)?",
+        "options": ["(1,2)(3,4)", "4 6", "שגיאה", "p3"],
+        "answer": 1
+      },
+      {
+        "question": "מה היתרון של העמסת אופרטורים?",
+        "options": ["מאפשר עבודה טבעית יותר עם אובייקטים", "מריץ קוד מהר יותר", "מונע שגיאות", "יוצר משתנים אוטומטיים"],
+        "answer": 0
+      },
+      {
+        "question": "איזו מתודה נשתמש כדי להעמיס את האופרטור *?",
+        "options": ["__multi__", "__mul__", "__times__", "__op__"],
+        "answer": 1
+      },
+      {
+        "question": "מה קורה אם לא מגדירים __add__ במחלקה?",
+        "options": ["אי אפשר להשתמש ב־+", "החיבור מתבצע כברירת מחדל", "התוכנית קורסת", "פייתון מתעלמת"],
+        "answer": 0
+      },
+      {
+        "question": "מה יודפס: class Counter: def __init__(self,val): self.val=val; def __add__(self,other): return Counter(self.val+other.val); c1=Counter(2); c2=Counter(5); c3=c1+c2; print(c3.val)?",
+        "options": ["7", "25", "שגיאה", "c3"],
+        "answer": 0
+      },
+      {
+        "question": "מהי העמסה של __str__?",
+        "options": ["שינוי האופן שבו האובייקט מוצג כטקסט", "חיבור בין אובייקטים", "הדפסה אוטומטית של משתנים", "מחיקה של אובייקט"],
+        "answer": 0
+      },
+      {
+        "question": "באיזה מצב כדאי להעמיס __str__?",
+        "options": ["כשרוצים להדפיס את האובייקט בצורה קריאה", "כשרוצים לבצע חיבור בין אובייקטים", "כשרוצים ליצור ירושה", "כשרוצים למחוק משתנים"],
+        "answer": 0
+      },
+      {
+        "question": "מה היתרון של העמסת אופרטורים במבני נתונים מותאמים אישית?",
+        "options": ["הופכת את השימוש באובייקטים לדומה לשימוש בטיפוסים מובנים", "מאיצה את ביצועי התוכנית", "חוסכת זיכרון", "אין יתרון"],
+        "answer": 0
+      }
+    ]
+  }
+]
+
+}

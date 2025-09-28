@@ -1,0 +1,179 @@
+{
+  "id": 12,
+  "title": "טיפול בשגיאות (Exceptions)",
+  "theoryHTML": "<h2>מהן שגיאות?</h2><p>כשאנחנו כותבים קוד, לפעמים דברים לא עובדים כמתוכנן. למשל, חלוקה ב־0 או ניסיון לגשת למשתנה שלא קיים. בפייתון מקרים כאלה נקראים 'חריגות' (Exceptions).</p><h3>שגיאות נפוצות</h3><ul><li><code>ZeroDivisionError</code> – חלוקה באפס.</li><li><code>NameError</code> – שימוש במשתנה שלא הוגדר.</li><li><code>ValueError</code> – המרת קלט שלא מתאים (כמו הפיכת טקסט למספר).</li><li><code>IndexError</code> – ניסיון לגשת לאינדקס שלא קיים ברשימה.</li></ul><h3>מבנה try/except</h3><p>במקום שהתוכנית תקרוס, אפשר 'לתפוס' את השגיאה ולהגיב אליה.</p><pre style='direction:ltr; text-align:left;'><code>try:\n    x = 10 / 0\nexcept ZeroDivisionError:\n    print(\"אי אפשר לחלק באפס!\")</code></pre><h3>בלוק else</h3><p>אפשר להוסיף חלק שירוץ רק אם לא הייתה שגיאה:</p><pre style='direction:ltr; text-align:left;'><code>try:\n    num = int(\"5\")\nexcept ValueError:\n    print(\"קלט לא תקין!\")\nelse:\n    print(\"ההמרה הצליחה:\", num)</code></pre><h3>בלוק finally</h3><p>אפשר להוסיף חלק שירוץ תמיד, לא משנה אם הייתה שגיאה או לא.</p><pre style='direction:ltr; text-align:left;'><code>try:\n    f = open(\"data.txt\")\n    print(f.read())\nexcept FileNotFoundError:\n    print(\"הקובץ לא נמצא\")\nfinally:\n    print(\"סיום ניסיון קריאה\")</code></pre><h3>העלאת חריגות</h3><p>אפשר גם ליצור חריגה משלנו בעזרת <code>raise</code>.</p><pre style='direction:ltr; text-align:left;'><code>age = -5\nif age < 0:\n    raise ValueError(\"גיל לא יכול להיות שלילי\")</code></pre><h3>סיכום</h3><p>טיפול בשגיאות חשוב כדי שהתוכנה לא תקרוס. באמצעות try/except אנחנו יכולים להגיב למקרים חריגים בצורה חכמה ולתת חוויית משתמש טובה יותר.</p>",
+  "examples": [
+    "### שגיאות בסיסיות",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 1\ntry:\n    x = 10 / 0\nexcept ZeroDivisionError:\n    print(\"אי אפשר לחלק באפס!\")\n# פלט: אי אפשר לחלק באפס!</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 2\ntry:\n    num = int(\"שלום\")\nexcept ValueError:\n    print(\"לא ניתן להמיר טקסט למספר\")\n# פלט: לא ניתן להמיר טקסט למספר</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 3\ntry:\n    items = [1,2,3]\n    print(items[5])\nexcept IndexError:\n    print(\"האינדקס לא קיים\")\n# פלט: האינדקס לא קיים</code></pre>",
+
+    "### שימוש ב-else ו-finally",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 4\ntry:\n    num = int(\"7\")\nexcept ValueError:\n    print(\"קלט לא תקין\")\nelse:\n    print(\"ההמרה הצליחה:\", num)\n# פלט: ההמרה הצליחה: 7</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 5\ntry:\n    f = open(\"nofile.txt\")\nexcept FileNotFoundError:\n    print(\"קובץ לא נמצא\")\nfinally:\n    print(\"ניסיון הסתיים\")\n# פלט: קובץ לא נמצא, ניסיון הסתיים</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 6\ntry:\n    a = 5\n    b = 2\n    print(a / b)\nexcept ZeroDivisionError:\n    print(\"בעיה בחישוב\")\nelse:\n    print(\"חישוב עבר בהצלחה\")\n# פלט: 2.5 ואז חישוב עבר בהצלחה</code></pre>",
+
+    "### raise ושימושים מתקדמים",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 7\nage = -1\nif age < 0:\n    raise ValueError(\"גיל לא יכול להיות שלילי\")\n# פלט: ValueError: גיל לא יכול להיות שלילי</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 8\ndef divide(a,b):\n    if b == 0:\n        raise ZeroDivisionError(\"אי אפשר לחלק באפס!\")\n    return a / b\n\nprint(divide(10,2))\n# פלט: 5.0</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 9\ntry:\n    name = input(\"מה שמך?\")\n    if name == \"\":\n        raise ValueError(\"חייב להזין שם\")\n    print(\"שלום\", name)\nexcept ValueError as e:\n    print(e)\n# פלט: שלום <שם> או שגיאה אם ריק</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 10\ntry:\n    d = {\"age\": 15}\n    print(d[\"name\"])\nexcept KeyError:\n    print(\"המפתח לא נמצא במילון\")\n# פלט: המפתח לא נמצא במילון</code></pre>"
+  ],
+"exercises": [
+  {
+    "question": "תרגיל 1 – כתוב קוד שמנסה לחלק מספר ב־0 וטפל בשגיאה.",
+    "solution": "try:\n    x = 10 / 0\nexcept ZeroDivisionError:\n    print(\"אי אפשר לחלק באפס!\")"
+  },
+  {
+    "question": "תרגיל 2 – בקש מהמשתמש להכניס מספר, המר אותו ל־int וטפל במקרה של ValueError.",
+    "solution": "try:\n    num = int(input(\"הכנס מספר: \"))\n    print(\"המספר הוא\", num)\nexcept ValueError:\n    print(\"זה לא מספר תקין!\")"
+  },
+  {
+    "question": "תרגיל 3 – צור רשימה ונסה לגשת לאינדקס שלא קיים, וטפל בשגיאה.",
+    "solution": "numbers = [1, 2, 3]\ntry:\n    print(numbers[5])\nexcept IndexError:\n    print(\"האינדקס לא קיים ברשימה!\")"
+  },
+  {
+    "question": "תרגיל 4 – כתוב פונקציה שמקבלת שני מספרים ומחזירה את החלוקה שלהם, עם טיפול ב־ZeroDivisionError.",
+    "solution": "def safe_divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return \"שגיאה: חלוקה באפס\"\n\nprint(safe_divide(10, 2))\nprint(safe_divide(10, 0))"
+  },
+  {
+    "question": "תרגיל 5 – כתוב קוד שקורא לקובץ שלא קיים וטפל בשגיאה בעזרת FileNotFoundError.",
+    "solution": "try:\n    with open(\"nofile.txt\", \"r\") as f:\n        data = f.read()\nexcept FileNotFoundError:\n    print(\"קובץ לא נמצא!\")"
+  },
+  {
+    "question": "תרגיל 6 – כתוב קוד עם try/else שמדפיס הודעה מיוחדת אם לא הייתה שגיאה.",
+    "solution": "try:\n    x = int(\"123\")\nexcept ValueError:\n    print(\"שגיאה בהמרה\")\nelse:\n    print(\"ההמרה הצליחה!\")"
+  },
+  {
+    "question": "תרגיל 7 – כתוב קוד עם try/finally שמדפיס הודעת סיום בכל מקרה.",
+    "solution": "try:\n    print(\"ביצוע פעולה...\")\nfinally:\n    print(\"סיום התוכנית\")"
+  },
+  {
+    "question": "תרגיל 8 – כתוב קוד שמעלה ValueError אם המשתמש מכניס גיל שלילי.",
+    "solution": "age = int(input(\"הכנס גיל: \"))\nif age < 0:\n    raise ValueError(\"גיל לא יכול להיות שלילי!\")\nelse:\n    print(\"הגיל הוא\", age)"
+  },
+  {
+    "question": "תרגיל 9 – כתוב פונקציה שמקבלת מחרוזת ומחזירה אותה באותיות גדולות, אבל מעלה TypeError אם הקלט לא מחרוזת.",
+    "solution": "def to_upper(text):\n    if not isinstance(text, str):\n        raise TypeError(\"הקלט חייב להיות מחרוזת!\")\n    return text.upper()\n\nprint(to_upper(\"שלום\"))\n# print(to_upper(123))  # יגרום ל-TypeError"
+  },
+  {
+    "question": "תרגיל 10 – צור מילון ונסה לגשת למפתח לא קיים עם טיפול ב־KeyError.",
+    "solution": "grades = {\"דנה\": 90, \"יוסי\": 85}\ntry:\n    print(grades[\"נועה\"])\nexcept KeyError:\n    print(\"המפתח לא נמצא במילון!\")"
+  }
+]
+
+  ,
+  "quizzes": [
+  {
+    "title": "שאלון 1 – יסודות חריגות",
+    "questions": [
+      {
+        "question": "מהי חריגה (Exception) בפייתון?",
+        "options": ["ערך לא חוקי של משתנה", "מצב חריג או שגיאה בזמן ריצה", "פקודה שמדפיסה הודעה", "לולאה אינסופית"],
+        "answer": 1
+      },
+      {
+        "question": "מה קורה אם נחלק מספר ב־0 בלי טיפול בשגיאות?",
+        "options": ["פייתון מחזירה 0", "תודפס אזהרה", "התוכנית תקרוס עם ZeroDivisionError", "החישוב יחזור 0"],
+        "answer": 2
+      },
+      {
+        "question": "איזה חריגה תתרחש אם ננסה לגשת למשתנה שלא הוגדר?",
+        "options": ["NameError", "ValueError", "IndexError", "KeyError"],
+        "answer": 0
+      },
+      {
+        "question": "איזו חריגה נזרקת אם מנסים להמיר טקסט למספר ולא מצליח?",
+        "options": ["TypeError", "ValueError", "IndexError", "NameError"],
+        "answer": 1
+      },
+      {
+        "question": "איזו חריגה נזרקת אם מנסים לגשת לאינדקס שלא קיים ברשימה?",
+        "options": ["IndexError", "KeyError", "NameError", "ValueError"],
+        "answer": 0
+      },
+      {
+        "question": "מה מבנה הבסיס לטיפול בשגיאות בפייתון?",
+        "options": ["try/else", "try/except", "if/else", "catch/finally"],
+        "answer": 1
+      },
+      {
+        "question": "מה יודפס בקוד: try: x=10/0 except ZeroDivisionError: print(\"בעיה\")?",
+        "options": ["בעיה", "שגיאה", "0", "שום דבר"],
+        "answer": 0
+      },
+      {
+        "question": "מה עושה בלוק else בתוך try/except?",
+        "options": ["רץ תמיד", "רץ רק אם לא הייתה שגיאה", "רץ רק אם הייתה שגיאה", "לא קשור ל־try"],
+        "answer": 1
+      },
+      {
+        "question": "מה עושה בלוק finally בתוך try?",
+        "options": ["רץ רק אם הייתה שגיאה", "רץ רק אם לא הייתה שגיאה", "רץ תמיד בסיום", "לא קשור ל־try"],
+        "answer": 2
+      },
+      {
+        "question": "איזו חריגה מתרחשת אם מנסים לגשת למפתח שלא קיים במילון?",
+        "options": ["KeyError", "ValueError", "IndexError", "TypeError"],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "title": "שאלון 2 – שימושים מתקדמים בחריגות",
+    "questions": [
+      {
+        "question": "מה עושה הפקודה raise בפייתון?",
+        "options": ["מתעלמת משגיאה", "מעלה חריגה באופן יזום", "מסיימת את התוכנית", "מדפיסה הודעה"],
+        "answer": 1
+      },
+      {
+        "question": "מה יודפס בקוד: try: num=int(\"5\") except ValueError: print(\"טעות\") else: print(\"עבר בהצלחה\")?",
+        "options": ["טעות", "עבר בהצלחה", "שום דבר", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה יודפס בקוד: try: f=open(\"nofile.txt\") except FileNotFoundError: print(\"אין קובץ\") finally: print(\"סיום\")?",
+        "options": ["אין קובץ", "אין קובץ ואחריו סיום", "סיום בלבד", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה קורה אם לא מטפלים בשגיאה באמצעות try/except?",
+        "options": ["פייתון מתעלמת מהשגיאה", "התוכנית נמשכת רגיל", "התוכנית קורסת עם הודעת שגיאה", "השגיאה נשמרת במשתנה"],
+        "answer": 2
+      },
+      {
+        "question": "מה יודפס: try: items=[1,2]; print(items[5]) except IndexError: print(\"אין אינדקס\")?",
+        "options": ["שגיאה", "אין אינדקס", "None", "5"],
+        "answer": 1
+      },
+      {
+        "question": "מתי כדאי להשתמש ב־finally?",
+        "options": ["כשצריך קוד שירוץ תמיד, כמו סגירת קובץ", "כשרוצים לטפל בשגיאה", "כשרוצים להדפיס ערך", "כשרוצים לכתוב קוד זמני"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: try: a=5; b=0; print(a/b) except ZeroDivisionError: print(\"חילוק באפס\") else: print(\"עבר\")?",
+        "options": ["חילוק באפס", "עבר", "שום דבר", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מהי המטרה של טיפול בשגיאות?",
+        "options": ["למנוע קריסת התוכנית", "להריץ קוד מהר יותר", "להוסיף פונקציות חדשות", "לשנות טיפוסי נתונים"],
+        "answer": 0
+      },
+      {
+        "question": "מה יודפס: try: raise ValueError(\"גיל לא חוקי\") except ValueError as e: print(e)?",
+        "options": ["גיל לא חוקי", "ValueError", "שגיאה", "שום דבר"],
+        "answer": 0
+      },
+      {
+        "question": "מה יקרה אם נכתוב raise בלי לציין חריגה?",
+        "options": ["תעלה החריגה האחרונה שהייתה", "פייתון תתעלם", "שום דבר", "שגיאה תחבירית"],
+        "answer": 0
+      }
+    ]
+  }
+]
+
+}

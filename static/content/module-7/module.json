@@ -1,0 +1,181 @@
+{
+  "id": 7,
+  "title": "מחרוזות ומתודות שימושיות",
+  "theoryHTML": "<h2>מהי מחרוזת?</h2><p>מחרוזת (string) היא רצף של תווים – למשל טקסט, מילים או אפילו מספרים שמופיעים כטקסט. בפייתון מחרוזות נכתבות בתוך גרשיים כפולים או בודדים.</p><pre style='direction:ltr; text-align:left;'><code>text = \"שלום עולם\"</code></pre><h3>פעולות בסיסיות על מחרוזות</h3><p>אפשר לחבר מחרוזות, לחזור עליהן או לבדוק את האורך שלהן.</p><pre style='direction:ltr; text-align:left;'><code>a = \"שלום\"\nb = \" עולם\"\nprint(a + b)  # חיבור</code></pre><pre style='direction:ltr; text-align:left;'><code>print(\"היי! \" * 3)  # חזרה</code></pre><pre style='direction:ltr; text-align:left;'><code>print(len(\"Python\"))  # אורך</code></pre><h3>גישה לתווים</h3><p>אפשר לגשת לכל תו במחרוזת לפי האינדקס שלו (המיקום מתחיל מ־0).</p><pre style='direction:ltr; text-align:left;'><code>word = \"Python\"\nprint(word[0])  # התו הראשון\nprint(word[-1]) # התו האחרון</code></pre><h3>חיתוך מחרוזות</h3><p>ניתן לחתוך חלק מהמחרוזת בעזרת סינטקס slice:</p><pre style='direction:ltr; text-align:left;'><code>text = \"תכנות בפייתון\"\nprint(text[0:5])  # חיתוך התווים הראשונים</code></pre><h3>מתודות שימושיות</h3><p>למחרוזות יש הרבה פעולות שימושיות מובנות:</p><ul><li><code>.upper()</code> – מחזירה את כל האותיות באותיות גדולות.</li><li><code>.lower()</code> – מחזירה את כל האותיות באותיות קטנות.</li><li><code>.strip()</code> – מסירה רווחים מיותרים בהתחלה ובסוף.</li><li><code>.replace(\"ישן\", \"חדש\")</code> – מחליפה טקסט.</li><li><code>.split()</code> – מפרקת את המחרוזת לרשימה לפי רווחים.</li></ul><pre style='direction:ltr; text-align:left;'><code>name = \"  Python  \"\nprint(name.strip().upper())</code></pre><h3>חיפוש במחרוזות</h3><p>אפשר לבדוק אם מילה מופיעה בתוך מחרוזת:</p><pre style='direction:ltr; text-align:left;'><code>sentence = \"אני אוהב פיצה\"\nprint(\"פיצה\" in sentence)  # True</code></pre><h3>סיכום</h3><p>במודול זה למדנו מהן מחרוזות, איך מחברים ומחלקים אותן, איך ניגשים לתווים ספציפיים ואיך משתמשים במתודות שימושיות כדי לעבד טקסטים.</p>",
+  "examples": [
+    "### חיבור, חזרה ואורך",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 1\na = \"שלום\"\nb = \" עולם\"\nprint(a + b)\n# פלט: שלום עולם</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 2\nprint(\"היי! \" * 3)\n# פלט: היי! היי! היי!</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 3\nprint(len(\"Python\"))\n# פלט: 6</code></pre>",
+
+    "### גישה לתווים וחיתוך",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 4\nword = \"Python\"\nprint(word[0])\n# פלט: P</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 5\nword = \"Python\"\nprint(word[-1])\n# פלט: n</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 6\ntext = \"תכנות בפייתון\"\nprint(text[0:5])\n# פלט: תכנו</code></pre>",
+
+    "### מתודות שימושיות",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 7\nname = \"python\"\nprint(name.upper())\n# פלט: PYTHON</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 8\ntext = \"  שלום  \"\nprint(text.strip())\n# פלט: שלום</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 9\ntext = \"אני אוהב פיצה\"\nprint(text.replace(\"פיצה\", \"פסטה\"))\n# פלט: אני אוהב פסטה</code></pre>",
+
+    "### חיפוש ופיצול",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 10\nsentence = \"אני אוהב פיצה\"\nprint(\"פיצה\" in sentence)\n# פלט: True</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 11\ntext = \"אדום ירוק כחול\"\nprint(text.split())\n# פלט: ['אדום', 'ירוק', 'כחול']</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 12\nname = \"Python\"\nprint(name.lower())\n# פלט: python</code></pre>"
+  ],
+  "exercises": [
+  {
+    "question": "תרגיל 1 – צור מחרוזת עם שמך והדפס את אורכה.",
+    "solution": "name = \"אסף\"\nprint(len(name))"
+  },
+  {
+    "question": "תרגיל 2 – כתוב תוכנית שמחברת שתי מחרוזות ומדפיסה את התוצאה.",
+    "solution": "a = \"שלום\"\nb = \" עולם\"\nprint(a + b)"
+  },
+  {
+    "question": "תרגיל 3 – כתוב תוכנית שמדפיסה את האות הראשונה והאחרונה במחרוזת.",
+    "solution": "text = \"Python\"\nprint(text[0], text[-1])"
+  },
+  {
+    "question": "תרגיל 4 – צור מחרוזת עם משפט ובדוק אם מילה מסוימת מופיעה בו.",
+    "solution": "sentence = \"אני לומד פייתון היום\"\nprint(\"פייתון\" in sentence)"
+  },
+  {
+    "question": "תרגיל 5 – כתוב תוכנית שמבקשת מהמשתמש להזין משפט ומדפיסה אותו באותיות גדולות.",
+    "solution": "text = input(\"הכנס משפט: \")\nprint(text.upper())"
+  },
+  {
+    "question": "תרגיל 6 – כתוב תוכנית שמדפיסה מחרוזת ללא רווחים מיותרים בהתחלה ובסוף.",
+    "solution": "text = \"   שלום עולם   \"\nprint(text.strip())"
+  },
+  {
+    "question": "תרגיל 7 – צור מחרוזת עם שלוש מילים ופצל אותה לרשימה.",
+    "solution": "text = \"שלום עולם פייתון\"\nwords = text.split()\nprint(words)"
+  },
+  {
+    "question": "תרגיל 8 – החלף במחרוזת מילה אחת באחרת בעזרת replace.",
+    "solution": "text = \"אני אוהב ג'אווה\"\nprint(text.replace(\"ג'אווה\", \"פייתון\"))"
+  },
+  {
+    "question": "תרגיל 9 – כתוב תוכנית שמבקשת שם מהמשתמש ומדפיסה 'שלום <שם>'.",
+    "solution": "name = input(\"מה שמך? \")\nprint(f\"שלום {name}\")"
+  },
+  {
+    "question": "תרגיל 10 – בקש מהמשתמש משפט והדפס את מספר התווים שלו.",
+    "solution": "text = input(\"הכנס משפט: \")\nprint(len(text))"
+  }
+]
+  ,
+  "quizzes": [
+  {
+    "title": "שאלון 1 – יסודות מחרוזות",
+    "questions": [
+      {
+        "question": "מהי מחרוזת (string) בפייתון?",
+        "options": ["רצף של תווים", "מספר שלם", "משתנה לוגי", "רשימה"],
+        "answer": 0
+      },
+      {
+        "question": "כיצד יוצרים מחרוזת בפייתון?",
+        "options": ["בגרשיים בודדים או כפולים", "בסוגריים מרובעים", "בקריאה ל-func()", "רק עם גרשיים בודדים"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: a=\"שלום\"; b=\" עולם\"; print(a+b)?",
+        "options": ["שלום", "שלום עולם", "עולםשלום", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה עושה הפעולה len(\"Python\")?",
+        "options": ["6", "7", "שגיאה", "5"],
+        "answer": 0
+      },
+      {
+        "question": "כיצד ניגשים לתו הראשון במחרוזת word=\"Python\"?",
+        "options": ["word(0)", "word[0]", "word{0}", "word.0"],
+        "answer": 1
+      },
+      {
+        "question": "מה יודפס: word=\"Python\"; print(word[-1])?",
+        "options": ["P", "o", "n", "שגיאה"],
+        "answer": 2
+      },
+      {
+        "question": "כיצד חותכים את חמשת התווים הראשונים של text=\"תכנות בפייתון\"?",
+        "options": ["text[0:5]", "text(0,5)", "slice(text,0,5)", "text{0:5}"],
+        "answer": 0
+      },
+      {
+        "question": "מה יודפס: \"היי! \"*3?",
+        "options": ["היי! היי! היי!", "שגיאה", "היי!3", "היי!"],
+        "answer": 0
+      },
+      {
+        "question": "כיצד הופכים מחרוזת לאותיות קטנות?",
+        "options": ["lower()", "toLower()", "downcase()", "min()"],
+        "answer": 0
+      },
+      {
+        "question": "מה מחזירה הפעולה \"פיצה\" in \"אני אוהב פיצה\"?",
+        "options": ["True", "False", "שגיאה", "0"],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "title": "שאלון 2 – מתודות שימושיות במחרוזות",
+    "questions": [
+      {
+        "question": "מה עושה text.upper()?",
+        "options": ["מחזירה טקסט באותיות גדולות", "מחזירה טקסט באותיות קטנות", "מוחקת טקסט", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה עושה text.strip()?",
+        "options": ["מסירה רווחים מיותרים בהתחלה ובסוף", "מוחקת את המחרוזת", "מסירה תו אחד", "מחליפה טקסט"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של \"אני אוהב פיצה\".replace(\"פיצה\",\"פסטה\")?",
+        "options": ["אני אוהב פיצה", "אני אוהב פסטה", "פסטה אוהב אני", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה עושה text.split()?",
+        "options": ["מפרק את המחרוזת לרשימה לפי רווחים", "מחבר מחרוזות", "מפרק לרשימת מספרים", "מוחק את המחרוזת"],
+        "answer": 0
+      },
+      {
+        "question": "מה מחזירה הפעולה len(\"Python\")?",
+        "options": ["<class 'int'>", "מספר התווים", "שגיאה", "רשימה"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של \"Python\".lower()?",
+        "options": ["PYTHON", "python", "שגיאה", "pYTHON"],
+        "answer": 1
+      },
+      {
+        "question": "כיצד מחליפים במחרוזת מילה אחת באחרת?",
+        "options": ["replace()", "swap()", "change()", "switch()"],
+        "answer": 0
+      },
+      {
+        "question": "מה יודפס: text=\"  Python  \"; print(text.strip().upper())?",
+        "options": ["PYTHON", "  Python  ", "python", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של print(\"abc\" in \"abcd\")?",
+        "options": ["True", "False", "שגיאה", "None"],
+        "answer": 0
+      },
+      {
+        "question": "כיצד הופכים את המשפט \"שלום עולם\" לרשימה של מילים?",
+        "options": ["\"שלום עולם\".split()", "list(\"שלום עולם\")", "explode(\"שלום עולם\")", "parse(\"שלום עולם\")"],
+        "answer": 0
+      }
+    ]
+  }
+]
+}

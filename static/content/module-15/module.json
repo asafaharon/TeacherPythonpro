@@ -1,0 +1,178 @@
+{
+  "id": 15,
+  "title": "רקורסיה (Recursion)",
+  "theoryHTML": "<h2>מהי רקורסיה?</h2><p>רקורסיה היא טכניקה שבה פונקציה קוראת לעצמה כדי לפתור בעיה. זה אולי נשמע מוזר – פונקציה שקוראת לעצמה – אבל זו דרך חזקה מאוד לפתור בעיות שחוזרות על עצמן בצורה דומה.</p><h3>רעיון בסיסי</h3><p>בכל פונקציה רקורסיבית יש שני חלקים חשובים: <b>תנאי עצירה</b> שמפסיק את הקריאות האינסופיות, ו<b>קריאה חוזרת</b> שבה הפונקציה קוראת לעצמה עם ערכים קטנים או פשוטים יותר.</p><pre style='direction:ltr; text-align:left;'><code>def countdown(n):\n    if n == 0:\n        print(\"סיום!\")\n    else:\n        print(n)\n        countdown(n-1)\n\ncountdown(5)</code></pre><p>כאן הפונקציה מדפיסה ספירה לאחור. תנאי העצירה הוא כשהמספר מגיע ל־0.</p><h3>למה להשתמש ברקורסיה?</h3><ul><li>כאשר הבעיה חוזרת על עצמה בצורה קטנה יותר (למשל: פקטוריאל, סדרת פיבונאצ'י).</li><li>כאשר המבנה הנתון הוא מקונן (למשל: תיקיות בתוך תיקיות).</li><li>כדי לכתוב קוד קצר וברור לבעיות מסוימות.</li></ul><h3>חשוב לדעת</h3><p>אם שוכחים תנאי עצירה – הפונקציה תרוץ לנצח ותגרום לשגיאה (RecursionError). תמיד צריך לוודא שיש תנאי שמפסיק את הקריאות.</p><h3>סיכום</h3><p>במודול זה נתחיל מדוגמאות פשוטות כמו ספירה לאחור, נתקדם לפקטוריאל ופיבונאצ'י, ואז נראה בעיות קשות יותר. נבנה הבנה צעד אחר צעד כדי להפוך את הרקורסיה לנושא ברור ופשוט.</p>",
+  "examples": [
+    "### ספירה לאחור בסיסית",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 1 – ספירה לאחור\n# תנאי עצירה: כשהמספר מגיע ל-0\n# בכל קריאה המספר קטן ב-1\ndef countdown(n):\n    if n == 0:\n        print(\"סיום!\")\n    else:\n        print(n)\n        countdown(n-1)\n\ncountdown(3)\n# פלט: 3 2 1 סיום!</code></pre>",
+
+    "### חישוב פקטוריאל",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 2 – חישוב פקטוריאל\n# n! = n * (n-1) * (n-2) ... * 1\ndef factorial(n):\n    if n == 0 or n == 1:\n        return 1\n    return n * factorial(n-1)\n\nprint(factorial(5))\n# חישוב: 5*4*3*2*1 = 120</code></pre>",
+
+    "### סדרת פיבונאצ'י",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 3 – פיבונאצ'י\n# כל מספר בסדרה הוא סכום שני הקודמים\n# בסיס: F(0)=0, F(1)=1\ndef fib(n):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    return fib(n-1) + fib(n-2)\n\nprint(fib(6))\n# פלט: 8 (כי הסדרה היא 0,1,1,2,3,5,8)</code></pre>",
+
+    "### חישוב סכום רשימה",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 4 – סכום איברים ברשימה\n# כל פעם מורידים איבר ראשון ומחשבים את השאר\ndef sum_list(lst):\n    if len(lst) == 0:\n        return 0\n    return lst[0] + sum_list(lst[1:])\n\nprint(sum_list([1,2,3,4]))\n# פלט: 10</code></pre>",
+
+    "### חיפוש בתיקיות מקוננות",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 5 – מעבר על מבנה מקונן\nfiles = {\n    \"home\": {\"docs\": [\"a.txt\", \"b.txt\"], \"pics\": [\"c.png\"]},\n    \"music\": [\"song.mp3\"]\n}\n\ndef list_files(folder):\n    for key, value in folder.items():\n        if isinstance(value, dict):\n            list_files(value)\n        else:\n            print(value)\n\nlist_files(files)\n# פלט: ['a.txt','b.txt'] ['c.png'] ['song.mp3']</code></pre>"
+  ],
+"exercises": [
+  {
+    "question": "תרגיל 1 – כתוב פונקציה רקורסיבית שמדפיסה ספירה לאחור ממספר נתון עד 1.",
+    "solution": "def countdown(n):\n    if n == 0:\n        return\n    print(n)\n    countdown(n - 1)\n\ncountdown(5)"
+  },
+  {
+    "question": "תרגיל 2 – כתוב פונקציה רקורסיבית שמדפיסה את כל המספרים מ-1 עד n.",
+    "solution": "def count_up(n):\n    if n == 0:\n        return\n    count_up(n - 1)\n    print(n)\n\ncount_up(5)"
+  },
+  {
+    "question": "תרגיל 3 – כתוב פונקציה שמחזירה את סכום המספרים מ-1 עד n בעזרת רקורסיה.",
+    "solution": "def sum_to_n(n):\n    if n == 0:\n        return 0\n    return n + sum_to_n(n - 1)\n\nprint(sum_to_n(5))"
+  },
+  {
+    "question": "תרגיל 4 – כתוב פונקציה רקורסיבית שמחשבת פקטוריאל של מספר.",
+    "solution": "def factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))"
+  },
+  {
+    "question": "תרגיל 5 – כתוב פונקציה שמחזירה את האיבר ה-n של סדרת פיבונאצ'י בעזרת רקורסיה.",
+    "solution": "def fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)\n\nprint(fib(6))"
+  },
+  {
+    "question": "תרגיל 6 – כתוב פונקציה רקורסיבית שמחשבת את סכום איברי רשימה.",
+    "solution": "def list_sum(lst):\n    if not lst:\n        return 0\n    return lst[0] + list_sum(lst[1:])\n\nprint(list_sum([1,2,3,4]))"
+  },
+  {
+    "question": "תרגיל 7 – כתוב פונקציה רקורסיבית שבודקת אם מחרוזת היא פלינדרום.",
+    "solution": "def is_palindrome(s):\n    if len(s) <= 1:\n        return True\n    if s[0] != s[-1]:\n        return False\n    return is_palindrome(s[1:-1])\n\nprint(is_palindrome(\"radar\"))\nprint(is_palindrome(\"python\"))"
+  },
+  {
+    "question": "תרגיל 8 – כתוב פונקציה רקורסיבית שמדפיסה את כל המספרים הזוגיים מ-n עד 0.",
+    "solution": "def even_down(n):\n    if n < 0:\n        return\n    if n % 2 == 0:\n        print(n)\n    even_down(n-1)\n\neven_down(10)"
+  },
+  {
+    "question": "תרגיל 9 – כתוב פונקציה רקורסיבית שמחשבת חזקות (a^b).",
+    "solution": "def power(a, b):\n    if b == 0:\n        return 1\n    return a * power(a, b - 1)\n\nprint(power(2, 5))"
+  },
+  {
+    "question": "תרגיל 10 – כתוב פונקציה רקורסיבית שמדפיסה את כל התווים במחרוזת אחד אחד.",
+    "solution": "def print_chars(s):\n    if not s:\n        return\n    print(s[0])\n    print_chars(s[1:])\n\nprint_chars(\"שלום\")"
+  }
+]
+
+  ,
+  "quizzes": [
+  {
+    "title": "שאלון 1 – יסודות רקורסיה",
+    "questions": [
+      {
+        "question": "מהם שני החלקים החשובים בכל פונקציה רקורסיבית?",
+        "options": ["תנאי עצירה וקריאה חוזרת", "לולאה וקריאה חוזרת", "פונקציה פנימית ו־return", "הדפסה ומחיקה"],
+        "answer": 0
+      },
+      {
+        "question": "מה יקרה אם נשכח תנאי עצירה בפונקציה רקורסיבית?",
+        "options": ["הפונקציה תעצור לבד", "התוכנית תרוץ לנצח ותזרוק RecursionError", "יודפס 0", "הקוד לא ירוץ"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של הפונקציה: def countdown(3)?",
+        "options": ["3 2 1 סיום!", "3 2 1", "3 2 סיום!", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה מחזירה הפונקציה factorial(5)?",
+        "options": ["25", "120", "5", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה תנאי העצירה בפונקציה factorial?",
+        "options": ["כאשר n==0 או n==1", "כאשר n<10", "כאשר n==5", "אין תנאי עצירה"],
+        "answer": 0
+      },
+      {
+        "question": "מה מחזירה הפונקציה fib(6) לפי ההגדרה במודול?",
+        "options": ["6", "5", "8", "13"],
+        "answer": 2
+      },
+      {
+        "question": "מהם ערכי הבסיס של סדרת פיבונאצ'י?",
+        "options": ["F(0)=0, F(1)=1", "F(0)=1, F(1)=1", "F(0)=1, F(1)=2", "אין ערכי בסיס"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של sum_list([1,2,3,4])?",
+        "options": ["10", "9", "שגיאה", "0"],
+        "answer": 0
+      },
+      {
+        "question": "למה רקורסיה מתאימה במיוחד?",
+        "options": ["לבעיות שחוזרות על עצמן בצורה קטנה יותר או למבנים מקוננים", "לבעיות מתמטיות בלבד", "לכתיבת לולאות פשוטות", "למשחקי מחשב"],
+        "answer": 0
+      },
+      {
+        "question": "איזו שגיאה תתרחש אם נכתוב פונקציה רקורסיבית בלי תנאי עצירה?",
+        "options": ["IndexError", "ZeroDivisionError", "RecursionError", "ValueError"],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "title": "שאלון 2 – יישומים ברקורסיה",
+    "questions": [
+      {
+        "question": "מה הפלט של fib(4) לפי ההגדרה במודול?",
+        "options": ["2", "3", "5", "4"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של factorial(0)?",
+        "options": ["1", "0", "שגיאה", "None"],
+        "answer": 0
+      },
+      {
+        "question": "כיצד מחשבת הפונקציה sum_list רשימה?",
+        "options": ["מחברת את האיבר הראשון עם סכום שאר הרשימה", "עוברת עם לולאת for", "משתמשת במודול חיצוני", "מחזירה תמיד 0"],
+        "answer": 0
+      },
+      {
+        "question": "מה קורה בפונקציה countdown אם n שווה ל־0?",
+        "options": ["הפונקציה נעצרת ומדפיסה 'סיום!'", "היא ממשיכה לרוץ", "היא מחזירה None", "היא מתחילה מהתחלה"],
+        "answer": 0
+      },
+      {
+        "question": "באיזה מצב שימושי להשתמש ברקורסיה עם מבנה נתונים מקונן?",
+        "options": ["מעבר על תיקיות בתוך תיקיות", "חישוב מספר בודד", "הדפסת טקסט פשוט", "שינוי משתנה גלובלי"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של fib(0)?",
+        "options": ["0", "1", "שגיאה", "None"],
+        "answer": 0
+      },
+      {
+        "question": "מה מחזירה הפונקציה fib(1)?",
+        "options": ["0", "1", "שגיאה", "2"],
+        "answer": 1
+      },
+      {
+        "question": "מה קורה אם נקרא ל־factorial עם ערך שלילי?",
+        "options": ["הפונקציה תרוץ לנצח (RecursionError)", "תחזיר 0", "תחזיר 1", "שגיאה תחבירית"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של sum_list([])?",
+        "options": ["0", "שגיאה", "None", "[]"],
+        "answer": 0
+      },
+      {
+        "question": "מה היתרון של שימוש ברקורסיה?",
+        "options": ["קוד קצר וברור לבעיות מסוימות", "תמיד רץ מהר יותר", "לא צריך תנאים", "לא צריך משתנים"],
+        "answer": 0
+      }
+    ]
+  }
+]
+
+}

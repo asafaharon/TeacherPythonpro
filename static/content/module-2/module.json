@@ -1,0 +1,182 @@
+{
+  "id": 2,
+  "title": "משתנים, סוגי נתונים בסיסיים והמרות",
+  "theoryHTML": "<h2>מה זה משתנה?</h2><p>משתנה הוא כמו קופסה שיש לה שם. בתוך הקופסה אפשר לשמור ערכים כמו מספרים, מילים, או תוצאות של חישובים. המשתנה נותן לנו דרך להשתמש שוב ושוב במידע בלי לכתוב אותו מחדש.</p><h3>איך יוצרים משתנה?</h3><p>כדי ליצור משתנה נותנים לו שם ומשווים לו ערך. דוגמה:</p><pre style='direction:ltr; text-align:left;'><code>name = \"דנה\"\nage = 15\npi = 3.14</code></pre><p>כאן name הוא מחרוזת (string), age הוא מספר שלם (int), ו-pi הוא מספר עשרוני (float).</p><h3>סוגי נתונים בסיסיים</h3><p>בפייתון יש כמה סוגי נתונים חשובים:</p><ul><li><strong>int</strong> – מספר שלם, כמו 5 או -2.</li><li><strong>float</strong> – מספר עשרוני, כמו 3.14.</li><li><strong>str</strong> – טקסט, כמו \"שלום\".</li><li><strong>bool</strong> – ערך לוגי: True (נכון) או False (לא נכון).</li></ul><h3>שינוי ערכים</h3><p>אפשר לשנות ערכים של משתנים תוך כדי התוכנית:</p><pre style='direction:ltr; text-align:left;'><code>counter = 1\nprint(counter)\ncounter = counter + 1\nprint(counter)</code></pre><p>בכל פעם הערך של counter משתנה.</p><h3>הדפסת משתנים</h3><p>אפשר לשלב משתנים בהדפסות. לדוגמה:</p><pre style='direction:ltr; text-align:left;'><code>name = \"נועם\"\nage = 14\nprint(\"שם:\", name, \"גיל:\", age)\nprint(f\"{name} בן {age} שנים\")</code></pre><h3>בדיקת סוג</h3><p>אפשר לבדוק מה סוג הנתון של כל משתנה בעזרת הפונקציה type:</p><pre style='direction:ltr; text-align:left;'><code>x = 10\nprint(type(x))  # int\nprint(type(\"שלום\"))  # str</code></pre><h3>המרות בין סוגים</h3><p>לפעמים צריך להמיר נתונים מסוג אחד לאחר. לדוגמה, להפוך מחרוזת למספר:</p><pre style='direction:ltr; text-align:left;'><code>num_str = \"25\"\nnum_int = int(num_str)\nprint(num_int + 5)  # 30</code></pre><p>המרות שימושיות:</p><ul><li><code>int()</code> – ממיר למספר שלם.</li><li><code>float()</code> – ממיר למספר עשרוני.</li><li><code>str()</code> – ממיר למחרוזת.</li><li><code>bool()</code> – ממיר לערך לוגי (True/False).</li></ul><h3>סיכום</h3><p>במודול זה למדנו שמשתנים הם הדרך שלנו לשמור מידע. הכרנו את סוגי הנתונים הבסיסיים, ראינו איך לשנות ערכים, איך לבדוק סוג, ואיך להמיר בין סוגים שונים.</p>",
+  "examples": [
+    "### יצירת משתנים",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 1 – משתנים שונים\nx = 5\ny = \"שלום\"\nz = 3.14\nprint(x, y, z)</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 2 – מחרוזת ומספר\nname = \"יעל\"\nage = 13\nprint(\"שם:\", name, \"גיל:\", age)</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 3 – שינוי ערך\nscore = 80\nprint(score)\nscore = 95\nprint(score)</code></pre>",
+
+    "### שימוש ב-f-string",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 4 – טקסט עם משתנה\nname = \"אורי\"\nprint(f\"שלום {name}!\")</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 5 – טקסט עם כמה משתנים\nname = \"שיר\"\nage = 14\nprint(f\"{name} בת {age} שנים\")</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 6 – חישוב בתוך f-string\nnum = 7\nprint(f\"{num} כפול 2 הוא {num * 2}\")</code></pre>",
+
+    "### בדיקת סוגים",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 7 – בדיקת סוג\nx = 3.14\nprint(type(x))</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 8 – בדיקת סוג נוסף\nis_student = True\nprint(type(is_student))</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 9 – סוגים שונים\nprint(type(\"Hello\"))\nprint(type(42))</code></pre>",
+
+    "### המרות בין סוגים",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 10 – מחרוזת למספר\nnum_str = \"42\"\nnum_int = int(num_str)\nprint(num_int + 8)</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 11 – מספר למחרוזת\nx = 7\nprint(str(x) + \" הוא מגניב\")</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 12 – מספר ל-float\nnum = \"3.5\"\nnum_float = float(num)\nprint(num_float * 2)</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 13 – המרה ל-bool\nprint(bool(0))   # False\nprint(bool(5))   # True</code></pre>"
+  ],"exercises": [
+  {
+    "question": "תרגיל 1 – צור משתנה בשם city ושמור בו את שם העיר שלך. הדפס אותו.",
+    "solution": "city = \"תל אביב\"\nprint(city)"
+  },
+  {
+    "question": "תרגיל 2 – צור משתנים name ו-age, והדפס משפט בעזרת f-string.",
+    "solution": "name = \"אסף\"\nage = 25\nprint(f\"שלום, שמי {name} ואני בן {age}\")"
+  },
+  {
+    "question": "תרגיל 3 – צור משתנה num עם הערך \"15\" (מחרוזת). המר אותו ל-int והוסף 5.",
+    "solution": "num = \"15\"\nnum_int = int(num)\nprint(num_int + 5)"
+  },
+  {
+    "question": "תרגיל 4 – צור משתנה עם מספר עשרוני כמחרוזת (\"2.75\"), המר אותו ל-float והכפל ב-2.",
+    "solution": "val = \"2.75\"\nval_float = float(val)\nprint(val_float * 2)"
+  },
+  {
+    "question": "תרגיל 5 – צור משתנה bool בשם is_student עם הערך True והדפס אותו.",
+    "solution": "is_student = True\nprint(is_student)"
+  },
+  {
+    "question": "תרגיל 6 – צור משתנה בשם grade עם ציון מספרי, והדפס אם הוא גדול מ-60 בעזרת bool().",
+    "solution": "grade = 75\nprint(bool(grade > 60))"
+  },
+  {
+    "question": "תרגיל 7 – בדוק את סוג הנתון של משתנים שונים (int, str, float, bool).",
+    "solution": "a = 10\nb = \"שלום\"\nc = 3.14\nd = False\nprint(type(a))\nprint(type(b))\nprint(type(c))\nprint(type(d))"
+  },
+  {
+    "question": "תרגיל 8 – צור משתנה text עם הערך \"100\". הדפס את סוגו, המר ל-int והדפס שוב את סוגו.",
+    "solution": "text = \"100\"\nprint(type(text))\ntext = int(text)\nprint(type(text))"
+  },
+  {
+    "question": "תרגיל 9 – צור שלושה משתנים שונים (שם, גיל ותחביב) והדפס משפט מלא שמשלב את כולם.",
+    "solution": "name = \"אסף\"\nage = 25\nhobby = \"תכנות\"\nprint(f\"שמי {name}, אני בן {age} והתחביב שלי הוא {hobby}.\")"
+  },
+  {
+    "question": "תרגיל 10 – צור משתנה בשם x עם ערך מספרי. שנה את הערך 3 פעמים והדפס כל פעם.",
+    "solution": "x = 5\nprint(x)\nx = 10\nprint(x)\nx = 20\nprint(x)"
+  }
+]
+,
+  "quizzes": [
+  {
+    "title": "שאלון 1 – משתנים וסוגי נתונים",
+    "questions": [
+      {
+        "question": "מהו משתנה בפייתון?",
+        "options": ["פקודה להדפסה", "לולאה", "קופסה ששומרת ערכים", "שגיאה"],
+        "answer": 2
+      },
+      {
+        "question": "איזה סוג נתון מייצג את הערך 42?",
+        "options": ["float", "bool", "str", "int"],
+        "answer": 3
+      },
+      {
+        "question": "איזה סוג נתון מייצג את הערך 3.14?",
+        "options": ["int", "float", "str", "bool"],
+        "answer": 1
+      },
+      {
+        "question": "מה יודפס: name = \"רות\"; print(name)?",
+        "options": ["שגיאה", "רות", "מחרוזת ריקה", "name"],
+        "answer": 1
+      },
+      {
+        "question": "מה הערך של counter אחרי הקוד: counter = 1; counter = counter + 1?",
+        "options": ["1", "2", "שגיאה", "לא מוגדר"],
+        "answer": 1
+      },
+      {
+        "question": "איזה סוג נתון מחזירה הפונקציה type(\"שלום\")?",
+        "options": ["int", "str", "float", "bool"],
+        "answer": 1
+      },
+      {
+        "question": "מה הערך של is_student אם נכתוב is_student = True?",
+        "options": ["0", "1", "True", "False"],
+        "answer": 2
+      },
+      {
+        "question": "כיצד מייצגים טקסט בפייתון?",
+        "options": ["אי אפשר טקסט", "בסוגריים()", "בגרשיים ' או \"", "במרכאות בודדות בלבד"],
+        "answer": 2
+      },
+      {
+        "question": "מה הערך של x אחרי x = 10  ולאחר מכן  x = 15?",
+        "options": ["10", "15", "שגיאה", "0"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של print(f\"{2+3}\")?",
+        "options": ["2+3", "שגיאה", "23", "5"],
+        "answer": 3
+      }
+    ]
+  },
+  {
+    "title": "שאלון 2 – המרות ובדיקות",
+    "questions": [
+      {
+        "question": "איזו פונקציה ממירה מחרוזת למספר שלם?",
+        "options": ["float()", "int()", "str()", "bool()"],
+        "answer": 1
+      },
+      {
+        "question": "איזו פונקציה ממירה מחרוזת למספר עשרוני?",
+        "options": ["int()", "convert()", "float()", "str()"],
+        "answer": 2
+      },
+      {
+        "question": "מה הפלט של int(\"25\") + 5?",
+        "options": ["25", "255", "שגיאה", "30"],
+        "answer": 3
+      },
+      {
+        "question": "מה הפלט של str(7) + \" הוא מספר\"?",
+        "options": ["מספר 7", "שגיאה", "7 הוא מספר", "int"],
+        "answer": 2
+      },
+      {
+        "question": "מה הפלט של bool(0)?",
+        "options": ["True", "שגיאה", "False", "0"],
+        "answer": 2
+      },
+      {
+        "question": "מה הפלט של bool(5)?",
+        "options": ["True", "False", "שגיאה", "5"],
+        "answer": 0
+      },
+      {
+        "question": "מה יודפס: num_str = \"3.5\"; print(float(num_str)*2)?",
+        "options": ["7.0", "שגיאה", "3.5", "35"],
+        "answer": 0
+      },
+      {
+        "question": "איזה טיפוס נתון מייצג את הערך \"שלום\"?",
+        "options": ["int", "str", "bool", "float"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של type(3.14)?",
+        "options": ["<class 'str'>", "<class 'float'>", "<class 'bool'>", "<class 'int'>"],
+        "answer": 1
+      },
+      {
+        "question": "מה יודפס: x = 10; x = x + 5; print(x)?",
+        "options": ["15", "10", "שגיאה", "x"],
+        "answer": 0
+      }
+    ]
+  }
+]
+
+}

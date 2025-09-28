@@ -1,0 +1,172 @@
+{
+  "id": 13,
+  "title": "תכנות מונחה עצמים – הבסיס",
+  "theoryHTML": "<h2>מבוא לתכנות מונחה עצמים (OOP)</h2><p>עד עכשיו הכרנו משתנים, רשימות ופונקציות. אבל איך בונים תוכניות גדולות יותר? כאן נכנס לתמונה <b>תכנות מונחה עצמים (Object Oriented Programming – OOP)</b>. הרעיון הוא לחשוב על התוכנית כאוסף של עצמים, בדיוק כמו בעולם האמיתי.</p><h3>מחלקה (Class) ואובייקט (Object)</h3><p>מחלקה היא תבנית ליצירת אובייקטים. אובייקט הוא מופע שנוצר מתוך המחלקה, עם נתונים (מאפיינים) ופעולות (מתודות).</p><pre style='direction:ltr; text-align:left;'><code>class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def bark(self):\n        print(f\"{self.name} נובח: וואף!\")\n\nmy_dog = Dog(\"רקסי\", 3)\nmy_dog.bark()</code></pre><p>כאן יצרנו מחלקה Dog. יש לה מאפיינים name ו-age, ומתודה bark. יצרנו אובייקט my_dog והפעלנו עליו את המתודה.</p><h3>המתודה __init__</h3><p>המתודה המיוחדת <code>__init__</code> נקראת אוטומטית כשאנחנו יוצרים אובייקט. היא משמשת לאתחול הנתונים ההתחלתיים שלו.</p><h3>מאפיינים (Attributes)</h3><p>מאפיינים הם הנתונים ששייכים לאובייקט. כל אובייקט יכול להכיל ערכים שונים.</p><pre style='direction:ltr; text-align:left;'><code>dog1 = Dog(\"לונה\", 2)\ndog2 = Dog(\"בובי\", 5)\n\nprint(dog1.name, dog1.age)\nprint(dog2.name, dog2.age)</code></pre><p>dog1 ו-dog2 הם שני אובייקטים שונים, עם ערכים שונים.</p><h3>מתודות (Methods)</h3><p>מתודות הן פונקציות שמוגדרות בתוך המחלקה, והן פועלות על האובייקט עצמו.</p><pre style='direction:ltr; text-align:left;'><code>class Car:\n    def __init__(self, brand, year):\n        self.brand = brand\n        self.year = year\n\n    def drive(self):\n        print(f\"הרכב {self.brand} משנת {self.year} נוסע!\")\n\ncar1 = Car(\"Toyota\", 2020)\ncar1.drive()</code></pre><h3>מחלקות בחיי היומיום</h3><p>תחשבו על מחלקה כמו תבנית לעוגיות. המחלקה היא התבנית, והאובייקטים הם העוגיות שיוצאות ממנה. כל עוגייה (אובייקט) שומרת על צורה זהה, אבל יכולה להיות עם צבע או טעם שונים (מאפיינים).</p><h3>עוד דוגמה מלאה – חשבון בנק</h3><pre style='direction:ltr; text-align:left;'><code>class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        self.balance += amount\n        print(f\"הפקדה: {amount}, יתרה נוכחית: {self.balance}\")\n\n    def withdraw(self, amount):\n        if amount <= self.balance:\n            self.balance -= amount\n            print(f\"משיכה: {amount}, יתרה נוכחית: {self.balance}\")\n        else:\n            print(\"אין מספיק כסף בחשבון\")\n\naccount = BankAccount(\"דנה\", 100)\naccount.deposit(50)\naccount.withdraw(30)\naccount.withdraw(200)</code></pre><p>בדוגמה זו יצרנו מחלקה לניהול חשבון בנק. אפשר להפקיד כסף, למשוך כסף ולראות את היתרה.</p><h3>למה זה חשוב?</h3><ul><li>OOP עוזר לארגן קוד בצורה ברורה.</li><li>מאפשר ליצור הרבה אובייקטים שונים מאותה מחלקה.</li><li>מקצר קוד ומונע כפילויות.</li><li>קל לתחזק ולהבין מערכות גדולות.</li></ul><h3>הצצה למודול הבא 👀</h3><p>במודול זה התמקדנו בבסיס של מחלקות ואובייקטים. במודול הבא (14) נצלול לנושאים מתקדמים יותר: <b>ירושה</b> – איך מחלקה יכולה לרשת תכונות ממחלקה אחרת, ו־<b>העמסה (Overloading)</b> – איך ניתן להגדיר התנהגויות שונות לאותה פעולה. הולך להיות מעניין!</p>",
+  "examples": [
+    "### מחלקה בסיסית ואובייקט",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 1\nclass Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def bark(self):\n        print(f\"{self.name} נובח!\")\n\nmy_dog = Dog(\"רקסי\", 4)\nmy_dog.bark()\n# פלט: רקסי נובח!</code></pre>",
+
+    "### מחלקה עם כמה מתודות",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 2\nclass Student:\n    def __init__(self, name, grade):\n        self.name = name\n        self.grade = grade\n\n    def introduce(self):\n        print(f\"שמי {self.name} ואני בכיתה {self.grade}\")\n\n    def upgrade(self):\n        self.grade += 1\n        print(f\"{self.name} עלה לכיתה {self.grade}\")\n\ns1 = Student(\"דנה\", 10)\ns1.introduce()\ns1.upgrade()</code></pre>",
+
+    "### דוגמה מלאה – חשבון בנק",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 3\nclass BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        self.balance += amount\n        print(f\"הפקדה: {amount}, יתרה נוכחית: {self.balance}\")\n\n    def withdraw(self, amount):\n        if amount <= self.balance:\n            self.balance -= amount\n            print(f\"משיכה: {amount}, יתרה נוכחית: {self.balance}\")\n        else:\n            print(\"אין מספיק כסף בחשבון\")\n\naccount = BankAccount(\"יואב\", 200)\naccount.deposit(100)\naccount.withdraw(50)</code></pre>"
+  ],
+"exercises": [
+  {
+    "question": "תרגיל 1 – צור מחלקה Person עם שם וגיל, וכתוב מתודה שמדפיסה את הפרטים.",
+    "solution": "class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def show(self):\n        print(f\"שם: {self.name}, גיל: {self.age}\")\n\np = Person(\"דנה\", 20)\np.show()"
+  },
+  {
+    "question": "תרגיל 2 – צור שני אובייקטים שונים מסוג Person והדפס את השם של כל אחד.",
+    "solution": "p1 = Person(\"דנה\", 20)\np2 = Person(\"יוסי\", 25)\nprint(p1.name)\nprint(p2.name)"
+  },
+  {
+    "question": "תרגיל 3 – כתוב מחלקה Book עם כותרת ומחבר, ומתודה להצגת הספר.",
+    "solution": "class Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n\n    def show(self):\n        print(f\"{self.title} מאת {self.author}\")\n\nb = Book(\"פייתון קל\", \"נעה\")\nb.show()"
+  },
+  {
+    "question": "תרגיל 4 – צור מחלקה Student עם שם וציון, ומתודה שבודקת אם הציון מעל 60.",
+    "solution": "class Student:\n    def __init__(self, name, grade):\n        self.name = name\n        self.grade = grade\n\n    def passed(self):\n        return self.grade > 60\n\ns = Student(\"רן\", 75)\nprint(s.passed())"
+  },
+  {
+    "question": "תרגיל 5 – כתוב מחלקה Rectangle עם אורך ורוחב, ומתודה שמחזירה שטח.",
+    "solution": "class Rectangle:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n\n    def area(self):\n        return self.width * self.height\n\nr = Rectangle(5, 10)\nprint(r.area())"
+  },
+  {
+    "question": "תרגיל 6 – צור מחלקה Car עם מותג ושנה, ומתודה drive שמדפיסה הודעה.",
+    "solution": "class Car:\n    def __init__(self, brand, year):\n        self.brand = brand\n        self.year = year\n\n    def drive(self):\n        print(f\"{self.brand} משנת {self.year} נוסעת!\")\n\nc = Car(\"Toyota\", 2020)\nc.drive()"
+  },
+  {
+    "question": "תרגיל 7 – צור מחלקה Phone עם מותג ודגם, ומתודה call שמדפיסה שיחה.",
+    "solution": "class Phone:\n    def __init__(self, brand, model):\n        self.brand = brand\n        self.model = model\n\n    def call(self, number):\n        print(f\"מתקשר ל-{number} מ-{self.brand} {self.model}\")\n\np = Phone(\"Apple\", \"iPhone 14\")\np.call(\"050-1234567\")"
+  },
+  {
+    "question": "תרגיל 8 – כתוב מחלקה BankAccount עם הפקדה ומשיכה, ותרגל יצירת אובייקט.",
+    "solution": "class BankAccount:\n    def __init__(self, balance=0):\n        self.balance = balance\n\n    def deposit(self, amount):\n        self.balance += amount\n\n    def withdraw(self, amount):\n        if amount <= self.balance:\n            self.balance -= amount\n        else:\n            print(\"אין מספיק כסף בחשבון\")\n\nacc = BankAccount()\nacc.deposit(1000)\nacc.withdraw(300)\nprint(acc.balance)"
+  },
+  {
+    "question": "תרגיל 9 – צור מחלקה Animal עם סוג וקול, וכתוב מתודה sound.",
+    "solution": "class Animal:\n    def __init__(self, kind, sound):\n        self.kind = kind\n        self.sound = sound\n\n    def make_sound(self):\n        print(f\"ה-{self.kind} אומר {self.sound}\")\n\na = Animal(\"כלב\", \"הב-הב\")\na.make_sound()"
+  },
+  {
+    "question": "תרגיל 10 – המצא מחלקה משלך (למשל Game) עם שני מאפיינים ומתודה אחת להפעלה.",
+    "solution": "class Game:\n    def __init__(self, name, players):\n        self.name = name\n        self.players = players\n\n    def start(self):\n        print(f\"המשחק {self.name} מתחיל עם {self.players} שחקנים!\")\n\ng = Game(\"שחמט\", 2)\ng.start()"
+  }
+]
+
+  ,
+  "quizzes": [
+  {
+    "title": "שאלון 1 – יסודות מחלקות ואובייקטים",
+    "questions": [
+      {
+        "question": "מהי מחלקה (class) בפייתון?",
+        "options": ["שבלונה ליצירת אובייקטים", "פונקציה מיוחדת", "לולאה אינסופית", "משתנה קבוע"],
+        "answer": 0
+      },
+      {
+        "question": "כיצד מגדירים מחלקה חדשה?",
+        "options": ["function MyClass:", "def MyClass:", "class MyClass:", "new class MyClass:"],
+        "answer": 2
+      },
+      {
+        "question": "מהו אובייקט (object)?",
+        "options": ["משתנה מסוג מיוחד", "העתק של מחלקה עם ערכים משלו", "לולאה", "פונקציה"],
+        "answer": 1
+      },
+      {
+        "question": "מה עושה המתודה __init__?",
+        "options": ["מוחקת אובייקט", "מריצה את הקוד הראשי של התוכנית", "יוצרת ומאתחלת אובייקט חדש", "מוסיפה פונקציה למחלקה"],
+        "answer": 2
+      },
+      {
+        "question": "מה מייצג המשתנה self בתוך מחלקה?",
+        "options": ["שם המחלקה", "האובייקט הנוכחי", "המשתנים הגלובליים", "פונקציה פנימית"],
+        "answer": 1
+      },
+      {
+        "question": "כיצד יוצרים אובייקט חדש ממחלקה בשם Car?",
+        "options": ["Car()", "new Car", "object Car", "create Car()"],
+        "answer": 0
+      },
+      {
+        "question": "מה קורה אם לא מגדירים __init__ במחלקה?",
+        "options": ["לא ניתן ליצור אובייקט", "פייתון יוצרת ברירת מחדל ריקה", "מתרחשת שגיאה", "האובייקט נמחק"],
+        "answer": 1
+      },
+      {
+        "question": "מהי תכונה (attribute) של אובייקט?",
+        "options": ["ערך ששייך למחלקה או לאובייקט", "לולאה פנימית", "קבוע מתמטי", "שם המשתנה בלבד"],
+        "answer": 0
+      },
+      {
+        "question": "כיצד ניגשים לערך של תכונה באובייקט?",
+        "options": ["object[attribute]", "object.attribute", "get(object)", "object->attribute"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של הקוד: class Dog: pass; d=Dog(); print(type(d))?",
+        "options": ["<class 'Dog'>", "Dog()", "שגיאה", "object"],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "title": "שאלון 2 – עבודה עם מחלקות ואובייקטים",
+    "questions": [
+      {
+        "question": "מה היתרון של שימוש במחלקות?",
+        "options": ["ארגון הקוד ושימוש חוזר", "הרצה מהירה יותר", "הקוד קצר יותר תמיד", "אין יתרון"],
+        "answer": 0
+      },
+      {
+        "question": "מה יודפס: class Person: def __init__(self,name): self.name=name; p=Person(\"דנה\"); print(p.name)?",
+        "options": ["Person", "דנה", "name", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "כיצד מוסיפים מתודה למחלקה?",
+        "options": ["מגדירים פונקציה בתוך class עם self כפרמטר ראשון", "משתמשים ב-add method()", "כותבים def מחוץ ל-class", "אי אפשר להוסיף מתודות"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: class Car: def __init__(self,color): self.color=color; c=Car(\"אדום\"); print(c.color)?",
+        "options": ["Car", "color", "אדום", "שגיאה"],
+        "answer": 2
+      },
+      {
+        "question": "מה קורה כששני אובייקטים נוצרים מאותה מחלקה?",
+        "options": ["הם חולקים תמיד את אותם ערכים", "כל אחד עצמאי עם הערכים שלו", "האחד מוחק את השני", "הם חייבים להיות זהים"],
+        "answer": 1
+      },
+      {
+        "question": "מהי ירושה (Inheritance)?",
+        "options": ["יכולת של מחלקה להשתמש בקוד ממחלקה אחרת", "כתיבת קוד מחדש", "מחיקת מחלקה", "יצירת אובייקט"],
+        "answer": 0
+      },
+      {
+        "question": "כיצד מגדירים מחלקה Child שיורשת מ־Parent?",
+        "options": ["class Child inherits Parent:", "class Child(Parent):", "class Child:Parent", "inherit Child Parent"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של: class Animal: def sound(self): print(\"קול\"); class Dog(Animal): pass; d=Dog(); d.sound()?",
+        "options": ["שגיאה", "Dog", "קול", "None"],
+        "answer": 2
+      },
+      {
+        "question": "מה הפלט של: class Cat: def __init__(self): self.legs=4; c=Cat(); print(c.legs)?",
+        "options": ["Cat", "legs", "4", "שגיאה"],
+        "answer": 2
+      },
+      {
+        "question": "כיצד בודקים את סוג האובייקט בפייתון?",
+        "options": ["typeof()", "getType()", "type()", "instance()"],
+        "answer": 2
+      }
+    ]
+  }
+]
+
+}

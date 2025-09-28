@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>TeacherPython - רשימת מודולים</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <header class="tp-header">
+    <h1 class="tp-title">📚 TeacherPython</h1>
+  </header>
+
+  <main class="tp-container">
+    <h2>בחר מודול ללמידה</h2>
+
+    <!-- שדה חיפוש -->
+    <input id="search" class="tp-select" type="text" placeholder="חפש נושא..." />
+
+    <!-- כפתורי סינון -->
+    <div id="filters" class="tp-filters">
+      <button data-level="all" class="tp-btn tp-btn--small tp-btn--active">הכל</button>
+      <button data-level="מתחילים" class="tp-btn tp-btn--small">מתחילים</button>
+      <button data-level="בינוני" class="tp-btn tp-btn--small">בינוני</button>
+      <button data-level="מתקדם" class="tp-btn tp-btn--small">מתקדם</button>
+    </div>
+
+    <!-- הרשימה -->
+    <div id="modules-list"></div>
+  </main>
+
+  <script src="/static/js/modules.js"></script>
+</body>
+</html>

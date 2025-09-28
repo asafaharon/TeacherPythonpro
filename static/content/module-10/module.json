@@ -1,0 +1,183 @@
+{
+  "id": 10,
+  "title": "מילונים (Dictionaries)",
+  "theoryHTML": "<h2>מהו מילון?</h2><p>מילון (Dictionary) הוא מבנה נתונים בפייתון שמאפשר לשמור זוגות של מפתח וערך. אפשר לחשוב על זה כמו מילון אמיתי – לכל מילה (המפתח) יש הסבר (הערך).</p><pre style='direction:ltr; text-align:left;'><code>student = {\"name\": \"דנה\", \"age\": 16, \"grade\": 11}</code></pre><p>כאן המפתח \"name\" שווה ל\"דנה\", המפתח \"age\" שווה ל־16 והמפתח \"grade\" שווה ל־11.</p><h3>גישה לערכים</h3><p>אפשר לגשת לערך במילון לפי המפתח שלו:</p><pre style='direction:ltr; text-align:left;'><code>print(student[\"name\"])  # פלט: דנה</code></pre><h3>הוספה ושינוי</h3><p>אפשר להוסיף מפתח חדש או לשנות ערך קיים:</p><pre style='direction:ltr; text-align:left;'><code>student[\"city\"] = \"תל אביב\"\nstudent[\"age\"] = 17</code></pre><h3>מחיקה</h3><p>ניתן למחוק מפתח בעזרת <code>del</code>:</p><pre style='direction:ltr; text-align:left;'><code>del student[\"grade\"]</code></pre><h3>שימוש במתודות</h3><p>למילונים יש מתודות שימושיות:</p><ul><li><code>.keys()</code> – מחזירה את כל המפתחות.</li><li><code>.values()</code> – מחזירה את כל הערכים.</li><li><code>.items()</code> – מחזירה זוגות של מפתח וערך.</li><li><code>.get()</code> – מחזירה ערך לפי מפתח, עם אפשרות לערך ברירת מחדל.</li></ul><pre style='direction:ltr; text-align:left;'><code>print(student.keys())\nprint(student.values())\nprint(student.get(\"grade\", \"לא נמצא\"))</code></pre><h3>לולאות עם מילונים</h3><p>אפשר לעבור על המילון בלולאה ולקרוא גם למפתח וגם לערך:</p><pre style='direction:ltr; text-align:left;'><code>for key, value in student.items():\n    print(key, \":\", value)</code></pre><h3>מילונים מקוננים</h3><p>אפשר לשמור מילון בתוך מילון – לדוגמה תלמידים בכיתה:</p><pre style='direction:ltr; text-align:left;'><code>classroom = {\n    \"student1\": {\"name\": \"דנה\", \"age\": 16},\n    \"student2\": {\"name\": \"יואב\", \"age\": 15}\n}\nprint(classroom[\"student1\"][\"name\"])  # פלט: דנה</code></pre><h3>סיכום</h3><p>מילונים מאפשרים לשמור מידע בצורה מסודרת וברורה, ונותנים כלים נוחים לעבודה עם נתונים מבוססי מפתח וערך.</p>",
+  "examples": [
+    "### יצירת מילון וגישה לערכים",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 1\nstudent = {\"name\": \"דנה\", \"age\": 16}\nprint(student[\"name\"])\n# פלט: דנה</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 2\nstudent = {\"name\": \"יואב\", \"grade\": 10}\nprint(student[\"grade\"])\n# פלט: 10</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 3\ncar = {\"brand\": \"Toyota\", \"year\": 2020}\nprint(car[\"brand\"])\n# פלט: Toyota</code></pre>",
+
+    "### הוספה ושינוי",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 4\nstudent = {\"name\": \"דנה\"}\nstudent[\"age\"] = 16\nprint(student)\n# פלט: {'name': 'דנה', 'age': 16}</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 5\nstudent = {\"name\": \"דנה\", \"age\": 16}\nstudent[\"age\"] = 17\nprint(student)\n# פלט: {'name': 'דנה', 'age': 17}</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 6\ncar = {\"brand\": \"Mazda\", \"year\": 2018}\ncar[\"year\"] = 2022\nprint(car)\n# פלט: {'brand': 'Mazda', 'year': 2022}</code></pre>",
+
+    "### מחיקה ושימוש במתודות",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 7\nstudent = {\"name\": \"יואב\", \"age\": 16}\ndel student[\"age\"]\nprint(student)\n# פלט: {'name': 'יואב'}</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 8\nstudent = {\"name\": \"דנה\", \"grade\": 11}\nprint(student.keys())\n# פלט: dict_keys(['name', 'grade'])</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 9\nstudent = {\"name\": \"דנה\", \"grade\": 11}\nprint(student.values())\n# פלט: dict_values(['דנה', 11])</code></pre>",
+
+    "### לולאות ומילונים מקוננים",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 10\nstudent = {\"name\": \"דנה\", \"age\": 16}\nfor key, value in student.items():\n    print(key, value)\n# פלט: name דנה, age 16</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 11\nclassroom = {\n    \"s1\": {\"name\": \"דנה\", \"age\": 16},\n    \"s2\": {\"name\": \"יואב\", \"age\": 15}\n}\nprint(classroom[\"s2\"][\"name\"])\n# פלט: יואב</code></pre>",
+    "<pre style='direction:ltr; text-align:left;'><code># דוגמה 12\nphonebook = {\"דנה\": \"050-123\", \"יואב\": \"052-456\"}\nfor name, phone in phonebook.items():\n    print(name, phone)\n# פלט: דנה 050-123, יואב 052-456</code></pre>"
+  ],
+  "exercises": [
+  {
+    "question": "תרגיל 1 – צור מילון של תלמיד עם שם וגיל והדפס אותו.",
+    "solution": "student = {\"name\": \"דנה\", \"age\": 15}\nprint(student)"
+  },
+  {
+    "question": "תרגיל 2 – הוסף מפתח חדש למילון (כיתה) והדפס שוב.",
+    "solution": "student = {\"name\": \"דנה\", \"age\": 15}\nstudent[\"class\"] = 10\nprint(student)"
+  },
+  {
+    "question": "תרגיל 3 – שנה את הגיל של תלמיד קיים.",
+    "solution": "student = {\"name\": \"דנה\", \"age\": 15}\nstudent[\"age\"] = 16\nprint(student)"
+  },
+  {
+    "question": "תרגיל 4 – מחק מפתח אחד ממילון והדפס את התוצאה.",
+    "solution": "student = {\"name\": \"דנה\", \"age\": 15, \"class\": 10}\ndel student[\"class\"]\nprint(student)"
+  },
+  {
+    "question": "תרגיל 5 – צור מילון של עיר ומספר תושבים והדפס רק את המפתחות.",
+    "solution": "city = {\"תל אביב\": 450000}\nprint(city.keys())"
+  },
+  {
+    "question": "תרגיל 6 – צור מילון של עיר ומספר תושבים והדפס רק את הערכים.",
+    "solution": "city = {\"תל אביב\": 450000}\nprint(city.values())"
+  },
+  {
+    "question": "תרגיל 7 – עבור בלולאה על מילון והדפס את כל זוגות המפתח והערך.",
+    "solution": "city = {\"תל אביב\": 450000, \"חיפה\": 270000}\nfor key, value in city.items():\n    print(key, value)"
+  },
+  {
+    "question": "תרגיל 8 – צור מילון של ספר טלפונים (שם → מספר) והדפס אותו.",
+    "solution": "phonebook = {\"דנה\": \"050-1234567\", \"יוסי\": \"052-9876543\"}\nprint(phonebook)"
+  },
+  {
+    "question": "תרגיל 9 – צור מילון מקונן עם שני תלמידים והדפס שם של אחד מהם.",
+    "solution": "students = {\n    \"s1\": {\"name\": \"דנה\", \"age\": 15},\n    \"s2\": {\"name\": \"יוסי\", \"age\": 16}\n}\nprint(students[\"s1\"][\"name\"])"
+  },
+  {
+    "question": "תרגיל 10 – כתוב תוכנית שמבקשת מהמשתמש להזין שלושה זוגות שם-ציון ושומרת אותם במילון.",
+    "solution": "grades = {}\nfor i in range(3):\n    name = input(\"הכנס שם: \")\n    grade = int(input(\"הכנס ציון: \"))\n    grades[name] = grade\nprint(grades)"
+  }
+]
+
+  ,
+  "quizzes": [
+  {
+    "title": "שאלון 1 – יסודות מילונים",
+    "questions": [
+      {
+        "question": "כיצד יוצרים מילון בפייתון?",
+        "options": ["בסוגריים עגולים ()", "בסוגריים מסולסלים {}", "בסוגריים מרובעים []", "בגרשיים"],
+        "answer": 1
+      },
+      {
+        "question": "מה הערך של המפתח \"name\" בקוד: student={\"name\":\"דנה\",\"age\":16}; print(student[\"name\"])?",
+        "options": ["דנה", "name", "16", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "כיצד מוסיפים מפתח חדש למילון?",
+        "options": ["student.add()", "student.insert()", "student[\"city\"]=\"תל אביב\"", "student.push()"],
+        "answer": 2
+      },
+      {
+        "question": "מה קורה אם משנים ערך קיים במילון?",
+        "options": ["שגיאה", "נוסף מפתח חדש", "הערך מתעדכן", "המילון נמחק"],
+        "answer": 2
+      },
+      {
+        "question": "מה עושה del student[\"age\"]?",
+        "options": ["מוחק את הערך של age", "מאפס את הערך ל-0", "מדפיס את הערך", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה מחזירה המתודה .keys()?",
+        "options": ["רשימת הערכים", "רשימת המפתחות", "רשימת זוגות", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה מחזירה המתודה .values()?",
+        "options": ["רשימת המפתחות", "רשימת הערכים", "מפתח בודד", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "מה מחזירה המתודה .items()?",
+        "options": ["רשימת ערכים", "רשימת מפתחות", "רשימת זוגות של מפתח וערך", "שום דבר"],
+        "answer": 2
+      },
+      {
+        "question": "מה מחזירה student.get(\"grade\",\"לא נמצא\") אם grade לא קיים?",
+        "options": ["שגיאה", "None", "לא נמצא", "0"],
+        "answer": 2
+      },
+      {
+        "question": "כיצד עוברים על מילון ומדפיסים את כל המפתחות והערכים?",
+        "options": ["for key,value in dict.items()", "for dict in key", "for value in dict", "loop(dict)"],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "title": "שאלון 2 – שימושים מתקדמים במילונים",
+    "questions": [
+      {
+        "question": "מה יודפס: student={\"name\":\"דנה\",\"age\":16}; print(len(student))?",
+        "options": ["2", "16", "שגיאה", "name, age"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: classroom={\"s1\":{\"name\":\"דנה\"},\"s2\":{\"name\":\"יואב\"}}; print(classroom[\"s2\"][\"name\"])?",
+        "options": ["דנה", "יואב", "s2", "שגיאה"],
+        "answer": 1
+      },
+      {
+        "question": "כיצד מוחקים מפתח ממילון?",
+        "options": ["dict.delete()", "del dict[key]", "dict.remove()", "dict.pop()"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של: car={\"brand\":\"Mazda\",\"year\":2018}; car[\"year\"]=2022; print(car[\"year\"])?",
+        "options": ["2018", "2022", "שגיאה", "None"],
+        "answer": 1
+      },
+      {
+        "question": "מה מחזירה .get(\"grade\") אם המפתח קיים?",
+        "options": ["את הערך של grade", "None", "שגיאה", "המפתח בלבד"],
+        "answer": 0
+      },
+      {
+        "question": "מה היתרון של שימוש במילונים מקוננים?",
+        "options": ["אפשר לשמור מידע מורכב בצורה מסודרת", "הריצה מהירה יותר", "לא ניתן לשנות ערכים", "המילון נשמר כטקסט"],
+        "answer": 0
+      },
+      {
+        "question": "מה יודפס: phonebook={\"דנה\":\"050-123\",\"יואב\":\"052-456\"}; print(phonebook[\"דנה\"])?",
+        "options": ["050-123", "052-456", "דנה", "שגיאה"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: student={\"name\":\"יואב\",\"age\":16}; for k in student.keys(): print(k)?",
+        "options": ["name age", "יואב 16", "שגיאה", "רק הערכים"],
+        "answer": 0
+      },
+      {
+        "question": "מה הפלט של: student={\"name\":\"יואב\",\"age\":16}; for v in student.values(): print(v)?",
+        "options": ["name age", "יואב 16", "שגיאה", "רק המפתחות"],
+        "answer": 1
+      },
+      {
+        "question": "מה הפלט של: student={\"name\":\"יואב\",\"age\":16}; print(\"age\" in student)?",
+        "options": ["True", "False", "שגיאה", "None"],
+        "answer": 0
+      }
+    ]
+  }
+]
+
+}
