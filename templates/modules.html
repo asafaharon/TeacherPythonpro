@@ -4,11 +4,48 @@
   <meta charset="UTF-8" />
   <title>TeacherPython - רשימת מודולים</title>
   <link rel="stylesheet" href="/static/css/style.css" />
+  <style>
+    /* עיצוב תפריט עליון */
+    .tp-navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #2d3748;
+      color: white;
+      padding: 12px 24px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .tp-navbar h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .tp-navbar .tp-nav-links a {
+      text-decoration: none;
+      color: white;
+      background-color: #3182ce;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: background-color 0.2s ease-in-out;
+      font-weight: 500;
+    }
+
+    .tp-navbar .tp-nav-links a:hover {
+      background-color: #2b6cb0;
+    }
+  </style>
 </head>
 <body>
-  <header class="tp-header">
-    <h1 class="tp-title">📚 TeacherPython</h1>
-  </header>
+
+  <!-- 🔹 תפריט עליון -->
+  <nav class="tp-navbar">
+    <h1>📚 TeacherPython</h1>
+    <div class="tp-nav-links">
+      <a href="/dashboard">נתוני פעילות</a>
+    </div>
+  </nav>
 
   <main class="tp-container">
     <h2>בחר מודול ללמידה</h2>
@@ -24,7 +61,7 @@
       <button data-level="מתקדם" class="tp-btn tp-btn--small">מתקדם</button>
     </div>
 
-    <!-- הרשימה -->
+    <!-- רשימת מודולים -->
     <div id="modules-list"></div>
   </main>
 

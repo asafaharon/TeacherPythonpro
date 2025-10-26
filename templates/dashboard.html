@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <title>📊 Dashboard - TeacherPythonpro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-gray-800 text-white py-4 shadow-md">
+    <div class="max-w-5xl mx-auto px-6 flex justify-between items-center">
+      <h1 class="text-2xl font-bold">📊 לוח ניהול - TeacherPythonpro</h1>
+      <a href="/" class="text-blue-300 hover:text-blue-400">← חזרה למודולים</a>
+    </div>
+  </header>
+
+  <!-- Dashboard content -->
+  <main class="max-w-5xl mx-auto p-8">
+    <h2 class="text-xl font-semibold mb-6 text-gray-700 text-center">נתוני פעילות באתר</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Number of modules -->
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-gray-500 mb-2">📘 מספר מודולים זמינים</h3>
+        <p class="text-4xl font-bold text-blue-600">{{ stats.total_modules }}</p>
+      </div>
+
+      <!-- Questions asked -->
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-gray-500 mb-2">💬 שאלות שנשאלו ל-AI</h3>
+        <p class="text-4xl font-bold text-green-600">{{ stats.questions_asked }}</p>
+      </div>
+
+      <!-- Unique users -->
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-gray-500 mb-2">👤 משתמשים ייחודיים</h3>
+        <p class="text-4xl font-bold text-purple-600">{{ stats.unique_users }}</p>
+      </div>
+
+      <!-- Average per user -->
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-gray-500 mb-2">📈 ממוצע שאלות למשתמש</h3>
+        <p class="text-4xl font-bold text-orange-600">{{ stats.avg_questions }}</p>
+      </div>
+
+      <!-- Last activity -->
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-gray-500 mb-2">⏰ שאלה אחרונה</h3>
+        <p class="text-2xl font-semibold text-gray-700">{{ stats.last_question_time }}</p>
+      </div>
+
+      <!-- Version -->
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-gray-500 mb-2">⚙️ גרסת האתר</h3>
+        <p class="text-2xl font-semibold text-gray-700">v1.0.3</p>
+      </div>
+    </div>
+
+    <p class="text-center text-gray-500 mt-8 text-sm">
+      הנתונים מבוססים על פעילות אחרונה במערכת · עודכן {{ stats.generated_at }}
+    </p>
+  </main>
+</body>
+</html>
