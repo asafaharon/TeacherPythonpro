@@ -9,3 +9,4 @@ openai
 graphviz
 requests
 aiofiles
+python-multipart
