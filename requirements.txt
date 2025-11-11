@@ -7,3 +7,5 @@ passlib[bcrypt]
 jinja2
 openai
 graphviz
+requests
+aiofiles
