@@ -1,82 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>TeacherPython - רשימת מודולים</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TeacherPython • מודולים</title>
   <link rel="stylesheet" href="/static/css/style.css" />
-  <style>
-    /* עיצוב תפריט עליון */
-    .tp-navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #2d3748;
-      color: white;
-      padding: 12px 24px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .tp-navbar h1 {
-      margin: 0;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    .tp-navbar .tp-nav-links {
-      display: flex;
-      gap: 12px;
-    }
-
-    .tp-navbar .tp-nav-links a {
-      text-decoration: none;
-      color: white;
-      background-color: #3182ce;
-      padding: 8px 16px;
-      border-radius: 6px;
-      transition: background-color 0.2s ease-in-out;
-      font-weight: 500;
-    }
-
-    .tp-navbar .tp-nav-links a:hover {
-      background-color: #2b6cb0;
-    }
-
-    /* עיצוב גוף הדף */
-    .tp-container {
-      padding: 24px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-  </style>
 </head>
 <body>
-
-  <!-- 🔹 תפריט עליון -->
-  <nav class="tp-navbar">
-    <h1>📚 TeacherPython</h1>
-    <div class="tp-nav-links">
-      <a href="/automaton">🎯 יצירת אוטומט חדש</a>
-      <a href="/dashboard">נתוני פעילות</a>
+  <!-- כותרת עליונה -->
+  <header class="tp-header">
+    <div class="tp-header__left">
+      <h1 class="tp-title">TeacherPython</h1>
     </div>
-  </nav>
+    <div class="tp-header__right">
+      <a class="tp-btn tp-btn--primary" href="/automaton">⚙ יצירת אוטומט</a>
+    </div>
+  </header>
 
+  <!-- גוף הדף -->
   <main class="tp-container">
-    <h2>בחר מודול ללמידה</h2>
+    <section class="tp-card">
+      <h2 class="tp-section-title">בחר מודול ללמידה</h2>
 
-    <!-- שדה חיפוש -->
-    <input id="search" class="tp-select" type="text" placeholder="חפש נושא..." />
+      <!-- חיפוש -->
+      <input id="search" class="tp-input" type="text" placeholder="חפש נושא..." />
 
-    <!-- כפתורי סינון -->
-    <div id="filters" class="tp-filters">
-      <button data-level="all" class="tp-btn tp-btn--small tp-btn--active">הכל</button>
-      <button data-level="מתחילים" class="tp-btn tp-btn--small">מתחילים</button>
-      <button data-level="בינוני" class="tp-btn tp-btn--small">בינוני</button>
-      <button data-level="מתקדם" class="tp-btn tp-btn--small">מתקדם</button>
-    </div>
+      <!-- פילטרים -->
+      <div id="filters" class="tp-filters">
+        <button data-level="all" class="tp-btn tp-btn--primary tp-btn--active">הכל</button>
+        <button data-level="מתחילים" class="tp-btn">מתחילים</button>
+        <button data-level="בינוני" class="tp-btn">בינוני</button>
+        <button data-level="מתקדם" class="tp-btn">מתקדם</button>
+      </div>
 
-    <!-- רשימת מודולים -->
-    <div id="modules-list"></div>
+      <!-- רשימת המודולים -->
+      <div id="modules-list" class="tp-modules-grid"></div>
+    </section>
   </main>
+
+  <footer class="tp-footer">
+    <p>© 2025 TeacherPython — למידה אינטראקטיבית של מדעי המחשב</p>
+  </footer>
 
   <script src="/static/js/modules.js"></script>
 </body>
