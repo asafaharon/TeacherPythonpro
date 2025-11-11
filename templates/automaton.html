@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎯 יוצר אוטומטים אינטראקטיבי | TeacherPython</title>
+
+  <!-- TailwindCSS & Cytoscape -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+
+  <style>
+body {
+  font-family: 'Rubik', 'Segoe UI', Tahoma, sans-serif;
+  background: linear-gradient(135deg, #eef2ff, #c7d2fe);
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;     /* 🔹 שינוי כאן */
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+
+#cy {
+  width: 100%;
+  height: 500px;              /* ✅ מחזיר את הגובה שאבד */
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+    .highlight {
+      background-color: #facc15 !important;
+      border-color: #b45309 !important;
+      transition: all 0.3s ease;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.7s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="max-w-5xl w-full bg-white shadow-2xl rounded-3xl p-10 border border-indigo-100 fade-in">
+    <h1 class="text-4xl font-extrabold text-indigo-700 mb-3 text-center">🎯 יוצר אוטומטים אינטראקטיבי</h1>
+    <p class="text-gray-600 text-center text-lg mb-8">
+      הזן תיאור טבעי של שפה פורמלית וראה כיצד האוטומט נבנה בצורה גרפית ומובנת.
+    </p>
+
+    <!-- טופס קלט -->
+    <form id="automatonForm" class="space-y-6">
+      <textarea id="description" required
+        placeholder="לדוגמה: אוטומט שמקבל את כל המילים שמסתיימות ב־01"
+        class="w-full h-36 p-4 rounded-2xl border border-gray-300 focus:ring-4 focus:ring-indigo-400 focus:outline-none text-gray-800 resize-none text-lg placeholder-gray-400 shadow-inner transition"></textarea>
+
+      <div class="flex justify-center">
+        <button type="submit"
+          class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-10 rounded-2xl shadow-lg transition transform hover:scale-105">
+          🚀 צור אוטומט
+        </button>
+      </div>
+    </form>
+
+    <div id="loading" class="hidden text-center mt-6 text-indigo-600 font-medium">
+      ⏳ המערכת יוצרת את האוטומט, אנא המתן...
+    </div>
+
+    <section id="result" class="hidden mt-10 fade-in">
+      <div id="cy"></div>
+
+      <!-- אגדה -->
+      <div class="flex justify-center gap-10 mt-6 text-sm text-gray-700">
+        <div class="flex items-center gap-2">
+          <div class="w-5 h-5 bg-indigo-500 rounded-full border border-indigo-900"></div>
+          <span>מצב רגיל</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-5 h-5 bg-green-200 border-4 border-green-500 rounded-full"></div>
+          <span>מצב מקבל</span>
+        </div>
+      </div>
+
+      <p class="text-center text-indigo-700 mt-6 text-lg font-semibold">
+        ℹ️ המצב ההתחלתי הוא תמיד <strong>q0</strong>.
+      </p>
+
+      <!-- תיבת מידע -->
+      <div class="mt-8 bg-indigo-50 border border-indigo-200 rounded-2xl p-6 text-gray-800 text-right shadow-sm">
+        <p><strong>🧩 מה השפה?</strong><br><span id="explanationText"></span></p>
+        <p class="mt-4"><strong>⚙️ ההיגיון:</strong><br><span id="logicText"></span></p>
+      </div>
+
+      <!-- בדיקת מחרוזת -->
+      <div class="mt-10 text-center">
+        <h2 class="text-lg font-bold text-gray-800 mb-3">🔎 בדוק מחרוזת באוטומט</h2>
+        <input id="testString" type="text" placeholder="לדוגמה: 0101"
+          class="border border-gray-400 rounded-xl p-2 w-52 text-center focus:ring-2 focus:ring-indigo-400">
+        <button id="testButton"
+          class="ml-2 bg-indigo-600 text-white px-5 py-2 rounded-xl hover:bg-indigo-700 transition">
+          בדוק
+        </button>
+        <p id="testResult" class="mt-4 text-lg font-semibold"></p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById('automatonForm');
+    const loading = document.getElementById('loading');
+    const result = document.getElementById('result');
+    const cyDiv = document.getElementById('cy');
+    const explanationText = document.getElementById('explanationText');
+    const logicText = document.getElementById('logicText');
+    const testButton = document.getElementById('testButton');
+    const testString = document.getElementById('testString');
+    const testResult = document.getElementById('testResult');
+    let cy = null, currentAuto = null;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loading.classList.remove('hidden');
+      result.classList.add('hidden');
+      cyDiv.innerHTML = '';
+      testResult.textContent = '';
+
+      const description = document.getElementById('description').value;
+      try {
+        const res = await fetch('/generate_automaton', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ description })
+        });
+        const data = await res.json();
+        loading.classList.add('hidden');
+
+        if (data.type === 'none') {
+          cyDiv.innerHTML = `
+            <div class="bg-red-100 border-4 border-red-500 text-red-900 rounded-xl p-8 mt-6 text-center shadow-lg">
+              <h2 class="text-3xl font-extrabold mb-2">🚫 השפה אינה רגולרית</h2>
+              <p>${data.explanation}</p>
+              <p class="text-sm text-gray-700 mt-3 italic">
+                רק שפות רגולריות ניתנות לייצוג באמצעות DFA (אוטומט סופי דטרמיניסטי).
+              </p>
+            </div>`;
+          result.classList.remove('hidden');
+          return;
+        }
+
+        drawAutomaton(data);
+        explanationText.textContent = data.explanation || "לא ניתנה הסבר.";
+        logicText.textContent = data.logic || "אין תיאור של ההיגיון.";
+        result.classList.remove('hidden');
+        currentAuto = data;
+
+      } catch {
+        loading.classList.add('hidden');
+        alert("❌ שגיאה בתקשורת עם השרת.");
+      }
+    });
+
+function drawAutomaton(auto) {
+  const elements = [];
+
+  auto.states.forEach(s => {
+    const isAccept = auto.accept_states.includes(s);
+    elements.push({
+      data: { id: s, label: s },
+      classes: isAccept ? 'accept' : ''
+    });
+  });
+
+  for (const [src, edges] of Object.entries(auto.transitions)) {
+    for (const [symbol, dst] of Object.entries(edges)) {
+      elements.push({ data: { source: src, target: dst, label: symbol } });
+    }
+  }
+
+  cy = cytoscape({
+    container: cyDiv,
+    elements,
+    style: [
+      {
+        selector: 'node',
+        style: {
+          'background-color': '#6366f1',
+          'label': 'data(label)',
+          'color': '#fff',
+          'text-valign': 'center',
+          'text-halign': 'center',
+          'font-size': '16px',
+          'width': '55px',
+          'height': '55px',
+          'border-width': 2,
+          'border-color': '#312e81'
+        }
+      },
+      {
+        selector: 'node.accept',
+        style: {
+          'border-width': 6,
+          'border-color': '#22c55e',
+          'background-color': '#bbf7d0',
+          'color': '#065f46',
+          'font-weight': 'bold'
+        }
+      },
+      {
+        selector: 'edge',
+        style: {
+          'curve-style': 'bezier',
+          'target-arrow-shape': 'triangle',
+          'target-arrow-color': '#4338ca',
+          'line-color': '#6366f1',
+          'label': 'data(label)',
+          'font-size': '13px',
+          'text-background-color': '#ffffff',
+          'text-background-opacity': 0.8,
+          'text-background-padding': 3
+        }
+      }
+    ],
+    layout: { name: 'circle' }
+  });
+
+  // ✅ מסדר את הגרף ומרכז אותו
+  cy.layout({ name: 'circle' }).run();
+  cy.fit();
+  cy.center();
+
+  // אופציונלי: ממרכז גם אחרי שינוי גודל חלון
+  window.addEventListener('resize', () => {
+    cy.fit();
+    cy.center();
+  });
+}
+
+
+  </script>
+</body>
+</html>
