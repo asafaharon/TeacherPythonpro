@@ -23,13 +23,14 @@ from routers.base_router import router as base_router
 from routers.ai_router import router as ai_router
 from routers.run_router import router as run_router
 from routers.automaton_router import router as automaton_router  # 👈 העבר לכאן
+from routers.pda_router import router as pda_router
 
 # הסדר הנכון
 app.include_router(base_router)
 app.include_router(ai_router)
 app.include_router(run_router)
 app.include_router(automaton_router)  # 👈 נטען אחרון כדי שיעבוד תקין
-
+app.include_router(pda_router)
 # ====================================================
 # הרצה מקומית
 # ====================================================

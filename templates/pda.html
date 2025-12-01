@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📚 יוצר אוטומט מחסנית (NPDA) | TeacherPython</title>
+
+  <!-- TailwindCSS & Cytoscape -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Rubik', 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(135deg, #eef2ff, #c7d2fe);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    main {
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    #cy {
+      width: 100%;
+      height: 500px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.7s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .node-hover:hover {
+      transform: scale(1.05);
+      transition: 0.2s;
+    }
+
+    .stack-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: #4f46e5;
+      color: #fff;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+
+    .stack-badge-bottom {
+      background: #a5b4fc;
+      color: #1e293b;
+    }
+
+    /* טבלת מעברים – הדגשה בשורה שנבחרה */
+    .transition-row--active {
+      background-color: #e0ecff;
+    }
+
+    /* הדגשת קשת */
+    .edge--active {
+      line-color: #f97316 !important;
+      target-arrow-color: #f97316 !important;
+      width: 4px !important;
+    }
+
+    /* Tooltip לקשתות */
+    #edgeTooltip {
+      position: fixed;
+      pointer-events: none;
+      background: #111827;
+      color: #f9fafb;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      max-width: 260px;
+      direction: rtl;
+      white-space: pre-line;
+    }
+
+    /* אנימציות מחסנית */
+    @keyframes stackPush {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes stackPopFlash {
+      from {
+        background-color: #fee2e2;
+      }
+      to {
+        background-color: transparent;
+      }
+    }
+
+    .stack-push {
+      animation: stackPush 0.25s ease-out;
+    }
+
+    .stack-pop-flash {
+      animation: stackPopFlash 0.3s ease-out;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+      }
+      main {
+        padding: 12px !important;
+      }
+      #cy {
+        height: 380px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="edgeTooltip"></div>
+
+  <main class="w-full bg-white shadow-2xl rounded-3xl p-6 md:p-10 border border-indigo-100 fade-in">
+    <h1 class="text-3xl md:text-4xl font-extrabold text-indigo-700 mb-3 text-center">
+      📚 יוצר אוטומט מחסנית (NPDA) משפה טבעית
+    </h1>
+    <p class="text-gray-600 text-center text-lg mb-8">
+      הזן תיאור מילולי של שפה פורמלית (גם בעברית), המערכת תבנה עבורך NPDA ותאפשר לבדוק מחרוזות בזמן אמת.
+    </p>
+
+    <!-- טופס קלט ליצירת PDA -->
+    <form id="pdaForm" class="space-y-6">
+      <textarea id="description" required
+        placeholder="לדוגמה: כל המילים מהצורה a^n b^n (אותה כמות של a ואחריה אותה כמות של b)"
+        class="w-full h-36 p-4 rounded-2xl border border-gray-300 focus:ring-4 focus:ring-indigo-400 focus:outline-none text-gray-800 resize-none text-lg placeholder-gray-400 shadow-inner transition"></textarea>
+
+      <div class="flex flex-col md:flex-row gap-3 justify-center">
+        <button type="submit"
+          class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-10 rounded-2xl shadow-lg transition transform hover:scale-105">
+          🚀 צור NPDA
+        </button>
+
+        <button type="button" id="exportPngBtn"
+          class="bg-white border border-indigo-300 text-indigo-700 font-semibold py-3 px-6 rounded-2xl shadow-sm hover:bg-indigo-50 transition">
+          📷 יצוא תמונת גרף (PNG)
+        </button>
+      </div>
+    </form>
+
+    <div id="loading" class="hidden text-center mt-6 text-indigo-600 font-medium">
+      ⏳ המערכת יוצרת את אוטומט המחסנית, אנא המתן...
+    </div>
+
+    <!-- תוצאה -->
+    <section id="result" class="hidden mt-10 fade-in">
+      <div class="grid grid-cols-1 lg:grid-cols-[2fr,minmax(0,1fr)] gap-4 mb-4">
+        <div>
+          <div id="cy"></div>
+
+          <!-- אגדה -->
+          <div class="flex flex-wrap justify-center gap-4 mt-4 text-xs md:text-sm text-gray-700">
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 bg-indigo-500 rounded-full border border-indigo-900"></div>
+              <span>מצב רגיל</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 bg-green-200 border-4 border-green-500 rounded-full"></div>
+              <span>מצב מקבל</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-4 h-0.5 rounded bg-orange-500 inline-block"></span>
+              <span>מעבר ε</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-4 h-0.5 rounded bg-blue-500 inline-block"></span>
+              <span>Push בלבד</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-4 h-0.5 rounded bg-red-500 inline-block"></span>
+              <span>Pop בלבד</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-4 h-0.5 rounded bg-purple-500 inline-block"></span>
+              <span>Push + Pop</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- מידע על מצב נבחר -->
+        <aside class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4 text-sm text-gray-800 shadow-sm">
+          <h2 class="text-base md:text-lg font-bold text-indigo-800 mb-2">🧠 מידע על מצב</h2>
+          <div id="stateInfo">
+            <p class="text-gray-500 text-sm">לחץ על מצב בגרף לקבלת פרטים עליו.</p>
+          </div>
+        </aside>
+      </div>
+
+      <!-- טבלת מעברים -->
+      <div class="mt-4 bg-white border border-indigo-100 rounded-2xl p-4 shadow-sm overflow-x-auto">
+        <h2 class="text-lg font-semibold text-indigo-800 mb-3">
+          📋 רשימת המעברים (Transitions)
+        </h2>
+        <table class="min-w-full text-sm text-gray-800">
+          <thead>
+            <tr class="border-b">
+              <th class="px-3 py-2 text-right font-semibold">#</th>
+              <th class="px-3 py-2 text-right font-semibold">מ־מצב</th>
+              <th class="px-3 py-2 text-right font-semibold">אל מצב</th>
+              <th class="px-3 py-2 text-right font-semibold">נקרא (read)</th>
+              <th class="px-3 py-2 text-right font-semibold">נשלף (pop)</th>
+              <th class="px-3 py-2 text-right font-semibold">נידחף (push)</th>
+            </tr>
+          </thead>
+          <tbody id="transitionTableBody"></tbody>
+        </table>
+        <p class="mt-2 text-xs text-gray-500">
+          💡 טיפ: לחץ על קשת בגרף כדי להדגיש את שורת המעבר המתאימה בטבלה – או לחץ על שורה בטבלה כדי להדגיש את הקשת המתאימה בגרף.
+        </p>
+      </div>
+
+      <p class="text-center text-indigo-700 mt-6 text-lg font-semibold">
+        ℹ️ האוטומט משתמש במחסנית פנימית – ניתן לראות את השינויים במחסנית בכל צעד סימולציה.
+      </p>
+
+      <!-- תיבת מידע על השפה -->
+      <div class="mt-6 bg-indigo-50 border border-indigo-200 rounded-2xl p-6 text-gray-800 text-right shadow-sm">
+        <p><strong>🧩 מה השפה?</strong><br><span id="explanationText"></span></p>
+        <p class="mt-4"><strong>⚙️ ההיגיון:</strong><br><span id="logicText"></span></p>
+
+        <p class="mt-6"><strong>🔍 מקור האוטומט:</strong>
+          <span id="sourceText" class="font-semibold text-indigo-700"></span>
+        </p>
+
+        <p class="mt-2"><strong>🎯 רמת דיוק (הערכת מודל):</strong>
+          <span id="accuracyText" class="font-semibold text-green-700"></span>%
+        </p>
+      </div>
+
+      <!-- אזור סימולציה -->
+      <section class="mt-8 bg-indigo-50 border border-indigo-200 rounded-2xl p-6 shadow-sm">
+        <h2 class="text-2xl font-bold text-indigo-800 mb-4">🧪 סימולציה על מחרוזת</h2>
+        <p class="text-gray-700 mb-4">
+          הכנס מחרוזת על גבי האלפבית שה-NPDA משתמש בו, וצפה בהרצה ובמצב המחסנית בכל צעד.
+        </p>
+
+        <form id="simulateForm" class="flex flex-col md:flex-row gap-4 items-center">
+          <input id="wordInput" type="text" required
+                 placeholder="לדוגמה: aaabbb"
+                 class="flex-1 w-full md:w-auto rounded-xl border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+          <button type="submit"
+                  class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded-xl shadow">
+            ▶️ הרץ סימולציה
+          </button>
+        </form>
+
+        <p id="simulateResult" class="mt-4 text-lg font-semibold"></p>
+
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Trace -->
+          <div>
+            <h3 class="font-bold text-indigo-800 mb-2">🔎 Trace של הצעדים</h3>
+            <pre id="traceOutput"
+                 class="bg-white border border-indigo-100 rounded-xl p-3 text-sm text-gray-800 overflow-auto max-h-64"></pre>
+          </div>
+
+          <!-- Stack viewer -->
+          <div>
+            <h3 class="font-bold text-indigo-800 mb-2">📦 מצב המחסנית בצעד האחרון</h3>
+            <div id="stackView"
+                 class="bg-white border border-indigo-100 rounded-xl p-4 text-sm text-gray-800 min-h-[60px] flex flex-wrap items-center">
+              <span class="text-gray-500">הרץ סימולציה כדי לראות את המחסנית.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const pdaForm = document.getElementById('pdaForm');
+    const loading = document.getElementById('loading');
+    const result = document.getElementById('result');
+    const cyDiv = document.getElementById('cy');
+    const explanationText = document.getElementById('explanationText');
+    const logicText = document.getElementById('logicText');
+    const sourceText = document.getElementById('sourceText');
+    const accuracyText = document.getElementById('accuracyText');
+
+    const simulateForm = document.getElementById('simulateForm');
+    const wordInput = document.getElementById('wordInput');
+    const simulateResult = document.getElementById('simulateResult');
+    const traceOutput = document.getElementById('traceOutput');
+    const stackView = document.getElementById('stackView');
+
+    const transitionTableBody = document.getElementById('transitionTableBody');
+    const stateInfo = document.getElementById('stateInfo');
+    const exportPngBtn = document.getElementById('exportPngBtn');
+    const edgeTooltip = document.getElementById('edgeTooltip');
+
+    let cy = null;
+    let currentPda = null;
+    let prevStackForAnimation = [];
+
+    pdaForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loading.classList.remove('hidden');
+      result.classList.add('hidden');
+      cyDiv.innerHTML = '';
+      simulateResult.textContent = '';
+      traceOutput.textContent = '';
+      stackView.innerHTML = '<span class="text-gray-500">הרץ סימולציה כדי לראות את המחסנית.</span>';
+      stackView.classList.remove('stack-pop-flash');
+      if (transitionTableBody) {
+        transitionTableBody.innerHTML = '';
+      }
+      if (stateInfo) {
+        stateInfo.innerHTML = '<p class="text-gray-500 text-sm">לחץ על מצב בגרף לקבלת פרטים עליו.</p>';
+      }
+      currentPda = null;
+      prevStackForAnimation = [];
+
+      const description = document.getElementById('description').value;
+
+      try {
+        const res = await fetch('/pda/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ description })
+        });
+
+        const data = await res.json();
+        loading.classList.add('hidden');
+
+        if (data.type === 'none') {
+          cyDiv.innerHTML = `
+            <div class="bg-red-100 border-4 border-red-500 text-red-900 rounded-xl p-8 mt-6 text-center shadow-lg">
+              <h2 class="text-3xl font-extrabold mb-2">🚫 לא נבנה NPDA</h2>
+              <p>${data.explanation || 'לא ניתן היה לבנות אוטומט מחסנית עבור התיאור שניתן.'}</p>
+            </div>`;
+          result.classList.remove('hidden');
+          return;
+        }
+
+        currentPda = data;
+
+        drawPdaGraph(data);
+        renderTransitionTable(data);
+
+        explanationText.textContent = data.explanation || "לא ניתנה הסבר.";
+        logicText.textContent = data.logic || "אין תיאור של ההיגיון.";
+        sourceText.textContent = data.source || "model";
+        accuracyText.textContent = data.accuracy ?? "-";
+
+        result.classList.remove('hidden');
+      } catch (err) {
+        console.error(err);
+        loading.classList.add('hidden');
+        alert("❌ שגיאה בתקשורת עם השרת.");
+      }
+    });
+
+    function classifyEdgeKind(read, pop, pushList) {
+      const isEps = (read === '' || read === 'ε');
+      const hasPop = (pop !== '' && pop !== 'ε');
+      const hasPush = (Array.isArray(pushList) && pushList.length > 0);
+
+      if (isEps) return 'epsilon';
+      if (hasPop && hasPush) return 'pop_push';
+      if (hasPop && !hasPush) return 'pop_only';
+      if (!hasPop && hasPush) return 'push_only';
+      return 'other';
+    }
+
+    function drawPdaGraph(pda) {
+      const elements = [];
+
+      (pda.states || []).forEach(s => {
+        const isAccept = (pda.accept_states || []).includes(s);
+        elements.push({
+          data: { id: s, label: s },
+          classes: isAccept ? 'accept' : 'node-hover'
+        });
+      });
+
+      (pda.transitions || []).forEach((t, idx) => {
+        const read = (t.read === '' || t.read == null) ? 'ε' : t.read;
+        const pop  = (t.pop === ''  || t.pop  == null) ? 'ε' : t.pop;
+        let pushArr = Array.isArray(t.push)
+          ? t.push
+          : (typeof t.push === 'string' ? t.push.split('') : []);
+        const push = pushArr.length ? pushArr.join('') : 'ε';
+
+        const label = `${read} | ${pop}→${push}`;
+        const kind = classifyEdgeKind(read, pop, pushArr);
+
+        const tooltipText =
+          `קריאה (read): ${read === 'ε' ? 'ε (אפסילון)' : read}\n` +
+          `שליפה (pop): ${pop === 'ε' ? 'ללא שליפה (ε)' : pop}\n` +
+          `דחיפה (push): ${push === 'ε' ? 'לא נדחף דבר (ε)' : push}`;
+
+        elements.push({
+          data: {
+            id: `e${idx}`,
+            source: t.from,
+            target: t.to,
+            label: label,
+            tIndex: idx,
+            kind: kind,
+            tooltip: tooltipText
+          }
+        });
+      });
+
+      cy = cytoscape({
+        container: cyDiv,
+        elements,
+        style: [
+          {
+            selector: 'node',
+            style: {
+              'background-color': '#6366f1',
+              'label': 'data(label)',
+              'color': '#fff',
+              'text-valign': 'center',
+              'text-halign': 'center',
+              'font-size': '16px',
+              'width': '55px',
+              'height': '55px',
+              'border-width': 2,
+              'border-color': '#312e81'
+            }
+          },
+          {
+            selector: 'node.accept',
+            style: {
+              'border-width': 6,
+              'border-color': '#22c55e',
+              'background-color': '#bbf7d0',
+              'color': '#065f46',
+              'font-weight': 'bold'
+            }
+          },
+          /* ברירת מחדל */
+          {
+            selector: 'edge',
+            style: {
+              'curve-style': 'bezier',
+              'target-arrow-shape': 'triangle',
+              'target-arrow-color': '#4338ca',
+              'line-color': '#6366f1',
+              'width': 2,
+              'label': 'data(label)',
+              'font-size': '12px',
+              'min-zoomed-font-size': 8,
+              'edge-text-rotation': 'autorotate',
+              'text-wrap': 'wrap',
+              'text-max-width': 120,
+              'text-background-color': '#ffffff',
+              'text-background-opacity': 0.9,
+              'text-background-padding': 4,
+              'color': '#1f2937',
+              'cursor': 'pointer'
+            }
+          },
+          /* ε-transitions */
+          {
+            selector: 'edge[kind = "epsilon"]',
+            style: {
+              'line-color': '#f97316',
+              'target-arrow-color': '#f97316',
+              'color': '#f97316'
+            }
+          },
+          /* pop only */
+          {
+            selector: 'edge[kind = "pop_only"]',
+            style: {
+              'line-color': '#ef4444',
+              'target-arrow-color': '#ef4444',
+              'color': '#ef4444'
+            }
+          },
+          /* push only */
+          {
+            selector: 'edge[kind = "push_only"]',
+            style: {
+              'line-color': '#3b82f6',
+              'target-arrow-color': '#3b82f6',
+              'color': '#1d4ed8'
+            }
+          },
+          /* push+pop */
+          {
+            selector: 'edge[kind = "pop_push"]',
+            style: {
+              'line-color': '#a855f7',
+              'target-arrow-color': '#a855f7',
+              'color': '#7e22ce'
+            }
+          }
+        ],
+        layout: { name: 'circle' }
+      });
+
+      cy.layout({ name: 'circle' }).run();
+      cy.fit();
+      cy.center();
+
+      // קליק על קשת → הדגשת שורה בטבלה + הקשת
+      cy.on('tap', 'edge', function (evt) {
+        const tIndex = evt.target.data('tIndex');
+        highlightTransition(tIndex);
+      });
+
+      // Tooltip על קשת
+      cy.on('mouseover', 'edge', function (evt) {
+        const t = evt.target;
+        const tooltipText = t.data('tooltip') || '';
+        const e = evt.renderedPosition || evt.position;
+        const clientX = evt.originalEvent ? evt.originalEvent.clientX : 0;
+        const clientY = evt.originalEvent ? evt.originalEvent.clientY : 0;
+
+        if (!tooltipText) return;
+        edgeTooltip.textContent = tooltipText;
+        edgeTooltip.style.left = clientX + 10 + 'px';
+        edgeTooltip.style.top = clientY - 10 + 'px';
+        edgeTooltip.style.opacity = '1';
+        edgeTooltip.style.transform = 'translateY(0)';
+      });
+
+      cy.on('mouseout', 'edge', function () {
+        edgeTooltip.style.opacity = '0';
+        edgeTooltip.style.transform = 'translateY(-4px)';
+      });
+
+      // קליק על מצב → מידע בצד
+      cy.on('tap', 'node', function (evt) {
+        const node = evt.target;
+        renderStateInfo(node.id());
+      });
+    }
+
+    function renderTransitionTable(pda) {
+      if (!transitionTableBody) return;
+      const transitions = pda.transitions || [];
+      if (!transitions.length) {
+        transitionTableBody.innerHTML =
+          '<tr><td colspan="6" class="px-3 py-2 text-gray-500 text-center">אין מעברים להציג.</td></tr>';
+        return;
+      }
+
+      transitionTableBody.innerHTML = transitions
+        .map((t, idx) => {
+          const read = (t.read === '' || t.read == null) ? 'ε' : t.read;
+          const pop  = (t.pop === ''  || t.pop  == null) ? 'ε' : t.pop;
+          let pushArr = Array.isArray(t.push)
+            ? t.push
+            : (typeof t.push === 'string' ? t.push.split('') : []);
+          const push = pushArr.length ? pushArr.join('') : 'ε';
+
+          return `
+            <tr id="transition-row-${idx}"
+                class="border-b last:border-0 transition-row cursor-pointer"
+                onclick="onTransitionRowClick(${idx})">
+              <td class="px-3 py-1">${idx}</td>
+              <td class="px-3 py-1">${t.from}</td>
+              <td class="px-3 py-1">${t.to}</td>
+              <td class="px-3 py-1">${read}</td>
+              <td class="px-3 py-1">${pop}</td>
+              <td class="px-3 py-1">${push}</td>
+            </tr>
+          `;
+        })
+        .join('');
+    }
+
+    function clearEdgeHighlight() {
+      if (!cy) return;
+      cy.edges().removeClass('edge--active');
+    }
+
+    function highlightTransitionRow(index) {
+      if (!transitionTableBody) return;
+      const rows = transitionTableBody.querySelectorAll('.transition-row');
+      rows.forEach(r => r.classList.remove('transition-row--active'));
+
+      const targetRow = document.getElementById(`transition-row-${index}`);
+      if (targetRow) {
+        targetRow.classList.add('transition-row--active');
+        targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    function highlightTransitionEdge(index) {
+      if (!cy) return;
+      clearEdgeHighlight();
+      const edge = cy.edges().filter(e => e.data('tIndex') === index)[0];
+      if (edge) {
+        edge.addClass('edge--active');
+        cy.center(edge);
+      }
+    }
+
+    function highlightTransition(index) {
+      highlightTransitionRow(index);
+      highlightTransitionEdge(index);
+    }
+
+    // קליק על שורה בטבלה → הדגשת קשת
+    function onTransitionRowClick(index) {
+      highlightTransition(index);
+    }
+
+    window.onTransitionRowClick = onTransitionRowClick;
+
+    function renderStateInfo(stateId) {
+      if (!stateInfo || !currentPda || !cy) return;
+      const isAccept = (currentPda.accept_states || []).includes(stateId);
+
+      const outgoing = (currentPda.transitions || []).filter(t => t.from === stateId);
+      const incoming = (currentPda.transitions || []).filter(t => t.to === stateId);
+
+      const outgoingList = outgoing.map((t, idx) => {
+        const read = (t.read === '' || t.read == null) ? 'ε' : t.read;
+        const pop  = (t.pop === ''  || t.pop  == null) ? 'ε' : t.pop;
+        let pushArr = Array.isArray(t.push)
+          ? t.push
+          : (typeof t.push === 'string' ? t.push.split('') : []);
+        const push = pushArr.length ? pushArr.join('') : 'ε';
+        return `(${read} | ${pop}→${push}) → ${t.to}`;
+      });
+
+      const incomingList = incoming.map((t) => {
+        const read = (t.read === '' || t.read == null) ? 'ε' : t.read;
+        const pop  = (t.pop === ''  || t.pop  == null) ? 'ε' : t.pop;
+        let pushArr = Array.isArray(t.push)
+          ? t.push
+          : (typeof t.push === 'string' ? t.push.split('') : []);
+        const push = pushArr.length ? pushArr.join('') : 'ε';
+        return `${t.from} → (${read} | ${pop}→${push})`;
+      });
+
+      stateInfo.innerHTML = `
+        <p><strong>שם המצב:</strong> ${stateId}</p>
+        <p class="mt-1"><strong>סוג:</strong> ${isAccept ? 'מצב מקבל ✅' : 'מצב רגיל'}</p>
+        <p class="mt-3"><strong>מעברים יוצאים:</strong></p>
+        <ul class="list-disc pr-5 mt-1 text-xs md:text-sm">
+          ${
+            outgoingList.length
+              ? outgoingList.map(x => `<li>${x}</li>`).join('')
+              : '<li class="text-gray-500">אין מעברים יוצאים.</li>'
+          }
+        </ul>
+        <p class="mt-3"><strong>מעברים נכנסים:</strong></p>
+        <ul class="list-disc pr-5 mt-1 text-xs md:text-sm">
+          ${
+            incomingList.length
+              ? incomingList.map(x => `<li>${x}</li>`).join('')
+              : '<li class="text-gray-500">אין מעברים נכנסים.</li>'
+          }
+        </ul>
+      `;
+    }
+
+    simulateForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!currentPda || currentPda.type !== 'PDA') {
+        alert("קודם יש ליצור NPDA מתיאור השפה.");
+        return;
+      }
+
+      const word = wordInput.value.trim();
+      if (!word) {
+        alert("אנא הזן מחרוזת לבדיקה.");
+        return;
+      }
+
+      simulateResult.textContent = "⏳ מריץ סימולציה...";
+      traceOutput.textContent = "";
+      stackView.innerHTML = '<span class="text-gray-500">טוען...</span>';
+      stackView.classList.remove('stack-pop-flash');
+
+      try {
+        const res = await fetch('/pda/simulate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ word, pda: currentPda })
+        });
+
+        const data = await res.json();
+
+        if (data.error) {
+          simulateResult.textContent = data.error;
+          return;
+        }
+
+        if (data.accepted) {
+          simulateResult.textContent = "✅ המחרוזת התקבלה על ידי ה-NPDA.";
+          simulateResult.className = "mt-4 text-lg font-semibold text-green-700";
+        } else {
+          simulateResult.textContent = "❌ המחרוזת נדחתה על ידי ה-NPDA.";
+          simulateResult.className = "mt-4 text-lg font-semibold text-red-700";
+        }
+
+        traceOutput.textContent = buildTraceText(data.trace || []);
+        updateStackView(data.trace || []);
+      } catch (err) {
+        console.error(err);
+        simulateResult.textContent = "❌ שגיאה בתקשורת עם השרת.";
+        simulateResult.className = "mt-4 text-lg font-semibold text-red-700";
+      }
+    });
+
+    function buildTraceText(trace) {
+      if (!trace.length) {
+        return "אין Trace להצגה.";
+      }
+      return trace
+        .map(step =>
+          `צעד ${step.step} | מצב: ${step.state} | נקרא: "${step.consumed}" | נותר קלט: "${step.remaining_input}" | מחסנית: [${(step.stack || []).join(", ")}]`
+        )
+        .join("\n");
+    }
+
+    function updateStackView(trace) {
+      if (!trace.length) {
+        stackView.innerHTML = '<span class="text-gray-500">אין מידע על מחסנית.</span>';
+        return;
+      }
+      const last = trace[trace.length - 1];
+      const stack = last.stack || [];
+
+      const oldStack = prevStackForAnimation || [];
+      prevStackForAnimation = [...stack];
+
+      if (!stack.length) {
+        stackView.innerHTML = '<span class="text-gray-700">המחסנית ריקה.</span>';
+        stackView.classList.add('stack-pop-flash');
+        setTimeout(() => stackView.classList.remove('stack-pop-flash'), 300);
+        return;
+      }
+
+      stackView.innerHTML = "";
+      const label = document.createElement("span");
+      label.className = "text-gray-700 mr-2 mb-2";
+      label.textContent = "מלמעלה למטה:";
+      stackView.appendChild(label);
+
+      const isPush = stack.length > oldStack.length;
+      const isPop  = stack.length < oldStack.length;
+
+      stack.forEach((sym, idx) => {
+        const span = document.createElement("span");
+        span.className = "stack-badge" + (idx === stack.length - 1 ? " stack-badge-bottom" : "");
+        span.textContent = sym;
+
+        if (isPush && idx >= oldStack.length) {
+          span.classList.add('stack-push');
+        }
+
+        stackView.appendChild(span);
+      });
+
+      if (isPop) {
+        stackView.classList.add('stack-pop-flash');
+        setTimeout(() => stackView.classList.remove('stack-pop-flash'), 300);
+      }
+    }
+
+    // יצוא תמונת PNG
+    exportPngBtn.addEventListener('click', () => {
+      if (!cy) {
+        alert("קודם צור NPDA כדי לייצא גרף.");
+        return;
+      }
+      const pngData = cy.png({ full: true });
+      const link = document.createElement('a');
+      link.href = pngData;
+      link.download = 'npda_graph.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  </script>
+</body>
+</html>

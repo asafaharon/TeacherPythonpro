@@ -462,4 +462,45 @@ pre code{direction:ltr; text-align:left;}
   font-size: 0.9rem;
   white-space: pre-wrap;
 }
+/* ---- כפתורי ראש הדף (DFA & PDA) – עיצוב מודרני ---- */
+
+.tp-header__right .tp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.18s ease-in-out;
+}
+
+/* כפתור DFA (הראשי) */
+.tp-header__right .tp-btn--primary {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: #ffffff;
+  box-shadow: 0 3px 12px rgba(79, 70, 229, 0.35);
+  border: none;
+}
+
+.tp-header__right .tp-btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.45);
+}
+
+/* כפתור PDA (משני) */
+.tp-header__right .tp-btn[href="/pda"] {
+  background: #ffffff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.tp-header__right .tp-btn[href="/pda"]:hover {
+  background: #f9fafb;
+  transform: translateY(-2px);
+  border-color: #9ca3af;
+}
+
 
