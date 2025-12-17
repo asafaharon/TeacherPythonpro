@@ -2,6 +2,7 @@ import os
 import json
 from fastapi.responses import JSONResponse
 from openai import OpenAI
+from services.language_spec_service import check_language_regularity
 
 from services.language_spec_service import build_language_spec
 from services.dfa_validator import validate_dfa_against_spec
@@ -41,6 +42,12 @@ def fallback_even_length_dfa():
 # Validate and fix missing DFA fields
 # -----------------------------------------------------------
 def validate_and_fix_dfa(raw: dict) -> dict:
+    """
+    Makes the DFA formally TOTAL and safe to run.
+    Any referenced but undefined state (e.g. TRAP / reject)
+    becomes a closed sink state.
+    """
+
     alphabet = raw.get("alphabet", ["0", "1"])
     states = list(dict.fromkeys(raw.get("states", []))) or ["q0"]
     start_state = raw.get("start_state", states[0])
@@ -48,15 +55,37 @@ def validate_and_fix_dfa(raw: dict) -> dict:
     if start_state not in states:
         states.insert(0, start_state)
 
-    accept_states = raw.get("accept_states", [start_state])
+    accept_states = raw.get("accept_states", [])
     transitions = raw.get("transitions", {})
 
     fixed_transitions = {}
-    for s in states:
-        fixed_transitions[s] = {}
+    referenced_states = set(states)
+
+    # --- Build transitions & collect referenced states ---
+    for state in states:
+        fixed_transitions[state] = {}
+
         for sym in alphabet:
-            dst = transitions.get(s, {}).get(sym, s)
-            fixed_transitions[s][sym] = dst
+            dst = transitions.get(state, {}).get(sym)
+
+            if dst is None:
+                dst = "TRAP"
+
+            fixed_transitions[state][sym] = dst
+            referenced_states.add(dst)
+
+    # --- Add missing referenced states as sink states ---
+    for state in referenced_states:
+        if state not in fixed_transitions:
+            fixed_transitions[state] = {}
+            for sym in alphabet:
+                fixed_transitions[state][sym] = state
+
+            if state not in states:
+                states.append(state)
+
+    # --- Sink states must never be accepting ---
+    accept_states = [s for s in accept_states if s in states and s not in referenced_states - set(states)]
 
     return {
         "type": "DFA",
@@ -69,6 +98,9 @@ def validate_and_fix_dfa(raw: dict) -> dict:
         "logic": raw.get("logic", ""),
         "simulation": raw.get("simulation", {}),
     }
+
+
+
 
 
 # -----------------------------------------------------------
@@ -184,63 +216,93 @@ def check_regular_with_gpt(description: str) -> bool:
     except Exception:
         return True
 
+# automaton_service.py
+# ספי מוצר – אפשר לכוונן
+DISPLAY_THRESHOLD = 70      # מציגים אוטומט
+REPAIR_THRESHOLD = 85       # שווה לנסות Repair
+STRICT_THRESHOLD = 95       # אוטומט “כמעט מושלם”
 
-# -----------------------------------------------------------
-# MAIN ENTRY POINT
-# -----------------------------------------------------------
 async def generate_automaton_html(description: str) -> JSONResponse:
     print("\n========== New Automaton Request ==========")
     print("[Input]", description)
 
-    if is_non_regular_text(description):
+    # ====================================================
+    # 0️⃣ בדיקת רגולריות – דרך ה־API (שלב חדש!)
+    # ====================================================
+    regularity = check_language_regularity(description)
+    print("[Regularity Check]", regularity)
+
+    if not regularity.get("is_regular", False):
         return JSONResponse({
             "type": "none",
-            "explanation": "❌ השפה אינה רגולרית.",
-            "source": "analysis",
-            "logic": "",
-            "accuracy": 0
+            "status": "non_regular_language",
+
+            # 👇 הודעה קצרה וברורה למשתמש
+            "user_message": "השפה שביקשת אינה שפה רגולרית ולכן לא ניתן לבנות עבורה אוטומט סופי.",
+
+            # 👇 הסבר ארוך יותר (לא חובה להציג ב־UI)
+            "details": regularity.get("reason", "")
         })
 
-    if not check_regular_with_gpt(description):
-        return JSONResponse({
-            "type": "none",
-            "explanation": "❌ השפה אינה רגולרית לפי הבדיקה.",
-            "source": "analysis",
-            "logic": "",
-            "accuracy": 0
-        })
-
-    # --- Build SPEC ---
+    # ====================================================
+    # 1️⃣ בניית SPEC
+    # ====================================================
     spec = build_language_spec(description)
     print("[SPEC Built]")
 
-    # --- Build DFA ---
+    # ====================================================
+    # 2️⃣ בניית DFA ראשוני
+    # ====================================================
     dfa = build_dfa_from_spec(spec)
     print("[DFA Built]")
 
-    # --- Validate DFA ---
+    # ====================================================
+    # 3️⃣ אימות (רך)
+    # ====================================================
     validation = validate_dfa_against_spec(dfa, spec)
     print("[Validation Result]", validation)
 
-    if validation["valid"]:
+    score = validation.get("score", 0)
+
+    # 🟢 אוטומט איכותי מאוד
+    if score >= STRICT_THRESHOLD:
         dfa["source"] = "model"
-        dfa["accuracy"] = validation["score"]
+        dfa["accuracy"] = score
+        dfa["status"] = "high_confidence"
+        dfa["warnings"] = []
         return JSONResponse(dfa)
 
-    # --- Repair ---
-    print("[Repair Attempt]")
-    repaired = repair_dfa(description, spec, dfa, validation["errors"])
+    # 🟡 אוטומט סביר – מציגים עם אזהרות
+    if score >= DISPLAY_THRESHOLD:
+        dfa["source"] = "model"
+        dfa["accuracy"] = score
+        dfa["status"] = "approximate"
+        dfa["warnings"] = validation.get("errors", [])
+        return JSONResponse(dfa)
 
-    validation2 = validate_dfa_against_spec(repaired, spec)
-    print("[Re-Validation Result]", validation2)
+    # 🔵 ניסיון Repair (רשות)
+    if score >= REPAIR_THRESHOLD:
+        print("[Repair Attempt]")
+        repaired = repair_dfa(description, spec, dfa, validation.get("errors", []))
+        validation2 = validate_dfa_against_spec(repaired, spec)
+        print("[Re-Validation Result]", validation2)
 
-    if validation2["valid"]:
-        repaired["source"] = "repaired"
-        repaired["accuracy"] = validation2["score"]
-        return JSONResponse(repaired)
+        score2 = validation2.get("score", 0)
 
-    # --- Fallback ---
-    fallback = fallback_even_length_dfa()
-    fallback["source"] = "fallback"
-    fallback["accuracy"] = 0
-    return JSONResponse(fallback)
+        if score2 >= DISPLAY_THRESHOLD:
+            repaired["source"] = "repaired"
+            repaired["accuracy"] = score2
+            repaired["status"] = "approximate"
+            repaired["warnings"] = validation2.get("errors", [])
+            return JSONResponse(repaired)
+
+    # 🔴 איכות נמוכה – עדיין מציגים (מדיניות מוצר)
+    dfa["source"] = "low_confidence"
+    dfa["accuracy"] = score
+    dfa["status"] = "low_confidence"
+    dfa["warnings"] = validation.get("errors", [])
+    dfa["note"] = (
+        "⚠️ האוטומט הוצג ברמת אמינות נמוכה. "
+        "ייתכן שאינו מייצג במדויק את השפה."
+    )
+    return JSONResponse(dfa)

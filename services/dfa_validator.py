@@ -10,17 +10,18 @@
 
 --------------------------------------------------------------------
 """
+from services.language_spec_service import check_language_regularity
 
 def run_dfa(dfa: dict, input_word: str) -> bool:
     """
     מריץ DFA על מחרוזת ומחזיר True אם מתקבלת, אחרת False.
+    במקרה של שגיאה פנימית – מדפיס ומרים חריגה, כדי שה-validator ידע שיש בעיה.
     """
     try:
         current = dfa["start_state"]
         transitions = dfa["transitions"]
 
         for sym in input_word:
-            # אם המשתמש ביקש אלפבית אחר (נדיר), עדיין נטפל
             if sym not in dfa["alphabet"]:
                 return False
             current = transitions[current][sym]
@@ -29,26 +30,29 @@ def run_dfa(dfa: dict, input_word: str) -> bool:
 
     except Exception as e:
         print("[Validator] Error while running DFA:", e)
-        return False
+        # כאן עדיף לזרוק חריגה, כדי שלא תיספר “סתם” כדחייה:
+        raise
 
 
 def validate_dfa_against_spec(dfa: dict, spec: dict) -> dict:
-    """
-    מחזיר:
-    {
-      "valid": bool,
-      "errors": [ ... רשימת שגיאות ... ],
-      "score": 0–100
-    }
-    """
-
     errors = []
     score = 100
 
     accepted_examples = spec.get("accepted_examples", [])
     rejected_examples = spec.get("rejected_examples", [])
 
-    # --- בדיקה על מילים שצריכות להתקבל ---
+    # אם אין בכלל דוגמאות – לא סומכים על ה-DFA
+    if not accepted_examples and not rejected_examples:
+        return {
+            "valid": False,
+            "errors": [{
+                "type": "no_examples",
+                "msg": "לא סופקו דוגמאות מתקבלות/נדחות ב-SPEC."
+            }],
+            "score": 0,
+        }
+
+    # --- מילים שצריכות להתקבל ---
     for word in accepted_examples:
         res = run_dfa(dfa, word)
         if not res:
@@ -58,9 +62,9 @@ def validate_dfa_against_spec(dfa: dict, spec: dict) -> dict:
                 "expected": "accept",
                 "actual": "reject"
             })
-            score -= 15  # כל טעות מורידה ניקוד
+            score -= 15
 
-    # --- בדיקה על מילים שצריכות להידחות ---
+    # --- מילים שצריכות להידחות ---
     for word in rejected_examples:
         res = run_dfa(dfa, word)
         if res:
@@ -72,7 +76,6 @@ def validate_dfa_against_spec(dfa: dict, spec: dict) -> dict:
             })
             score -= 15
 
-    # הגבלת ניקוד סופי
     if score < 0:
         score = 0
 

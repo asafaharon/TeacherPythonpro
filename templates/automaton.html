@@ -2,246 +2,476 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎯 יוצר אוטומטים אינטראקטיבי | TeacherPython</title>
+  <title>🎯 יוצר DFA אינטראקטיבי | TeacherPython</title>
 
-  <!-- TailwindCSS & Cytoscape -->
+  <!-- Tailwind + Cytoscape -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
 
+  <link rel="stylesheet" href="/static/css/style.css">
+
   <style>
-body {
-  font-family: 'Rubik', 'Segoe UI', Tahoma, sans-serif;
-  background: linear-gradient(135deg, #eef2ff, #c7d2fe);
-  min-height: 100vh;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-}
+    /* בסיס כללי: פונט קריא וצבע טקסט כהה */
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: #111827; /* gray-900 */
+    }
 
-#cy {
-  width: 100%;
-  height: 500px;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+    #cy {
+      width: 100%;
+      height: 500px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
 
-.fade-in {
-  animation: fadeIn 0.7s ease forwards;
-}
+    /* הדגשה בצהוב למסלול הסימולציה */
+    .highlight {
+      background-color: #facc15 !important;
+      line-color: #facc15 !important;
+      target-arrow-color: #facc15 !important;
+      transition: 0.25s ease;
+    }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    /* טקסט התיאור שהמשתמש כתב */
+    #userInputText {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #111827; /* כהה מאוד */
+      font-weight: 500;
+      white-space: pre-wrap;
+    }
 
-.node-hover:hover {
-  transform: scale(1.05);
-  transition: 0.2s;
-}
+    /* טקסט trace של הסימולציה */
+    #trace {
+      color: #111827;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      direction: ltr;
+      text-align: left;
+    }
+
+    /* טקסטי ההסבר הפנימי */
+    #explanationText,
+    #logicText,
+    #sourceText {
+      color: #111827;
+      font-size: 1rem;
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+
+    /* שדות קלט של המשתמש – טקסט כהה יותר */
+    #description,
+    #simInput {
+      color: #111827;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    #description::placeholder,
+    #simInput::placeholder {
+      color: #6b7280; /* gray-500 */
+    }
   </style>
 </head>
 
-<body>
-  <main class="max-w-5xl w-full bg-white shadow-2xl rounded-3xl p-10 border border-indigo-100 fade-in">
-    <h1 class="text-4xl font-extrabold text-indigo-700 mb-3 text-center">🎯 יוצר אוטומטים אינטראקטיבי</h1>
-    <p class="text-gray-600 text-center text-lg mb-8">
-      הזן תיאור טבעי של שפה פורמלית וראה כיצד האוטומט נבנה בצורה גרפית ומובנת.
-    </p>
+<body class="bg-gray-100">
 
-    <!-- טופס קלט -->
-    <form id="automatonForm" class="space-y-6">
-      <textarea id="description" required
-        placeholder="לדוגמה: אוטומט שמקבל את כל המילים שמסתיימות ב־01"
-        class="w-full h-36 p-4 rounded-2xl border border-gray-300 focus:ring-4 focus:ring-indigo-400 focus:outline-none text-gray-800 resize-none text-lg placeholder-gray-400 shadow-inner transition"></textarea>
+<main class="max-w-5xl mx-auto bg-white shadow-2xl rounded-3xl p-10 border border-indigo-100 mt-6 fade-in">
 
-      <div class="flex justify-center">
-        <button type="submit"
-          class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-10 rounded-2xl shadow-lg transition transform hover:scale-105">
-          🚀 צור אוטומט
-        </button>
-      </div>
-    </form>
+  <!-- כותרת הדף -->
+  <h1 class="text-4xl font-extrabold text-indigo-700 mb-3 text-center">
+    🎯 יוצר אוטומטים דטרמיניסטיים (DFA)
+  </h1>
 
-    <div id="loading" class="hidden text-center mt-6 text-indigo-600 font-medium">
-      ⏳ המערכת יוצרת את האוטומט, אנא המתן...
+  <p class="text-gray-800 text-center text-lg mb-8">
+    הזן תיאור שפה טבעית — והמערכת תייצר עבורך אוטומט מלא + סימולציה.
+  </p>
+
+  <!-- טופס יצירת DFA — תמיד למעלה -->
+  <form id="automatonForm" class="space-y-6">
+    <textarea id="description" required
+      placeholder="לדוגמה: שפת כל המילים שמתחילות ב-aaa ומסתיימות ב-b"
+      class="w-full h-36 p-4 rounded-2xl border border-gray-300 focus:ring-4
+             focus:ring-indigo-400 text-lg shadow-inner resize-none bg-white"></textarea>
+
+    <div class="flex justify-center">
+      <button type="submit"
+        class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700
+               hover:to-purple-700 text-white font-bold py-3 px-10 rounded-2xl shadow-lg">
+        🚀 צור אוטומט חדש
+      </button>
+    </div>
+  </form>
+
+  <!-- אנימציית טעינה -->
+  <div id="loading" class="hidden text-center mt-6 text-indigo-600 font-medium">
+    ⏳ בונה את האוטומט...
+  </div>
+
+  <!-- שגיאה כללית -->
+  <div id="errorBox" class="hidden mt-4 text-center text-red-600 font-semibold">
+    אירעה שגיאה בעת יצירת האוטומט. נסה שוב בעוד רגע.
+  </div>
+  <!-- הודעה לשפה לא רגולרית -->
+<div id="infoBox"
+     class="hidden mt-6 text-center text-yellow-800 bg-yellow-100
+            border border-yellow-300 rounded-xl p-4 font-semibold">
+</div>
+
+
+  <!-- תוצאות יצירת האוטומט -->
+  <section id="result" class="hidden mt-10 fade-in">
+
+    <h2 class="text-2xl font-bold text-indigo-700 mb-4 text-center">
+      📌 האוטומט שנוצר
+    </h2>
+
+    <!-- הצגת השפה שנוצרה -->
+    <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4 mb-6">
+      <p class="text-lg text-indigo-800 font-semibold">🔹 השפה שנוצרה כעת:</p>
+      <p id="userInputText" class="mt-1"></p>
     </div>
 
-    <!-- תוצאה -->
-    <section id="result" class="hidden mt-10 fade-in">
-      <div id="cy"></div>
+    <!-- האוטומט -->
+    <div id="cy"></div>
 
-      <!-- אגדה -->
-      <div class="flex justify-center gap-10 mt-6 text-sm text-gray-700">
-        <div class="flex items-center gap-2">
-          <div class="w-5 h-5 bg-indigo-500 rounded-full border border-indigo-900"></div>
-          <span>מצב רגיל</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="w-5 h-5 bg-green-200 border-4 border-green-500 rounded-full"></div>
-          <span>מצב מקבל</span>
-        </div>
+    <!-- סימולציה -->
+    <div class="mt-10 bg-indigo-50 border border-indigo-200 rounded-2xl p-6">
+      <h3 class="text-xl font-semibold mb-3 text-indigo-800">🔍 סימולציה על האוטומט</h3>
+
+      <div class="flex flex-col md:flex-row items-stretch md:items-center gap-4 mb-4">
+        <input id="simInput" placeholder="הכנס מילה לסימולציה (לדוגמה: aaab)"
+          class="flex-grow p-3 border rounded-xl shadow-inner text-lg bg-white" />
+
+        <button type="button" onclick="simulateFast()"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-xl shadow-md">
+          ⚡ סימולציה מהירה
+        </button>
+
+        <button type="button" onclick="simulateStepByStep()"
+          class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-xl shadow-md">
+          ▶️ צעד־אחר־צעד
+        </button>
       </div>
 
-      <p class="text-center text-indigo-700 mt-6 text-lg font-semibold">
-        ℹ️ המצב ההתחלתי הוא תמיד <strong>q0</strong>.
-      </p>
+      <pre id="trace" class="bg-white rounded-xl p-4 shadow-inner"></pre>
+    </div>
 
-      <!-- תיבת מידע -->
-      <div class="mt-8 bg-indigo-50 border border-indigo-200 rounded-2xl p-6 text-gray-800 text-right shadow-sm">
-        <p><strong>🧩 מה השפה?</strong><br><span id="explanationText"></span></p>
-        <p class="mt-4"><strong>⚙️ ההיגיון:</strong><br><span id="logicText"></span></p>
+    <!-- הסבר -->
+    <div class="mt-8 bg-indigo-50 border border-indigo-200 rounded-2xl p-6">
+      <p class="mb-2"><strong>🧩 הסבר:</strong><br><span id="explanationText"></span></p>
+      <p class="mt-4 mb-2"><strong>⚙️ היגיון פנימי:</strong><br><span id="logicText"></span></p>
+      <p class="mt-4 mb-2"><strong>🔍 מקור:</strong> <span id="sourceText" class="font-semibold text-indigo-700"></span></p>
+      <p class="mt-2"><strong>🎯 דיוק:</strong> <span id="accuracyText" class="font-semibold text-green-700"></span>%</p>
+    </div>
 
-        <!-- חדש: מקור האוטומט -->
-        <p class="mt-6"><strong>🔍 מקור האוטומט:</strong>
-          <span id="sourceText" class="font-semibold text-indigo-700"></span>
-        </p>
+  </section>
 
-        <!-- חדש: איכות/דיוק -->
-        <p class="mt-2"><strong>🎯 רמת דיוק:</strong>
-          <span id="accuracyText" class="font-semibold text-green-700"></span>%
-        </p>
-      </div>
+</main>
 
+<!-- -------------------------------------------------------------------------------- -->
+<!--                               JAVASCRIPT                                         -->
+<!-- -------------------------------------------------------------------------------- -->
 
-    </section>
-  </main>
+<script>
+  let currentDFA = null;
+  let cy = null;
+  let stepInterval = null;
 
-  <script>
-    const form = document.getElementById('automatonForm');
-    const loading = document.getElementById('loading');
-    const result = document.getElementById('result');
-    const cyDiv = document.getElementById('cy');
-    const explanationText = document.getElementById('explanationText');
-    const logicText = document.getElementById('logicText');
-    const sourceText = document.getElementById('sourceText');
-    const accuracyText = document.getElementById('accuracyText');
+  /* ------------------------------
+        שליחת בקשה לבניית DFA
+  ------------------------------ */
+  const form = document.getElementById("automatonForm");
+  const loadingEl = document.getElementById("loading");
+  const resultEl = document.getElementById("result");
+  const errorBox = document.getElementById("errorBox");
 
-    let cy = null;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      loading.classList.remove('hidden');
-      result.classList.add('hidden');
-      cyDiv.innerHTML = '';
+    errorBox.classList.add("hidden");
+    loadingEl.classList.remove("hidden");
+    resultEl.classList.add("hidden");
 
+    const description = document.getElementById("description").value.trim();
+    document.getElementById("userInputText").textContent = description;
 
-      const description = document.getElementById('description').value;
-      try {
-        const res = await fetch('/generate_automaton', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({ description })
-        });
+    if (!description) {
+      loadingEl.classList.add("hidden");
+      errorBox.textContent = "לא הוזן תיאור שפה. אנא כתוב תיאור ונסה מחדש.";
+      errorBox.classList.remove("hidden");
+      console.warn("[DFA] Empty description submitted");
+      return;
+    }
 
-        const data = await res.json();
-        loading.classList.add('hidden');
+    try {
+      console.log("[DFA] Sending description to /generate_automaton:", description);
 
-        if (data.type === 'none') {
-          cyDiv.innerHTML = `
-            <div class="bg-red-100 border-4 border-red-500 text-red-900 rounded-xl p-8 mt-6 text-center shadow-lg">
-              <h2 class="text-3xl font-extrabold mb-2">🚫 השפה אינה רגולרית</h2>
-              <p>${data.explanation}</p>
-            </div>`;
-          result.classList.remove('hidden');
-          return;
-        }
+      const res = await fetch("/generate_automaton", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ description }),
+      });
 
-        // Alerts לפי מקור
-        if (data.source === "repaired")
-          alert("⚠️ האוטומט תוקן אוטומטית כדי להתאים היטב לשפה.");
-        else if (data.source === "fallback")
-          alert("❌ לא ניתן היה לבנות אוטומט תקין — fallback הוצג.");
-
-        drawAutomaton(data);
-
-        explanationText.textContent = data.explanation || "לא ניתנה הסבר.";
-        logicText.textContent = data.logic || "אין תיאור של ההיגיון.";
-        sourceText.textContent = data.source || "לא ידוע";
-        accuracyText.textContent = data.accuracy ?? "-";
-
-        result.classList.remove('hidden');
-
-      } catch (err) {
-        loading.classList.add('hidden');
-        alert("❌ שגיאה בתקשורת עם השרת.");
+      if (!res.ok) {
+        throw new Error("Response not OK: " + res.status + " " + res.statusText);
       }
+
+const data = await res.json();
+console.log("[DFA] Received DFA data:", data);
+
+loadingEl.classList.add("hidden");
+
+// 👉 מקרה: שפה לא רגולרית
+if (data.status === "non_regular_language") {
+  resultEl.classList.add("hidden");
+
+  const infoBox = document.getElementById("infoBox");
+  infoBox.textContent = data.user_message || "השפה אינה רגולרית.";
+  infoBox.classList.remove("hidden");
+
+  return; // ❗ לא ממשיכים לציור אוטומט
+}
+
+// 👉 אחרת – DFA רגיל
+document.getElementById("infoBox").classList.add("hidden");
+
+currentDFA = data;
+resultEl.classList.remove("hidden");
+
+/* הצגת מידע */
+document.getElementById("explanationText").textContent = data.explanation || "";
+document.getElementById("logicText").textContent = data.logic || "";
+document.getElementById("sourceText").textContent = data.source || "";
+document.getElementById("accuracyText").textContent = data.accuracy || "";
+
+drawAutomaton(data);
+
+    } catch (err) {
+      console.error("[DFA] Error while generating automaton:", err);
+      loadingEl.classList.add("hidden");
+      errorBox.textContent = "אירעה שגיאה בעת יצירת האוטומט. נסה שוב בעוד רגע.";
+      errorBox.classList.remove("hidden");
+    }
+  });
+
+  /* ------------------------------
+          ציור אוטומט ב־Cytoscape
+  ------------------------------ */
+  function drawAutomaton(auto) {
+    if (!auto) return;
+
+    const elements = [];
+
+    /* מצבים */
+    auto.states.forEach((s) => {
+      const isAccept = auto.accept_states.includes(s);
+      elements.push({
+        data: { id: s, label: s },
+        classes: isAccept ? "accept" : "",
+      });
     });
 
-    function drawAutomaton(auto) {
-      const elements = [];
-
-      auto.states.forEach(s => {
-        const isAccept = auto.accept_states.includes(s);
+    /* מעברים */
+    for (const [src, edges] of Object.entries(auto.transitions)) {
+      for (const [symbol, dst] of Object.entries(edges)) {
         elements.push({
-          data: { id: s, label: s },
-          classes: isAccept ? 'accept' : 'node-hover'
+          data: {
+            id: `${src}_${dst}_${symbol}`,
+            source: src,
+            target: dst,
+            label: symbol,
+          },
         });
-      });
+      }
+    }
 
-      for (const [src, edges] of Object.entries(auto.transitions)) {
-        for (const [symbol, dst] of Object.entries(edges)) {
-          elements.push({ data: { source: src, target: dst, label: symbol } });
+    cy = cytoscape({
+      container: document.getElementById("cy"),
+      elements,
+      style: [
+        {
+          selector: "node",
+          style: {
+            "background-color": "#6366f1",
+            "label": "data(label)",
+            "color": "#ffffff",
+            "font-size": "17px",
+            "text-valign": "center",
+            "border-width": 2,
+            "border-color": "#312e81",
+            "width": 50,
+            "height": 50
+          }
+        },
+        {
+          selector: "node.accept",
+          style: {
+            "border-width": 6,
+            "border-color": "#22c55e",
+            "background-color": "#bbf7d0",
+            "color": "#065f46"
+          }
+        },
+        {
+          selector: "node.highlight",
+          style: {
+            "background-color": "#facc15",
+            "color": "#000000"
+          }
+        },
+        {
+          selector: "edge",
+          style: {
+            "curve-style": "bezier",
+            "target-arrow-shape": "triangle",
+            "label": "data(label)",
+            "font-size": "14px",
+            "line-color": "#6366f1",
+            "target-arrow-color": "#4338ca",
+            "text-margin-y": -10
+          }
+        },
+        {
+          selector: "edge.highlight",
+          style: {
+            "line-color": "#facc15",
+            "target-arrow-color": "#facc15",
+            "font-weight": "bold"
+          }
         }
+      ],
+      layout: { name: "circle" }
+    });
+
+    cy.fit();
+  }
+
+  /* ------------------------------
+            ניקוי הדגשות
+  ------------------------------ */
+  function clearHighlights() {
+    if (cy) {
+      cy.nodes().removeClass("highlight");
+      cy.edges().removeClass("highlight");
+    }
+  }
+
+  /* ------------------------------
+        סימולציה מהירה
+  ------------------------------ */
+  function simulateFast() {
+    if (!currentDFA) return;
+
+    clearInterval(stepInterval);
+    clearHighlights();
+
+    const word = document.getElementById("simInput").value.trim();
+    console.log("[DFA] simulateFast - word:", word);
+
+    if (!word) {
+      document.getElementById("trace").textContent = "לא הוזנה מילה לסימולציה.";
+      return;
+    }
+
+    let state = currentDFA.start_state;
+    let trace = `Start at: ${state}\n`;
+
+    cy.$id(state).addClass("highlight");
+
+    for (const symbol of word) {
+      const next = currentDFA.transitions[state]?.[symbol];
+
+      if (!next) {
+        trace += `❌ אין מעבר מהמצב ${state} עבור '${symbol}'\n`;
+        document.getElementById("trace").textContent = trace;
+        return;
       }
 
-      cy = cytoscape({
-        container: cyDiv,
-        elements,
-        style: [
-          {
-            selector: 'node',
-            style: {
-              'background-color': '#6366f1',
-              'label': 'data(label)',
-              'color': '#fff',
-              'text-valign': 'center',
-              'text-halign': 'center',
-              'font-size': '16px',
-              'width': '55px',
-              'height': '55px',
-              'border-width': 2,
-              'border-color': '#312e81'
-            }
-          },
-          {
-            selector: 'node.accept',
-            style: {
-              'border-width': 6,
-              'border-color': '#22c55e',
-              'background-color': '#bbf7d0',
-              'color': '#065f46',
-              'font-weight': 'bold'
-            }
-          },
-          {
-            selector: 'edge',
-            style: {
-              'curve-style': 'bezier',
-              'target-arrow-shape': 'triangle',
-              'target-arrow-color': '#4338ca',
-              'line-color': '#6366f1',
-              'label': 'data(label)',
-              'font-size': '13px',
-              'text-background-color': '#ffffff',
-              'text-background-opacity': 0.8,
-              'text-background-padding': 3
-            }
-          }
-        ],
-        layout: { name: 'circle' }
-      });
+      const edgeId = `${state}_${next}_${symbol}`;
+      cy.$id(edgeId).addClass("highlight");
 
-      cy.layout({ name: 'circle' }).run();
-      cy.fit();
-      cy.center();
+      trace += `${state} --${symbol}--> ${next}\n`;
+      state = next;
+
+      cy.$id(state).addClass("highlight");
     }
-  </script>
+
+    trace += `\nFinal state: ${state}\n`;
+
+    if (currentDFA.accept_states.includes(state))
+      trace += "✔ המילה מתקבלת!";
+    else
+      trace += "❌ המילה נדחית!";
+
+    document.getElementById("trace").textContent = trace;
+  }
+
+  /* ------------------------------
+      סימולציה צעד־אחר־צעד
+  ------------------------------ */
+  function simulateStepByStep() {
+    if (!currentDFA) return;
+
+    clearHighlights();
+    clearInterval(stepInterval);
+
+    const word = document.getElementById("simInput").value.trim();
+    console.log("[DFA] simulateStepByStep - word:", word);
+
+    if (!word) {
+      document.getElementById("trace").textContent = "לא הוזנה מילה לסימולציה.";
+      return;
+    }
+
+    let state = currentDFA.start_state;
+    let index = 0;
+    let trace = `Start at: ${state}\n`;
+
+    cy.$id(state).addClass("highlight");
+    document.getElementById("trace").textContent = trace;
+
+    stepInterval = setInterval(() => {
+      if (index >= word.length) {
+        clearInterval(stepInterval);
+
+        trace += `\nFinal state: ${state}\n`;
+        trace += currentDFA.accept_states.includes(state)
+          ? "✔ המילה מתקבלת!"
+          : "❌ המילה נדחית!";
+
+        document.getElementById("trace").textContent = trace;
+        return;
+      }
+
+      const symbol = word[index];
+      const next = currentDFA.transitions[state]?.[symbol];
+
+      if (!next) {
+        trace += `❌ אין מעבר מהמצב ${state} עבור '${symbol}'\n`;
+        document.getElementById("trace").textContent = trace;
+        clearInterval(stepInterval);
+        return;
+      }
+
+      const edgeId = `${state}_${next}_${symbol}`;
+      cy.$id(edgeId).addClass("highlight");
+
+      trace += `${state} --${symbol}--> ${next}\n`;
+      state = next;
+
+      cy.nodes().removeClass("highlight");
+      cy.$id(state).addClass("highlight");
+
+      document.getElementById("trace").textContent = trace;
+
+      index++;
+    }, 600);
+  }
+
+</script>
+
 </body>
 </html>

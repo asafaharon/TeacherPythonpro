@@ -16,6 +16,36 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 --------------------------------------------------------------------
 """
 
+
+def check_language_regularity(description: str) -> dict:
+    system_prompt = (
+        "You are an expert in automata theory. "
+        "Determine whether the described language is REGULAR. "
+        "Answer ONLY in valid JSON."
+    )
+
+    user_prompt = (
+        f"Language description:\n\"{description}\"\n\n"
+        "Return JSON in the following format:\n"
+        "{\n"
+        "  \"is_regular\": true | false,\n"
+        "  \"reason\": \"short explanation\"\n"
+        "}\n"
+    )
+
+    response = client.chat.completions.create(
+        model="gpt-4.1",
+        temperature=0.0,
+        response_format={"type": "json_object"},
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+    )
+
+    return json.loads(response.choices[0].message.content)
+
+
 def build_language_spec(description: str) -> dict:
     """
     מקבל תיאור טבעי של שפה ומחזיר SPEC פורמלי בעברית בלבד.
