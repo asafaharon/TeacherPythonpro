@@ -11,8 +11,8 @@ router = APIRouter()
 
 @router.get("/automaton", response_class=HTMLResponse)
 async def automaton_page(request: Request):
-    # כעת אין הורשה או stats – פשוט מציג את הדף
-    return templates.TemplateResponse("automaton.html", {"request": request})
+    # תוקן: request מועבר כפרמטר המיקומי הראשון כדי למנוע את שגיאת ה-dict ב-Render
+    return templates.TemplateResponse(request, "automaton.html")
 
 @router.post("/generate_automaton", response_class=HTMLResponse)
 async def generate_automaton(request: Request, description: str = Form(...)):
