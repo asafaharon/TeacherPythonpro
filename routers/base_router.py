@@ -11,16 +11,16 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    # כאן מעבירים את המילון כ-context, אך ללא פרמטרים שמיים ל-request
-    return templates.TemplateResponse("modules.html", {"request": request})
+    # תוקן: request מועבר כפרמטר ראשון ללא שם, ואחריו מילון ה-context
+    return templates.TemplateResponse(request, "modules.html")
 
 @router.get("/modules", response_class=HTMLResponse)
 async def modules_page(request: Request):
-    return templates.TemplateResponse("modules.html", {"request": request})
+    return templates.TemplateResponse(request, "modules.html")
 
 @router.get("/module/{module_id}", response_class=HTMLResponse)
 async def module_page(request: Request, module_id: int):
-    return templates.TemplateResponse("module.html", {"request": request, "module_id": module_id})
+    return templates.TemplateResponse(request, "module.html", {"module_id": module_id})
 
 @router.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request):
@@ -32,4 +32,4 @@ async def dashboard(request: Request):
         "last_question_time": "לפני 11 דקות",
         "generated_at": datetime.now().strftime("%H:%M %d.%m.%Y"),
     }
-    return templates.TemplateResponse("dashboard.html", {"request": request, "stats": stats})
+    return templates.TemplateResponse(request, "dashboard.html", {"stats": stats})
