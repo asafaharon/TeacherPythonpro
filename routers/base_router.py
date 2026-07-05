@@ -11,15 +11,21 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    return templates.TemplateResponse("modules.html", request=request)
+    # תיקון תואם: שימוש בפרמטרים מפורשים למניעת שגיאות Cache
+    return templates.TemplateResponse(name="modules.html", context={"request": request})
 
 @router.get("/modules", response_class=HTMLResponse)
 async def modules_page(request: Request):
-    return templates.TemplateResponse("modules.html", {"request": request})
+    # תוקן: הועבר המילון תחת כותרת הפרמטר context
+    return templates.TemplateResponse(name="modules.html", context={"request": request})
 
 @router.get("/module/{module_id}", response_class=HTMLResponse)
 async def module_page(request: Request, module_id: int):
-    return templates.TemplateResponse("module.html", {"request": request, "module_id": module_id})
+    # תוקן: הועבר ה-context בצורה מפורשת עם המשתנים הנדרשים
+    return templates.TemplateResponse(
+        name="module.html",
+        context={"request": request, "module_id": module_id}
+    )
 
 @router.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request):
@@ -31,4 +37,8 @@ async def dashboard(request: Request):
         "last_question_time": "לפני 11 דקות",
         "generated_at": datetime.now().strftime("%H:%M %d.%m.%Y"),
     }
-    return templates.TemplateResponse("dashboard.html", {"request": request, "stats": stats})
+    # תוקן: העברת הנתונים וה-request בצורה בטוחה
+    return templates.TemplateResponse(
+        name="dashboard.html",
+        context={"request": request, "stats": stats}
+    )
