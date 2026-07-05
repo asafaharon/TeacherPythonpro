@@ -24,6 +24,8 @@ from routers.ai_router import router as ai_router
 from routers.run_router import router as run_router
 from routers.automaton_router import router as automaton_router  # 👈 העבר לכאן
 from routers.pda_router import router as pda_router
+from routers.tm_router import router as tm_router
+app.include_router(tm_router)
 
 # הסדר הנכון
 app.include_router(base_router)

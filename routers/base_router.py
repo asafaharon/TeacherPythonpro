@@ -11,7 +11,7 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    return templates.TemplateResponse("modules.html", {"request": request})
+    return templates.TemplateResponse("modules.html", request=request)
 
 @router.get("/modules", response_class=HTMLResponse)
 async def modules_page(request: Request):

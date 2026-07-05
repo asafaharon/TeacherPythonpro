@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🧠 מכונת טיורינג – שפה טבעית → ויזואליזציה</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Rubik','Segoe UI',Tahoma,sans-serif; background: linear-gradient(135deg,#eef2ff,#c7d2fe); }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .cell { width: 52px; height: 60px; border-radius: 14px; }
+    .cell-head { outline: 3px solid #f97316; }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6">
+<main class="w-full max-w-6xl bg-white rounded-3xl shadow-2xl p-6 md:p-10 border border-indigo-100">
+  <h1 class="text-3xl md:text-4xl font-extrabold text-indigo-700 text-center">🧠 מכונת טיורינג – שפה טבעית → ויזואליזציה</h1>
+  <p class="text-gray-600 text-center mt-2">
+    כתוב/י את השפה בשפת יום־יום, והמערכת תייצר מכונת טיורינג מאחורי הקלעים ותציג סימולציה עם סרט וראש.
+  </p>
+
+  <section class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
+    <!-- Language description -->
+    <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4">
+      <h2 class="font-bold text-indigo-800 mb-2">1) תיאור השפה (שפת יום־יום)</h2>
+
+      <textarea id="langDesc"
+        class="w-full h-40 p-3 rounded-xl border border-gray-300 text-sm"
+        placeholder="דוגמה: כל המילים מעל {a,b} שמכילות מספר זוגי של a.
+דוגמה: כל המילים מהצורה a^n b^n c^n (אותו מספר של a ואז b ואז c)."></textarea>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3">
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">רמז אלפבית (אופציונלי)</label>
+          <input id="alphabetHint" class="w-full px-3 py-2 rounded-xl border border-gray-300"
+                 placeholder="למשל: {a,b,c} או {0,1}" />
+        </div>
+        <div class="flex items-end gap-2">
+          <button id="generateBtn"
+            class="w-full px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700">
+            צור מכונת טיורינג
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-3 bg-white border border-indigo-100 rounded-2xl p-3">
+        <div class="text-sm font-bold text-indigo-800">סטטוס מודל</div>
+        <div id="modelStatus" class="text-sm text-gray-700 mt-1">לא נוצר מודל עדיין.</div>
+        <div id="modelExplain" class="text-sm text-gray-700 mt-2"></div>
+        <div id="errorBox" class="text-sm text-red-700 font-semibold mt-2"></div>
+      </div>
+
+      <details class="mt-3 bg-white border border-indigo-100 rounded-2xl p-3">
+        <summary class="cursor-pointer font-semibold text-indigo-800">פרטים טכניים (למפתח/ת בלבד)</summary>
+        <pre id="specPreview" class="mono text-xs whitespace-pre-wrap max-h-48 overflow-auto mt-2"></pre>
+      </details>
+    </div>
+
+    <!-- Controls -->
+    <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4">
+      <h2 class="font-bold text-indigo-800 mb-2">2) בדיקת קלט + סימולציה</h2>
+
+      <label class="block text-sm font-semibold text-indigo-800 mb-1">מחרוזת לבדיקה</label>
+      <input id="inputStr" class="w-full px-3 py-2 rounded-xl border border-gray-300"
+             placeholder="לדוגמה: aabbcc" />
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-3">
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">window_radius</label>
+          <input id="radius" type="number" value="12" class="w-full px-3 py-2 rounded-xl border border-gray-300" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Delay (ms)</label>
+          <input id="delay" type="number" value="200" class="w-full px-3 py-2 rounded-xl border border-gray-300" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Max steps (Run)</label>
+          <input id="maxSteps" type="number" value="600" class="w-full px-3 py-2 rounded-xl border border-gray-300" />
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2 mt-4">
+        <button id="resetBtn" class="px-4 py-2 rounded-xl bg-white border border-indigo-300 text-indigo-700 font-semibold hover:bg-indigo-100">
+          Reset
+        </button>
+        <button id="stepBtn" class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700">
+          Step
+        </button>
+        <button id="runBtn" class="px-4 py-2 rounded-xl bg-purple-600 text-white font-semibold hover:bg-purple-700">
+          Run
+        </button>
+        <button id="stopBtn" class="px-4 py-2 rounded-xl bg-gray-700 text-white font-semibold hover:bg-gray-800">
+          Stop
+        </button>
+      </div>
+
+      <div class="mt-4 bg-white border border-indigo-100 rounded-2xl p-3">
+        <div class="flex flex-wrap gap-3 text-sm">
+          <div><span class="font-bold text-indigo-800">State:</span> <span id="curState" class="mono"></span></div>
+          <div><span class="font-bold text-indigo-800">Head:</span> <span id="curHead" class="mono"></span></div>
+          <div><span class="font-bold text-indigo-800">Step:</span> <span id="curStep" class="mono"></span></div>
+          <div><span class="font-bold text-indigo-800">Status:</span> <span id="curStatus" class="font-bold"></span></div>
+        </div>
+        <div class="mt-2 text-xs text-gray-600 mono" id="lastTransition"></div>
+      </div>
+
+      <div class="mt-4 bg-white border border-indigo-100 rounded-2xl p-3">
+        <div class="font-bold text-indigo-800 mb-2">🧾 Trace</div>
+        <pre id="traceBox" class="mono text-xs whitespace-pre-wrap max-h-56 overflow-auto"></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tape -->
+  <section class="mt-6 bg-white border border-indigo-100 rounded-2xl p-4">
+    <h2 class="font-bold text-indigo-800 mb-3">🎞️ הסרט (Tape)</h2>
+    <div id="tapeRow" class="flex gap-2 overflow-x-auto pb-2"></div>
+    <p class="text-xs text-gray-500 mt-2">המסגרת הכתומה היא הראש. מוצג חלון סביב הראש (window_radius).</p>
+  </section>
+</main>
+
+<script>
+  const langDesc = document.getElementById('langDesc');
+  const alphabetHint = document.getElementById('alphabetHint');
+  const generateBtn = document.getElementById('generateBtn');
+
+  const modelStatus = document.getElementById('modelStatus');
+  const modelExplain = document.getElementById('modelExplain');
+  const errorBox = document.getElementById('errorBox');
+  const specPreview = document.getElementById('specPreview');
+
+  const inputStr = document.getElementById('inputStr');
+  const radius = document.getElementById('radius');
+  const delay = document.getElementById('delay');
+  const maxSteps = document.getElementById('maxSteps');
+
+  const resetBtn = document.getElementById('resetBtn');
+  const stepBtn = document.getElementById('stepBtn');
+  const runBtn = document.getElementById('runBtn');
+  const stopBtn = document.getElementById('stopBtn');
+
+  const tapeRow = document.getElementById('tapeRow');
+  const curState = document.getElementById('curState');
+  const curHead = document.getElementById('curHead');
+  const curStep = document.getElementById('curStep');
+  const curStatus = document.getElementById('curStatus');
+  const lastTransition = document.getElementById('lastTransition');
+  const traceBox = document.getElementById('traceBox');
+
+  let tmSpec = null;    // hidden from user
+  let config = null;
+  let running = false;
+
+  function setStatus(text, cls) {
+    curStatus.textContent = text;
+    curStatus.className = "font-bold " + (cls || "text-indigo-700");
+  }
+
+  function setModelStatus(text, isOk) {
+    modelStatus.textContent = text;
+    modelStatus.className = isOk ? "text-sm text-green-700 font-semibold mt-1" : "text-sm text-gray-700 mt-1";
+  }
+
+  function showError(msg) {
+    errorBox.textContent = msg || "";
+  }
+
+  function renderTape(windowCells) {
+    tapeRow.innerHTML = "";
+    windowCells.forEach(c => {
+      const div = document.createElement('div');
+      div.className = "cell border border-gray-300 bg-gray-50 mono flex flex-col items-center justify-center";
+      if (c.is_head) div.classList.add('cell-head');
+      div.title = "index: " + c.index;
+
+      const idx = document.createElement('div');
+      idx.className = "text-[10px] text-gray-500 -mt-1";
+      idx.textContent = c.index;
+
+      const sym = document.createElement('div');
+      sym.className = "text-lg font-bold";
+      sym.textContent = c.symbol;
+
+      div.appendChild(idx);
+      div.appendChild(sym);
+      tapeRow.appendChild(div);
+    });
+  }
+
+  async function generateTM() {
+    showError("");
+    modelExplain.textContent = "";
+    specPreview.textContent = "";
+    tmSpec = null;
+    config = null;
+    traceBox.textContent = "";
+    lastTransition.textContent = "";
+
+    const desc = (langDesc.value || "").trim();
+    if (desc.length < 3) {
+      showError("נא לתאר את השפה (לפחות כמה מילים).");
+      return;
+    }
+
+    setModelStatus("מייצר מכונת טיורינג…", false);
+    setStatus("Waiting", "text-gray-700");
+
+    const res = await fetch('/tm/generate', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        language_description: desc,
+        alphabet_hint: (alphabetHint.value || "").trim() || null
+      })
+    }).then(r => r.json());
+
+    if (!res.ok) {
+      setModelStatus("לא ניתן לייצר מודל.", false);
+      showError(res.message || "שגיאה ביצירת TM");
+      setStatus("Error", "text-red-700");
+      return;
+    }
+
+    tmSpec = res.spec;
+    setModelStatus("מודל נוצר בהצלחה ✅", true);
+    if (res.explanation_he) modelExplain.textContent = res.explanation_he;
+
+    // Dev preview (collapsed)
+    specPreview.textContent = JSON.stringify(tmSpec, null, 2);
+
+    // Auto-init on current input
+    await initRun();
+  }
+
+  async function initRun() {
+    showError("");
+    traceBox.textContent = "";
+    lastTransition.textContent = "";
+
+    if (!tmSpec) {
+      showError("קודם צריך ליצור מכונת טיורינג מהתיאור.");
+      return;
+    }
+
+    const r = parseInt(radius.value || "12", 10);
+    const res = await fetch('/tm/init', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        spec: tmSpec,
+        input_str: inputStr.value || "",
+        window_radius: r
+      })
+    }).then(r => r.json());
+
+    if (!res.ok) {
+      showError(res.message || "Init failed");
+      setStatus("Error", "text-red-700");
+      return;
+    }
+
+    config = res.config;
+    curState.textContent = config.state;
+    curHead.textContent = config.head;
+    curStep.textContent = config.step;
+    renderTape(res.window || []);
+    setStatus("Ready", "text-indigo-700");
+  }
+
+  async function doStep() {
+    if (!tmSpec) {
+      showError("קודם צריך ליצור מכונת טיורינג מהתיאור.");
+      return;
+    }
+    if (!config) {
+      await initRun();
+      if (!config) return;
+    }
+
+    const r = parseInt(radius.value || "12", 10);
+    const res = await fetch('/tm/step', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        spec: tmSpec,
+        config: config,
+        window_radius: r
+      })
+    }).then(r => r.json());
+
+    if (!res.ok) {
+      showError(res.message || "Step failed");
+      setStatus("Error", "text-red-700");
+      running = false;
+      return;
+    }
+
+    config = res.config;
+    curState.textContent = config.state;
+    curHead.textContent = config.head;
+    curStep.textContent = config.step;
+
+    renderTape(res.window || []);
+
+    if (res.transition) {
+      lastTransition.textContent =
+        `δ(${res.transition.from}, ${res.transition.read}) = (${res.transition.to}, ${res.transition.write}, ${res.transition.move})`;
+    } else {
+      lastTransition.textContent = res.reason || "";
+    }
+
+    traceBox.textContent += `step ${curStep.textContent}: state=${curState.textContent} head=${curHead.textContent} reason=${res.reason}\n`;
+
+    if (res.halted) {
+      if (res.accepted === true) setStatus("ACCEPT ✅", "text-green-700");
+      else setStatus("REJECT ❌", "text-red-700");
+      running = false;
+    } else {
+      setStatus("Running...", "text-indigo-700");
+    }
+  }
+
+  async function doRun() {
+    if (running) return;
+    running = true;
+    showError("");
+
+    while (running) {
+      await doStep();
+      const d = parseInt(delay.value || "200", 10);
+      await new Promise(r => setTimeout(r, Math.max(0, d)));
+
+      if (curStatus.textContent.includes("ACCEPT") || curStatus.textContent.includes("REJECT") || curStatus.textContent.includes("Error")) {
+        running = false;
+      }
+
+      // soft max steps protection client-side (optional)
+      const ms = parseInt(maxSteps.value || "600", 10);
+      if (parseInt(curStep.textContent || "0", 10) >= ms && running) {
+        running = false;
+        setStatus("Stopped (max steps)", "text-gray-700");
+      }
+    }
+  }
+
+  generateBtn.addEventListener('click', generateTM);
+
+  resetBtn.addEventListener('click', async () => {
+    running = false;
+    await initRun();
+  });
+
+  stepBtn.addEventListener('click', async () => {
+    running = false;
+    await doStep();
+  });
+
+  runBtn.addEventListener('click', async () => {
+    await doRun();
+  });
+
+  stopBtn.addEventListener('click', () => {
+    running = false;
+    setStatus("Stopped", "text-gray-700");
+  });
+
+  // Nice default text (optional)
+  if (!langDesc.value.trim()) {
+    langDesc.value = "כל המילים מהצורה a^n b^n c^n (אותו מספר של a ואז b ואז c), n>=1";
+  }
+</script>
+</body>
+</html>

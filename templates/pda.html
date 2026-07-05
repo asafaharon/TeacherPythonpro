@@ -37,6 +37,15 @@
       align-items: center;
     }
 
+    #treeGraph {
+      width: 100%;
+      height: 500px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      border: 1px solid #c7d2fe;
+    }
+
     .fade-in {
       animation: fadeIn 0.7s ease forwards;
     }
@@ -101,43 +110,43 @@
 
     /* אנימציות מחסנית */
     @keyframes stackPush {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes stackPopFlash {
-      from {
-        background-color: #fee2e2;
-      }
-      to {
-        background-color: transparent;
-      }
+      from { background-color: #fee2e2; }
+      to   { background-color: transparent; }
     }
 
-    .stack-push {
-      animation: stackPush 0.25s ease-out;
-    }
+    .stack-push { animation: stackPush 0.25s ease-out; }
+    .stack-pop-flash { animation: stackPopFlash 0.3s ease-out; }
 
-    .stack-pop-flash {
-      animation: stackPopFlash 0.3s ease-out;
+    /* Tabs */
+    .tab-btn {
+      border: 1px solid #c7d2fe;
+      background: #ffffff;
+      color: #3730a3;
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: 14px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+      transition: 0.15s ease;
+    }
+    .tab-btn:hover {
+      background: #eef2ff;
+      transform: translateY(-1px);
+    }
+    .tab-btn.active {
+      background: linear-gradient(to right, #4f46e5, #7c3aed);
+      color: #ffffff;
+      border-color: transparent;
     }
 
     @media (max-width: 768px) {
-      body {
-        padding: 16px;
-      }
-      main {
-        padding: 12px !important;
-      }
-      #cy {
-        height: 380px;
-      }
+      body { padding: 16px; }
+      main { padding: 12px !important; }
+      #cy, #treeGraph { height: 380px; }
     }
   </style>
 </head>
@@ -169,6 +178,12 @@
           class="bg-white border border-indigo-300 text-indigo-700 font-semibold py-3 px-6 rounded-2xl shadow-sm hover:bg-indigo-50 transition">
           📷 יצוא תמונת גרף (PNG)
         </button>
+
+        <!-- כפתור נוח לפתיחת טאב העץ -->
+        <button type="button" id="openTreeTabBtn"
+          class="bg-white border border-indigo-300 text-indigo-700 font-semibold py-3 px-6 rounded-2xl shadow-sm hover:bg-indigo-50 transition">
+          🌳 עץ חישוב (NPDA)
+        </button>
       </div>
     </form>
 
@@ -178,130 +193,188 @@
 
     <!-- תוצאה -->
     <section id="result" class="hidden mt-10 fade-in">
-      <div class="grid grid-cols-1 lg:grid-cols-[2fr,minmax(0,1fr)] gap-4 mb-4">
-        <div>
-          <div id="cy"></div>
 
-          <!-- אגדה -->
-          <div class="flex flex-wrap justify-center gap-4 mt-4 text-xs md:text-sm text-gray-700">
-            <div class="flex items-center gap-2">
-              <div class="w-4 h-4 bg-indigo-500 rounded-full border border-indigo-900"></div>
-              <span>מצב רגיל</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <div class="w-4 h-4 bg-green-200 border-4 border-green-500 rounded-full"></div>
-              <span>מצב מקבל</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-4 h-0.5 rounded bg-orange-500 inline-block"></span>
-              <span>מעבר ε</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-4 h-0.5 rounded bg-blue-500 inline-block"></span>
-              <span>Push בלבד</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-4 h-0.5 rounded bg-red-500 inline-block"></span>
-              <span>Pop בלבד</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-4 h-0.5 rounded bg-purple-500 inline-block"></span>
-              <span>Push + Pop</span>
+      <!-- Tabs bar -->
+      <div class="flex flex-col md:flex-row gap-2 justify-center mb-4">
+        <button type="button" class="tab-btn active" data-tab="pda-tab" id="tabBtnPda">
+          🧠 גרף NPDA + מידע
+        </button>
+        <button type="button" class="tab-btn" data-tab="tree-tab" id="tabBtnTree">
+          🌳 עץ חישוב (NPDA)
+        </button>
+      </div>
+
+      <!-- TAB: PDA -->
+      <div id="pda-tab" class="tab-content">
+        <div class="grid grid-cols-1 lg:grid-cols-[2fr,minmax(0,1fr)] gap-4 mb-4">
+          <div>
+            <div id="cy"></div>
+
+            <!-- אגדה -->
+            <div class="flex flex-wrap justify-center gap-4 mt-4 text-xs md:text-sm text-gray-700">
+              <div class="flex items-center gap-2">
+                <div class="w-4 h-4 bg-indigo-500 rounded-full border border-indigo-900"></div>
+                <span>מצב רגיל</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="w-4 h-4 bg-green-200 border-4 border-green-500 rounded-full"></div>
+                <span>מצב מקבל</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-0.5 rounded bg-orange-500 inline-block"></span>
+                <span>מעבר ε</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-0.5 rounded bg-blue-500 inline-block"></span>
+                <span>Push בלבד</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-0.5 rounded bg-red-500 inline-block"></span>
+                <span>Pop בלבד</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-0.5 rounded bg-purple-500 inline-block"></span>
+                <span>Push + Pop</span>
+              </div>
             </div>
           </div>
+
+          <!-- מידע על מצב נבחר -->
+          <aside class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4 text-sm text-gray-800 shadow-sm">
+            <h2 class="text-base md:text-lg font-bold text-indigo-800 mb-2">🧠 מידע על מצב</h2>
+            <div id="stateInfo">
+              <p class="text-gray-500 text-sm">לחץ על מצב בגרף לקבלת פרטים עליו.</p>
+            </div>
+          </aside>
         </div>
 
-        <!-- מידע על מצב נבחר -->
-        <aside class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4 text-sm text-gray-800 shadow-sm">
-          <h2 class="text-base md:text-lg font-bold text-indigo-800 mb-2">🧠 מידע על מצב</h2>
-          <div id="stateInfo">
-            <p class="text-gray-500 text-sm">לחץ על מצב בגרף לקבלת פרטים עליו.</p>
-          </div>
-        </aside>
-      </div>
+        <!-- טבלת מעברים -->
+        <div class="mt-4 bg-white border border-indigo-100 rounded-2xl p-4 shadow-sm overflow-x-auto">
+          <h2 class="text-lg font-semibold text-indigo-800 mb-3">
+            📋 רשימת המעברים (Transitions)
+          </h2>
+          <table class="min-w-full text-sm text-gray-800">
+            <thead>
+              <tr class="border-b">
+                <th class="px-3 py-2 text-right font-semibold">#</th>
+                <th class="px-3 py-2 text-right font-semibold">מ־מצב</th>
+                <th class="px-3 py-2 text-right font-semibold">אל מצב</th>
+                <th class="px-3 py-2 text-right font-semibold">נקרא (read)</th>
+                <th class="px-3 py-2 text-right font-semibold">נשלף (pop)</th>
+                <th class="px-3 py-2 text-right font-semibold">נידחף (push)</th>
+              </tr>
+            </thead>
+            <tbody id="transitionTableBody"></tbody>
+          </table>
+          <p class="mt-2 text-xs text-gray-500">
+            💡 טיפ: לחץ על קשת בגרף כדי להדגיש את שורת המעבר המתאימה בטבלה – או לחץ על שורה בטבלה כדי להדגיש את הקשת המתאימה בגרף.
+          </p>
+        </div>
 
-      <!-- טבלת מעברים -->
-      <div class="mt-4 bg-white border border-indigo-100 rounded-2xl p-4 shadow-sm overflow-x-auto">
-        <h2 class="text-lg font-semibold text-indigo-800 mb-3">
-          📋 רשימת המעברים (Transitions)
-        </h2>
-        <table class="min-w-full text-sm text-gray-800">
-          <thead>
-            <tr class="border-b">
-              <th class="px-3 py-2 text-right font-semibold">#</th>
-              <th class="px-3 py-2 text-right font-semibold">מ־מצב</th>
-              <th class="px-3 py-2 text-right font-semibold">אל מצב</th>
-              <th class="px-3 py-2 text-right font-semibold">נקרא (read)</th>
-              <th class="px-3 py-2 text-right font-semibold">נשלף (pop)</th>
-              <th class="px-3 py-2 text-right font-semibold">נידחף (push)</th>
-            </tr>
-          </thead>
-          <tbody id="transitionTableBody"></tbody>
-        </table>
-        <p class="mt-2 text-xs text-gray-500">
-          💡 טיפ: לחץ על קשת בגרף כדי להדגיש את שורת המעבר המתאימה בטבלה – או לחץ על שורה בטבלה כדי להדגיש את הקשת המתאימה בגרף.
-        </p>
-      </div>
-
-      <p class="text-center text-indigo-700 mt-6 text-lg font-semibold">
-        ℹ️ האוטומט משתמש במחסנית פנימית – ניתן לראות את השינויים במחסנית בכל צעד סימולציה.
-      </p>
-
-      <!-- תיבת מידע על השפה -->
-      <div class="mt-6 bg-indigo-50 border border-indigo-200 rounded-2xl p-6 text-gray-800 text-right shadow-sm">
-        <p><strong>🧩 מה השפה?</strong><br><span id="explanationText"></span></p>
-        <p class="mt-4"><strong>⚙️ ההיגיון:</strong><br><span id="logicText"></span></p>
-
-        <p class="mt-6"><strong>🔍 מקור האוטומט:</strong>
-          <span id="sourceText" class="font-semibold text-indigo-700"></span>
+        <p class="text-center text-indigo-700 mt-6 text-lg font-semibold">
+          ℹ️ האוטומט משתמש במחסנית פנימית – ניתן לראות את השינויים במחסנית בכל צעד סימולציה.
         </p>
 
-        <p class="mt-2"><strong>🎯 רמת דיוק (הערכת מודל):</strong>
-          <span id="accuracyText" class="font-semibold text-green-700"></span>%
-        </p>
-      </div>
+        <!-- תיבת מידע על השפה -->
+        <div class="mt-6 bg-indigo-50 border border-indigo-200 rounded-2xl p-6 text-gray-800 text-right shadow-sm">
+          <p><strong>🧩 מה השפה?</strong><br><span id="explanationText"></span></p>
+          <p class="mt-4"><strong>⚙️ ההיגיון:</strong><br><span id="logicText"></span></p>
 
-      <!-- אזור סימולציה -->
-      <section class="mt-8 bg-indigo-50 border border-indigo-200 rounded-2xl p-6 shadow-sm">
-        <h2 class="text-2xl font-bold text-indigo-800 mb-4">🧪 סימולציה על מחרוזת</h2>
-        <p class="text-gray-700 mb-4">
-          הכנס מחרוזת על גבי האלפבית שה-NPDA משתמש בו, וצפה בהרצה ובמצב המחסנית בכל צעד.
-        </p>
+          <p class="mt-6"><strong>🔍 מקור האוטומט:</strong>
+            <span id="sourceText" class="font-semibold text-indigo-700"></span>
+          </p>
 
-        <form id="simulateForm" class="flex flex-col md:flex-row gap-4 items-center">
-          <input id="wordInput" type="text" required
-                 placeholder="לדוגמה: aaabbb"
-                 class="flex-1 w-full md:w-auto rounded-xl border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none">
-          <button type="submit"
-                  class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded-xl shadow">
-            ▶️ הרץ סימולציה
-          </button>
-        </form>
+          <p class="mt-2"><strong>🎯 רמת דיוק (הערכת מודל):</strong>
+            <span id="accuracyText" class="font-semibold text-green-700"></span>%
+          </p>
+        </div>
 
-        <p id="simulateResult" class="mt-4 text-lg font-semibold"></p>
+        <!-- אזור סימולציה -->
+        <section class="mt-8 bg-indigo-50 border border-indigo-200 rounded-2xl p-6 shadow-sm">
+          <h2 class="text-2xl font-bold text-indigo-800 mb-4">🧪 סימולציה על מחרוזת</h2>
+          <p class="text-gray-700 mb-4">
+            הכנס מחרוזת על גבי האלפבית שה-NPDA משתמש בו, וצפה בהרצה ובמצב המחסנית בכל צעד.
+          </p>
 
-        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Trace -->
-          <div>
-            <h3 class="font-bold text-indigo-800 mb-2">🔎 Trace של הצעדים</h3>
-            <pre id="traceOutput"
-                 class="bg-white border border-indigo-100 rounded-xl p-3 text-sm text-gray-800 overflow-auto max-h-64"></pre>
-          </div>
+          <form id="simulateForm" class="flex flex-col md:flex-row gap-4 items-center">
+            <input id="wordInput" type="text" required
+                   placeholder="לדוגמה: aaabbb"
+                   class="flex-1 w-full md:w-auto rounded-xl border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+            <button type="submit"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded-xl shadow">
+              ▶️ הרץ סימולציה
+            </button>
+          </form>
 
-          <!-- Stack viewer -->
-          <div>
-            <h3 class="font-bold text-indigo-800 mb-2">📦 מצב המחסנית בצעד האחרון</h3>
-            <div id="stackView"
-                 class="bg-white border border-indigo-100 rounded-xl p-4 text-sm text-gray-800 min-h-[60px] flex flex-wrap items-center">
-              <span class="text-gray-500">הרץ סימולציה כדי לראות את המחסנית.</span>
+          <p id="simulateResult" class="mt-4 text-lg font-semibold"></p>
+
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Trace -->
+            <div>
+              <h3 class="font-bold text-indigo-800 mb-2">🔎 Trace של הצעדים</h3>
+              <pre id="traceOutput"
+                   class="bg-white border border-indigo-100 rounded-xl p-3 text-sm text-gray-800 overflow-auto max-h-64"></pre>
+            </div>
+
+            <!-- Stack viewer -->
+            <div>
+              <h3 class="font-bold text-indigo-800 mb-2">📦 מצב המחסנית בצעד האחרון</h3>
+              <div id="stackView"
+                   class="bg-white border border-indigo-100 rounded-xl p-4 text-sm text-gray-800 min-h-[60px] flex flex-wrap items-center">
+                <span class="text-gray-500">הרץ סימולציה כדי לראות את המחסנית.</span>
+              </div>
             </div>
           </div>
+        </section>
+      </div>
+
+      <!-- TAB: TREE -->
+      <div id="tree-tab" class="tab-content hidden">
+        <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-6 shadow-sm">
+          <h2 class="text-2xl font-bold text-indigo-800 mb-2">🌳 עץ חישוב (NPDA)</h2>
+          <p class="text-gray-700 mb-4">
+            כאן תוכל לראות התפצלות מסלולים מקבילים (אי־דטרמיניזם) ולזהות האם קיימת הרצה שמקבלת.
+          </p>
+
+          <!-- ✅ שדה קלט ברור לטאב העץ -->
+          <div class="mb-4">
+            <label for="treeWordInput" class="block font-semibold text-indigo-800 mb-1">
+              מחרוזת לבדיקה לעץ החישוב
+            </label>
+            <input id="treeWordInput"
+                   type="text"
+                   placeholder="לדוגמה: abbcc"
+                   class="w-full rounded-xl border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+            <p class="text-xs text-gray-600 mt-1">
+              טיפ: השדה הזה מסונכרן עם שדה הסימולציה בטאב הקודם.
+            </p>
+          </div>
+
+          <div class="flex flex-col md:flex-row gap-3 mb-4 justify-center">
+            <button type="button" id="runTreeBtn"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded-xl shadow">
+              ▶️ הרץ עץ חישוב
+            </button>
+            <button type="button" id="whyNondetBtn"
+              class="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-xl shadow">
+              💡 למה חייבים אי־דטרמיניזם?
+            </button>
+          </div>
+
+          <div id="treeResult" class="text-center font-bold mb-3"></div>
+          <div id="treeGraph"></div>
+
+          <p class="text-xs text-gray-600 mt-3 text-center">
+            טיפ: צמתים ירוקים = מצב מקבל. צמתים אדומים = מסלול מת/נקטע. מסלול מקבל (אם קיים) יודגש בכחול.
+          </p>
         </div>
-      </section>
+      </div>
+
     </section>
   </main>
 
   <script>
+    // ===== DOM refs =====
     const pdaForm = document.getElementById('pdaForm');
     const loading = document.getElementById('loading');
     const result = document.getElementById('result');
@@ -322,27 +395,124 @@
     const exportPngBtn = document.getElementById('exportPngBtn');
     const edgeTooltip = document.getElementById('edgeTooltip');
 
+    const openTreeTabBtn = document.getElementById('openTreeTabBtn');
+    const runTreeBtn = document.getElementById('runTreeBtn');
+    const whyNondetBtn = document.getElementById('whyNondetBtn');
+    const treeResult = document.getElementById('treeResult');
+
+    // ✅ new: tree input
+    const treeWordInput = document.getElementById('treeWordInput');
+
+    // tabs buttons inside result
+    const tabButtons = Array.from(document.querySelectorAll('.tab-btn[data-tab]'));
+    const tabPda = document.getElementById('pda-tab');
+    const tabTree = document.getElementById('tree-tab');
+
+    // ===== State =====
     let cy = null;
     let currentPda = null;
     let prevStackForAnimation = [];
+    let treeCy = null;
 
+    // ===== Utilities =====
+    function getWordForTreeOrSimulation() {
+      const treeWord = (treeWordInput?.value || '').trim();
+      const simWord = (wordInput?.value || '').trim();
+      return treeWord || simWord;
+    }
+
+    // ===== Tabs =====
+    function setActiveTab(tabId, opts = { focusTreeInput: false }) {
+      // guard: tree tab requires generated PDA
+      if (tabId === 'tree-tab' && (!currentPda || currentPda.type !== 'PDA')) {
+        alert("קודם צור NPDA מתיאור השפה.");
+        return;
+      }
+
+      // hide all
+      [tabPda, tabTree].forEach(t => t.classList.add('hidden'));
+      // remove active
+      tabButtons.forEach(b => b.classList.remove('active'));
+
+      // show requested
+      const target = document.getElementById(tabId);
+      if (target) target.classList.remove('hidden');
+
+      // activate matching buttons
+      tabButtons.forEach(b => {
+        if (b.dataset.tab === tabId) b.classList.add('active');
+      });
+
+      // resize cytoscape after hidden->shown
+      if (tabId === 'tree-tab' && treeCy) {
+        try { treeCy.resize(); treeCy.fit(); treeCy.center(); } catch (e) { console.warn(e); }
+      }
+      if (tabId === 'pda-tab' && cy) {
+        try { cy.resize(); cy.fit(); cy.center(); } catch (e) { console.warn(e); }
+      }
+
+      // ✅ UX: autofocus & copy value when opening tree tab
+      if (tabId === 'tree-tab') {
+        try {
+          if (treeWordInput && wordInput) {
+            if (!treeWordInput.value.trim()) treeWordInput.value = wordInput.value;
+          }
+        } catch (e) { console.warn(e); }
+
+        if (opts.focusTreeInput) {
+          setTimeout(() => {
+            try { treeWordInput?.focus(); } catch (e) {}
+          }, 0);
+        }
+      }
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => setActiveTab(btn.dataset.tab, { focusTreeInput: btn.dataset.tab === 'tree-tab' }));
+    });
+
+    openTreeTabBtn.addEventListener('click', () => setActiveTab('tree-tab', { focusTreeInput: true }));
+
+    // ===== Sync inputs (treeWordInput <-> wordInput) =====
+    let isSyncing = false;
+    function syncInputs(fromEl, toEl) {
+      if (!fromEl || !toEl) return;
+      fromEl.addEventListener('input', () => {
+        if (isSyncing) return;
+        isSyncing = true;
+        try { toEl.value = fromEl.value; } finally { isSyncing = false; }
+      });
+    }
+    syncInputs(wordInput, treeWordInput);
+    syncInputs(treeWordInput, wordInput);
+
+    // ===== Generate PDA =====
     pdaForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+
       loading.classList.remove('hidden');
       result.classList.add('hidden');
+
+      // reset view
       cyDiv.innerHTML = '';
       simulateResult.textContent = '';
       traceOutput.textContent = '';
       stackView.innerHTML = '<span class="text-gray-500">הרץ סימולציה כדי לראות את המחסנית.</span>';
       stackView.classList.remove('stack-pop-flash');
-      if (transitionTableBody) {
-        transitionTableBody.innerHTML = '';
-      }
-      if (stateInfo) {
-        stateInfo.innerHTML = '<p class="text-gray-500 text-sm">לחץ על מצב בגרף לקבלת פרטים עליו.</p>';
-      }
+      if (transitionTableBody) transitionTableBody.innerHTML = '';
+      if (stateInfo) stateInfo.innerHTML = '<p class="text-gray-500 text-sm">לחץ על מצב בגרף לקבלת פרטים עליו.</p>';
+
+      // reset state
       currentPda = null;
       prevStackForAnimation = [];
+      treeResult.textContent = '';
+      if (treeCy) { try { treeCy.destroy(); } catch (e) {} treeCy = null; }
+      const treeDiv = document.getElementById('treeGraph');
+      if (treeDiv) treeDiv.innerHTML = '';
+
+      // reset inputs (do not force-clear; keep user text if you prefer)
+      // treeWordInput.value = '';
+      // wordInput.value = '';
 
       const description = document.getElementById('description').value;
 
@@ -363,6 +533,7 @@
               <p>${data.explanation || 'לא ניתן היה לבנות אוטומט מחסנית עבור התיאור שניתן.'}</p>
             </div>`;
           result.classList.remove('hidden');
+          setActiveTab('pda-tab');
           return;
         }
 
@@ -377,6 +548,7 @@
         accuracyText.textContent = data.accuracy ?? "-";
 
         result.classList.remove('hidden');
+        setActiveTab('pda-tab');
       } catch (err) {
         console.error(err);
         loading.classList.add('hidden');
@@ -384,6 +556,7 @@
       }
     });
 
+    // ===== Graph helpers =====
     function classifyEdgeKind(read, pop, pushList) {
       const isEps = (read === '' || read === 'ε');
       const hasPop = (pop !== '' && pop !== 'ε');
@@ -465,7 +638,6 @@
               'font-weight': 'bold'
             }
           },
-          /* ברירת מחדל */
           {
             selector: 'edge',
             style: {
@@ -487,7 +659,6 @@
               'cursor': 'pointer'
             }
           },
-          /* ε-transitions */
           {
             selector: 'edge[kind = "epsilon"]',
             style: {
@@ -496,7 +667,6 @@
               'color': '#f97316'
             }
           },
-          /* pop only */
           {
             selector: 'edge[kind = "pop_only"]',
             style: {
@@ -505,7 +675,6 @@
               'color': '#ef4444'
             }
           },
-          /* push only */
           {
             selector: 'edge[kind = "push_only"]',
             style: {
@@ -514,7 +683,6 @@
               'color': '#1d4ed8'
             }
           },
-          /* push+pop */
           {
             selector: 'edge[kind = "pop_push"]',
             style: {
@@ -531,7 +699,6 @@
       cy.fit();
       cy.center();
 
-      // קליק על קשת → הדגשת שורה בטבלה + הקשת
       cy.on('tap', 'edge', function (evt) {
         const tIndex = evt.target.data('tIndex');
         highlightTransition(tIndex);
@@ -541,14 +708,13 @@
       cy.on('mouseover', 'edge', function (evt) {
         const t = evt.target;
         const tooltipText = t.data('tooltip') || '';
-        const e = evt.renderedPosition || evt.position;
         const clientX = evt.originalEvent ? evt.originalEvent.clientX : 0;
         const clientY = evt.originalEvent ? evt.originalEvent.clientY : 0;
 
         if (!tooltipText) return;
         edgeTooltip.textContent = tooltipText;
-        edgeTooltip.style.left = clientX + 10 + 'px';
-        edgeTooltip.style.top = clientY - 10 + 'px';
+        edgeTooltip.style.left = (clientX + 10) + 'px';
+        edgeTooltip.style.top = (clientY - 10) + 'px';
         edgeTooltip.style.opacity = '1';
         edgeTooltip.style.transform = 'translateY(0)';
       });
@@ -631,11 +797,9 @@
       highlightTransitionEdge(index);
     }
 
-    // קליק על שורה בטבלה → הדגשת קשת
     function onTransitionRowClick(index) {
       highlightTransition(index);
     }
-
     window.onTransitionRowClick = onTransitionRowClick;
 
     function renderStateInfo(stateId) {
@@ -645,7 +809,7 @@
       const outgoing = (currentPda.transitions || []).filter(t => t.from === stateId);
       const incoming = (currentPda.transitions || []).filter(t => t.to === stateId);
 
-      const outgoingList = outgoing.map((t, idx) => {
+      const outgoingList = outgoing.map((t) => {
         const read = (t.read === '' || t.read == null) ? 'ε' : t.read;
         const pop  = (t.pop === ''  || t.pop  == null) ? 'ε' : t.pop;
         let pushArr = Array.isArray(t.push)
@@ -670,23 +834,16 @@
         <p class="mt-1"><strong>סוג:</strong> ${isAccept ? 'מצב מקבל ✅' : 'מצב רגיל'}</p>
         <p class="mt-3"><strong>מעברים יוצאים:</strong></p>
         <ul class="list-disc pr-5 mt-1 text-xs md:text-sm">
-          ${
-            outgoingList.length
-              ? outgoingList.map(x => `<li>${x}</li>`).join('')
-              : '<li class="text-gray-500">אין מעברים יוצאים.</li>'
-          }
+          ${ outgoingList.length ? outgoingList.map(x => `<li>${x}</li>`).join('') : '<li class="text-gray-500">אין מעברים יוצאים.</li>' }
         </ul>
         <p class="mt-3"><strong>מעברים נכנסים:</strong></p>
         <ul class="list-disc pr-5 mt-1 text-xs md:text-sm">
-          ${
-            incomingList.length
-              ? incomingList.map(x => `<li>${x}</li>`).join('')
-              : '<li class="text-gray-500">אין מעברים נכנסים.</li>'
-          }
+          ${ incomingList.length ? incomingList.map(x => `<li>${x}</li>`).join('') : '<li class="text-gray-500">אין מעברים נכנסים.</li>' }
         </ul>
       `;
     }
 
+    // ===== Simulation (single path) =====
     simulateForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -717,6 +874,7 @@
 
         if (data.error) {
           simulateResult.textContent = data.error;
+          simulateResult.className = "mt-4 text-lg font-semibold text-red-700";
           return;
         }
 
@@ -738,14 +896,10 @@
     });
 
     function buildTraceText(trace) {
-      if (!trace.length) {
-        return "אין Trace להצגה.";
-      }
-      return trace
-        .map(step =>
-          `צעד ${step.step} | מצב: ${step.state} | נקרא: "${step.consumed}" | נותר קלט: "${step.remaining_input}" | מחסנית: [${(step.stack || []).join(", ")}]`
-        )
-        .join("\n");
+      if (!trace.length) return "אין Trace להצגה.";
+      return trace.map(step =>
+        `צעד ${step.step} | מצב: ${step.state} | נקרא: "${step.consumed}" | נותר קלט: "${step.remaining_input}" | מחסנית: [${(step.stack || []).join(", ")}]`
+      ).join("\n");
     }
 
     function updateStackView(trace) {
@@ -753,6 +907,7 @@
         stackView.innerHTML = '<span class="text-gray-500">אין מידע על מחסנית.</span>';
         return;
       }
+
       const last = trace[trace.length - 1];
       const stack = last.stack || [];
 
@@ -780,10 +935,7 @@
         span.className = "stack-badge" + (idx === stack.length - 1 ? " stack-badge-bottom" : "");
         span.textContent = sym;
 
-        if (isPush && idx >= oldStack.length) {
-          span.classList.add('stack-push');
-        }
-
+        if (isPush && idx >= oldStack.length) span.classList.add('stack-push');
         stackView.appendChild(span);
       });
 
@@ -793,7 +945,7 @@
       }
     }
 
-    // יצוא תמונת PNG
+    // ===== Export PNG =====
     exportPngBtn.addEventListener('click', () => {
       if (!cy) {
         alert("קודם צור NPDA כדי לייצא גרף.");
@@ -807,6 +959,213 @@
       link.click();
       document.body.removeChild(link);
     });
+
+    // ===== NPDA TREE =====
+    async function runTreeSimulation() {
+      if (!currentPda || currentPda.type !== 'PDA') {
+        alert("קודם צור NPDA מתיאור השפה.");
+        return;
+      }
+
+      // show tree tab + autofocus
+      setActiveTab('tree-tab', { focusTreeInput: true });
+
+      const word = getWordForTreeOrSimulation();
+      if (!word) {
+        alert("אנא הזן מחרוזת לבדיקה (בשדה של עץ החישוב או בשדה הסימולציה).");
+        return;
+      }
+
+      treeResult.textContent = "⏳ בונה עץ חישוב...";
+      treeResult.className = "text-center font-bold mb-3 text-indigo-700";
+
+      try {
+        const res = await fetch("/pda/simulate/tree", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ pda: currentPda, word })
+        });
+
+        const data = await res.json();
+        renderTree(data);
+      } catch (err) {
+        console.error(err);
+        treeResult.textContent = "❌ שגיאה בתקשורת עם השרת.";
+        treeResult.className = "text-center font-bold mb-3 text-red-700";
+      }
+    }
+
+    function renderTree(data) {
+      const treeDiv = document.getElementById("treeGraph");
+      if (!treeDiv) {
+        console.error("treeGraph div not found");
+        return;
+      }
+
+      if (treeCy) {
+        try { treeCy.destroy(); } catch (e) {}
+        treeCy = null;
+      }
+      treeDiv.innerHTML = "";
+
+      const nodes = [];
+      const edges = [];
+
+      const tree = data.tree || {};
+      for (const id in tree) {
+        const n = tree[id];
+
+        nodes.push({
+          data: {
+            id: id,
+            label: `${n.state}\n|${(n.stack || []).join("")}|`,
+            accepting: !!n.is_accepting,
+            dead: !!n.is_dead
+          }
+        });
+
+        if (n.parent) {
+          edges.push({
+            data: {
+              id: `${n.parent}-${id}`,
+              source: n.parent,
+              target: id
+            }
+          });
+        }
+      }
+
+      treeCy = cytoscape({
+        container: treeDiv,
+        elements: [...nodes, ...edges],
+        layout: { name: "breadthfirst", directed: true, spacingFactor: 1.15 },
+        style: [
+          {
+            selector: "node",
+            style: {
+              "label": "data(label)",
+              "text-valign": "center",
+              "text-halign": "center",
+              "background-color": "#e5e7eb",
+              "border-width": 1,
+              "border-color": "#9ca3af",
+              "font-size": 10
+            }
+          },
+          {
+            selector: "node[accepting]",
+            style: {
+              "background-color": "#22c55e",
+              "color": "white",
+              "border-color": "#16a34a",
+              "border-width": 3
+            }
+          },
+          {
+            selector: "node[dead]",
+            style: {
+              "background-color": "#ef4444",
+              "color": "white",
+              "border-color": "#dc2626",
+              "border-width": 3
+            }
+          },
+          {
+            selector: "edge",
+            style: {
+              "width": 2,
+              "line-color": "#9ca3af",
+              "target-arrow-color": "#9ca3af",
+              "target-arrow-shape": "triangle",
+              "curve-style": "bezier"
+            }
+          }
+        ]
+      });
+
+      // highlight accepting path (if provided)
+      highlightAcceptingPath(data.accepting_path || []);
+
+      if (data.accepted) {
+        treeResult.textContent = "✅ קיימת הרצה שמקבלת";
+        treeResult.className = "text-center font-bold mb-3 text-green-700";
+      } else {
+        treeResult.textContent = "❌ אין אף הרצה שמקבלת";
+        treeResult.className = "text-center font-bold mb-3 text-red-700";
+      }
+
+      // ensure it fits after hidden->shown
+      try { treeCy.resize(); treeCy.fit(); treeCy.center(); } catch (e) {}
+    }
+
+    function highlightAcceptingPath(path) {
+      if (!treeCy || !Array.isArray(path) || path.length === 0) return;
+
+      for (let i = 0; i < path.length; i++) {
+        const node = treeCy.getElementById(path[i]);
+        if (node && node.nonempty()) {
+          node.style("border-width", 4);
+          node.style("border-color", "#2196F3");
+        }
+
+        if (i > 0) {
+          const edge = treeCy.getElementById(`${path[i-1]}-${path[i]}`);
+          if (edge && edge.nonempty()) {
+            edge.style("line-color", "#2196F3");
+            edge.style("target-arrow-color", "#2196F3");
+            edge.style("width", 4);
+          }
+        }
+      }
+    }
+
+    runTreeBtn.onclick = runTreeSimulation;
+
+    whyNondetBtn.onclick = async () => {
+      if (!currentPda || currentPda.type !== 'PDA') {
+        alert("קודם צור NPDA מתיאור השפה.");
+        return;
+      }
+
+      // ensure we are in tree tab and focus input
+      setActiveTab('tree-tab', { focusTreeInput: true });
+
+      const word = getWordForTreeOrSimulation();
+      if (!word) {
+        alert("אנא הזן מחרוזת לבדיקה (בשדה של עץ החישוב או בשדה הסימולציה).");
+        return;
+      }
+
+      try {
+        const dpdaRes = await fetch("/pda/simulate", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ pda: currentPda, word })
+        }).then(r => r.json());
+
+        const npdaRes = await fetch("/pda/simulate/tree", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ pda: currentPda, word })
+        }).then(r => r.json());
+
+        let msg = "";
+        if (!dpdaRes.accepted && npdaRes.accepted) {
+          msg =
+            "🔴 מסלול יחיד נכשל\n" +
+            "🟢 מסלול אחר הצליח בעץ החישוב\n\n" +
+            "זה בדיוק הכוח של אי־דטרמיניזם.";
+        } else {
+          msg =
+            "בדוגמה זו אין יתרון ברור לאי־דטרמיניזם.\n" +
+            "נסה מחרוזת אחרת.";
+        }
+        alert(msg);
+      } catch (err) {
+        console.error(err);
+        alert("❌ שגיאה בתקשורת עם השרת.");
+      }
+    };
   </script>
 </body>
 </html>
