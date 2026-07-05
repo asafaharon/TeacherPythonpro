@@ -11,7 +11,7 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    # תוקן: request מועבר כפרמטר ראשון ללא שם, ואחריו מילון ה-context
+    # הפתרון המנצח: request מועבר ראשון, ואחריו שם התבנית
     return templates.TemplateResponse(request, "modules.html")
 
 @router.get("/modules", response_class=HTMLResponse)
@@ -20,6 +20,7 @@ async def modules_page(request: Request):
 
 @router.get("/module/{module_id}", response_class=HTMLResponse)
 async def module_page(request: Request, module_id: int):
+    # כאן מעבירים משתנים נוספים בתוך מילון בסוף, ללא המילה request
     return templates.TemplateResponse(request, "module.html", {"module_id": module_id})
 
 @router.get("/dashboard", response_class=HTMLResponse)
